@@ -1,4 +1,4 @@
-# Prova Finale di Ingegneria del Software - AA 2019-2020
+# Prova Finale di Ingegneria del Software - AA 2021-2022
 Implementation of the game [Eriantys](https://craniointernational.com/products/eriantys/).
 The project allows users to create a server which will host one or multiple games, and will be in charge of game logic. Besides that the project contains also client side (number of clients per game are from 2 to 4) which communicates with the server using sockets.
 The game is implemented using the MVC (Model-View-Controller) patter and allows players to use either command line (CLI) or graphical interface (GUI).
