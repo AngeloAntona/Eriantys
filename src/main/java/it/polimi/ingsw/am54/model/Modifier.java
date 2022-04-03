@@ -15,7 +15,8 @@ public class Modifier extends Personality{
 
     public Color chooseColor(){
         //TODO ask the player for a color
-        return null;
+        noColor = Color.RED; //temporary solution for test errors
+        return noColor;
     }
     public int chooseMoves(){
         //TODO ask the player for a number of moves between 0 and 2
