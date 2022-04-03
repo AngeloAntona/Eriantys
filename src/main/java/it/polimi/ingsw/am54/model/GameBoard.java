@@ -3,6 +3,10 @@ import static it.polimi.ingsw.am54.model.Constants.MAX_STUDENTS_PER_HALL;
 import java.util.*;
 
 
+/**
+ *  Class GameBoard is used as game board of each player.<br>
+ *  It keeps track of students present in entrance and hall, number of tower and available coins.
+ */
 public class GameBoard {
     private final int owner;
     private List<Color> studentsEnter;
@@ -11,9 +15,19 @@ public class GameBoard {
     private List<Professor> profControlled;
     private int coins = 0;
     private List<Tower> towers;
+    /**
+     * Additional influence points given by Personality's power
+     */
     public int extraInfluence = 0;
+    /**
+     * Additional Mother Nature moves given by Personality's power
+     */
     public int extraMoves = 0;
 
+    /**
+     * Constructs GameBoard, setting owner and initializing all other parameters (hall, entrance, towers, coins)
+     * @param owner - playerID of player who is owner of GameBoard
+     */
     public GameBoard(int owner) {
         this.owner = owner;
         studentsEnter = new ArrayList<>();
@@ -28,23 +42,48 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Returns owner of GameBoard
+     * @return playerID of player who is owner of GameBoard
+     */
     public int getOwner() {
         return owner;
     }
 
+    /**
+     * Returns number of available coins
+     * @return number of coins
+     */
     public int getCoins() {
         return coins;
     }
+    /**
+     * Decreases number of available coins
+     * @param spent number of coins
+     */
+    public void spendCoins(int spent) {coins -= spent;}
 
+    /**
+     * Returns list of students currently present at entrance
+     * @return list of students (colors)
+     */
     public List<Color> getStudentsEnter() {
         return List.copyOf(studentsEnter);
     }
 
+    /**
+     * Allows adding new students to entrance
+     * @param students list of students (colors)
+     */
     public void addStudentsEnter(List<Color> students)
     {
         studentsEnter.addAll(students);
     }
 
+    /**
+     * Removes students from entrance
+     * @param students list of students (colors)
+     */
     public void removeStudentsEnter(List<Color> students)
     {
         for (Color student:students) {
@@ -52,11 +91,20 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Returns number of students of certain color currently present in the hall
+     * @param color color of students
+     * @return number of students
+     */
     public int getStudentsHall(Color color)
     {
         return hall.get(color);
     }
 
+    /**
+     * Allows adding new student to hall
+     * @param student student (color)
+     */
     public void addStudentHall(Color student)
     {
         int tmp = hall.get(student);
@@ -70,6 +118,11 @@ public class GameBoard {
         checkCoinIncrease(student);
     }
 
+    /**
+     * Remove students of certain color from the hall
+     * @param color color of students
+     * @param num number of students to be removed
+     */
     public void removeStudentHall(Color color, int num)
     {
         int tmp = hall.get(color);
@@ -80,34 +133,58 @@ public class GameBoard {
         this.hall.put(color,tmp);
     }
 
+    /**
+     * Returns list of professors currently controlled by player
+     * @return list of professors
+     */
     public List<Professor> getProf() {
         return List.copyOf(profControlled);
     }
 
-    //NOTE: maybe the name addProf() would be more precise
-    public void setProf(Professor prof) {
+    /**
+     * Adds professor to list of controlled professors. <br>
+     * Also changes owner of professor
+     * @param prof Professor
+     */
+    public void addProf(Professor prof) {
         if(prof == null)
             return;
         prof.setOwner(owner);
         profControlled.add(prof);
     }
 
+    /**
+     * Removes professor from list of controlled professors
+     * @param prof Professor
+     */
     public void  removeProf(Professor prof) {
         if(prof == null)
             return;
         profControlled.remove(prof);
     }
 
+    /**
+     * Reruns the list of towers currently available to player
+     * @return list of towers
+     */
     public List<Tower> getTowers() {
         /* it copies the list to avoid returning a reference to the internal structure */
         return List.copyOf(towers);
     }
 
+    /**
+     * Adds towers to the list of available towers
+     * @param newTowers list of towers
+     */
     public void addTower(List<Tower> newTowers)
     {
         towers.addAll(newTowers);
     }
 
+    /**
+     * Removes towers from the list of available towers
+     * @param twl list of towers
+     */
     public void removeTower(List<Tower> twl)
     {
         for (Tower tower:twl) {
