@@ -5,6 +5,12 @@ import java.util.List;
 
 import static it.polimi.ingsw.am54.model.Constants.*;
 
+/**
+ * All personalities that contain some objects (students or noEntry tiles) fall under this class.<br>
+ * If card contains students, they are stored in list and maximal number of students that can be on card
+ * at once is retrieved from Constants.<br>
+ * If card contains noEntry tiles (botanist), only information that needs to be stored is number of available tiles.<br>
+ */
 
 public class Containers extends Personality {
 
@@ -12,6 +18,10 @@ public class Containers extends Personality {
     private int noEntry = 0;
     private int maxStudents;
 
+    /**
+     * Constructs new card Container (type of Personality) that contains students or noEntry tiles(botanist)
+     * @param name name of personality
+     */
     public Containers(String name) {
 
         super(name, 0 ,PERSONALITIES_STARTING_PRICE.get(name) );
@@ -24,6 +34,12 @@ public class Containers extends Personality {
         }
     }
 
+    /**
+     * Adds students to card, can be used both for setting initial students and adding new ones
+     * after some are removed
+     * @param newStudents list of students that should be added to card
+     * @throws RuntimeException if there are more students than maximal number allowed
+     */
     public void addNewStudents(List<Color> newStudents) {
         if (students.size() + newStudents.size() <= maxStudents) {
             students.addAll(newStudents);
@@ -32,11 +48,18 @@ public class Containers extends Personality {
         }
     }
 
+    /**
+     * Method that return list of available students
+     * @return list of students (colors)
+     */
     public List<Color> getStudents() {
         return List.copyOf(students);
     }
 
-
+    /**
+     * Removes students from card
+     * @param remove list of students that should be removed from card
+     */
     public void removeStudents(List<Color> remove) {
         if (!students.containsAll(remove)) {
             throw new RuntimeException(super.getName() + " does not contain all selected students");
@@ -51,6 +74,10 @@ public class Containers extends Personality {
         return 0;
     }
 
+    /**
+     * Increase number of available tiles
+     * @throws RuntimeException if there are already four tiles on card and method is called
+     */
     public void bringBackTile() {
         if (noEntry < 4) {
             noEntry++;
@@ -58,9 +85,11 @@ public class Containers extends Personality {
             throw new RuntimeException("Too many tiles, max number is 4");
         }
     }
-
-    public boolean useTile() { //returns ture if there are available noEntry tiles (and decreases number of tiles) otherwise returns false
-
+    /**
+     * Returns ture if there are available noEntry tiles (and decreases number of tiles) otherwise returns false
+     * @return boolean
+     */
+    public boolean useTile() {
         if(noEntry > 0){
             noEntry--;
             return true;
