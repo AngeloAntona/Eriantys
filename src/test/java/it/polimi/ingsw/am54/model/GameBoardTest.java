@@ -81,8 +81,8 @@ class GameBoardTest {
         Professor prof1 = new Professor(Color.RED, 0);
         Professor prof2 = new Professor(Color.BLUE, 1);
 
-        gb.setProf(prof1);
-        gb.setProf(prof2);
+        gb.addProf(prof1);
+        gb.addProf(prof2);
 
         assertEquals(2, gb.getProf().size());
         assertEquals(gb.getProf().get(0),prof1);
