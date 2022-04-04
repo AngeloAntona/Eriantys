@@ -8,7 +8,10 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
-
+    /**
+     * Tests for class Card are two test of which one checks is the value of card set to cored number
+     * and other which checks if maximal number of moves of Mother Nature is correctly calculated
+     */
 
     @Test
     public void valueTest()

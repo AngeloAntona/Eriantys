@@ -10,19 +10,30 @@ import java.util.Map;
 import static it.polimi.ingsw.am54.model.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
 class BagTest {
 
+    /**
+     * This test will check functionality of adding students to the bag
+     */
     @Test
     public void addStudentsTest(){
         Bag bag = new Bag();
         List<Color> expected = new ArrayList<>();
+
+        for(int i=0; i<STUDENTS_FOR_EACH_COLOR-2; i++){
+            /*
+             *  this assures that list expected contains same starting students as bag .*/
+            expected.addAll(List.of(Color.values()));
+        }
 
         for (Color c: Color.values()) {
             expected.add(c);
             bag.addStudents(List.of(c));
         }
 
-        while(!bag.isEmpty())
+        while(!bag.isEmpty() && !expected.isEmpty())
         {
             expected.remove(bag.getNextStudent());
         }
@@ -32,17 +43,27 @@ class BagTest {
 
     }
 
+    /**
+     * Test checks functionality isEmpty() by extracting all initial students from bag
+     */
     @Test
     public void emptyTest(){
-        Bag b = new Bag();
+        Bag bag = new Bag();
 
-        assertTrue(b.isEmpty());
+        assertFalse(bag.isEmpty());
 
-        b.addStudents(List.of(Color.YELLOW));
+        for(int i=0; i<(STUDENTS_FOR_EACH_COLOR-2) * 5; i++){
+            Color color = bag.getNextStudent();
+        }
 
-        assertFalse(b.isEmpty());
+        assertTrue(bag.isEmpty());
     }
 
+    /**
+     * Test checks functionality of method that initializes students in the bag
+     * by counting removed students of each color until bag is empty, and then
+     * it confronts counted with expected number
+     */
     @Test
     public void fillBagTest() {
         Map<Color, Integer> expected = new HashMap<>();
@@ -54,7 +75,6 @@ class BagTest {
             bagState.put(c, 0); //initial count
         }
 
-        bag.fillBag();
 
         while (!bag.isEmpty()) { // counting number of students of each color
             Color color = bag.getNextStudent();

@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ColorTest {
-    /*NOTE: Enumerators are usually not tested but due to override of method toString it is best
-    to ensure that overridden method behaves in expected way */
+    /**
+     * Enumerators are usually not tested but due to override of method toString it is best
+     * to ensure that overridden methods behave in expected way
+     * Test check if toString returns expected values*/
     @Test
     public void stringTest()
     {

@@ -105,8 +105,8 @@ class GameTest {
         Game game = new Game(1, 2);
         int expected = 1; // activated Personality baker
 
-        Modifier botanist = new Modifier("baker");
-        game.listPersonality.add(botanist);
+        Modifier baker = new Modifier("baker");
+        game.listPersonality.add(baker);
         game.listPersonality.get(0).setActive(true);
         game.listPersonality.get(0).setOwner(1);
 
@@ -121,6 +121,7 @@ class GameTest {
                 assertEquals(expected, p.getOwner());
 
         }
+        assertFalse(baker.isActive());
     }
 
     @Test

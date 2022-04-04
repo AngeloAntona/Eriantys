@@ -125,17 +125,19 @@ public class Game {
 
             Player p = null;
 
-            for (int i = 0; i < listPlayers.size(); i++) {
-                if (listPlayers.get(i).getPlayerId() == tmpList.get(0).getPlayerId()) {
-                    p = listPlayers.get(i);
+            for (Player listPlayer : listPlayers) {
+                if (listPlayer.getPlayerId() == tmpList.get(0).getPlayerId()) {
+                    p = listPlayer;
                 }
             }
 
             if (prof.getOwner() != p.getPlayerId() && p.getGameBoard().getStudentsHall(c) > 0) {// ensures that professor are not added more the once to player
                 if (p.getGameBoard().getStudentsHall(prof.getColor()) == tmpList.get(1).getGameBoard().getStudentsHall(prof.getColor())) {
                     // these conditions ensure that if two players have same number of students of selected color, professor is assigned to one of them only if there is active personality card Baker
-                    if (getPersonalityWithName("baker") != null && getPersonalityWithName("baker").isActive() && getPersonalityWithName("baker").getOwner() == p.getPlayerId())
+                    if (getPersonalityWithName("baker") != null && getPersonalityWithName("baker").isActive() && getPersonalityWithName("baker").getOwner() == p.getPlayerId()) {
                         p.getGameBoard().addProf(prof);
+                        getPersonalityWithName("baker").setActive(false);
+                    }
                 } else {
                     p.getGameBoard().addProf(prof);
                 }
@@ -155,7 +157,7 @@ public class Game {
             (the game cannot be finished already the first round, for this reason I did not put it before):*/
             if (winner == 0) {
                 //I sort the list of players in the order in which the players must play:
-                listPlayers.sort(new Comparator<Player>() {
+                listPlayers.sort(new Comparator<>() {
                     /* I override the 'compare' method to be able to sort the elements of listPlayers
                     in ascending order according to the numerical value of the card played by each player: */
                     @Override
@@ -257,9 +259,9 @@ public class Game {
                 cardFinished++;
         }
         //if the hypotheses of the if are verified, the game is over and the winner will have to be calculated:
-        if (this.islands.size() == 3 || bag.isEmpty() == true || cardFinished > 0) {
+        if (this.islands.size() == 3 || bag.isEmpty()|| cardFinished > 0) {
             //I sort the players in ascending order of "number of towers":
-            Collections.sort(listPlayers, new Comparator<Player>() {
+            listPlayers.sort(new Comparator<>() {
                 /* I override the 'compare' method to be able to sort the elements of listPlayers
                 in ascending order according to the numerical value of the card played by each player: */
                 @Override
@@ -429,8 +431,28 @@ public class Game {
      * Effects are determined based on card name
      * @param card selected personality card
      */
-    private void usePersonalityPower(Personality card) {
-        //TODO
+    protected void usePersonalityPower(Personality card) {
+        if(getActivePersonality()==null || !getActivePersonality().equals(card))
+            throw new RuntimeException("Selected person is not active");
+
+        if(card.getName().equals("botanist")) {
+            int is = card.chooseIsland();
+            if(islands.get(is).getNoEntry()) {
+                throw new RuntimeException("Island already contains noEntry, please select different island"); //currently, setup in this way. In the future, it will communicate to user or be checked by controller
+            }
+
+            if(!((Containers) card).useTile()){
+                throw new RuntimeException("No more tiles available"); // will be replaced in the future
+            }else{
+                islands.get(is).setNoEntry(true);
+            }
+        }
+
+        if(card.getName().equals("winemaker")){
+
+        }
+
+        card.setActive(false);
     }
 
     /**
