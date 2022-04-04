@@ -3,7 +3,6 @@ package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
 import java.util.*;
-import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

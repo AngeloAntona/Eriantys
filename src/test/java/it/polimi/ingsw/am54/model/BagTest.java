@@ -1,8 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
-import java.sql.*; //testing
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
