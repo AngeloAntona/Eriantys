@@ -4,18 +4,48 @@ import java.util.*;
 
 import static it.polimi.ingsw.am54.model.Constants.ISLANDS_AT_START_OF_GAME;
 
+/**
+ * Main class that controls game flow and its principal logic
+ */
 public class Game {
     private final int gameID;
+    /**
+     * List of all players
+     */
     protected List<Player> listPlayers;
+    /**
+     * List of available islands
+     */
     protected List<Island> islands;
+    /**
+     * List of available professors
+     */
     protected List<Professor> listProfessors;
+    /**
+     * List containing personalities in current game (three)
+     */
     protected List<Personality> listPersonality;
     private Bag bag;
+    /**
+     * Winner will be id of player who won the game. <br>
+     * While there is no winner, the value is 0
+     */
     public int winner = 0;
+    /**
+     * Number of turns played
+     */
     protected int numTurns = 0;
     private int MotherNature = 0;
+    /**
+     * Property used by islandDomination in case that towers' influence doesn't count
+     */
     public boolean noTowers = false;
 
+    /**
+     * Constructs game and initializes attributes
+     * @param gameID unique game identifier
+     * @param numPlayers number of players for current game
+     */
     public Game(int gameID, int numPlayers) {
         this.gameID = gameID;
         listPlayers = new ArrayList<>();
@@ -25,6 +55,10 @@ public class Game {
         startGame(numPlayers);
     }
 
+    /**
+     * Creates instances of objects necessary for game and fills attributes with initial values
+     * @param numPlayers number of players
+     */
     private void startGame(int numPlayers) {
         /* it creates a GameBoard for each player (depends on numPlayers). */
         for (int i = 1; i <= numPlayers; i++) {
@@ -47,10 +81,17 @@ public class Game {
         bag = new Bag(); //creates instance of Bag
     }
 
+    /**
+     * Calculates influence of every player on selected island and determines its owner
+     * @param location selected island
+     */
     public void islandDomination(Island location) {
-        //TODO
     }
 
+    /**
+     * Checks which player controls which professor. <br>
+     * Iterates through all professors
+     */
     public void controlsProf() {
         for (Color c : Color.values()) // loops through all possible colors
         {
@@ -103,6 +144,9 @@ public class Game {
         }
     }
 
+    /**
+     * Determines order in which players will play next round.
+     */
     protected void nextRound() {
         if (numTurns == 0) {
             Collections.shuffle(listPlayers); /* in the first round the players' order is chosen randomly */
@@ -126,10 +170,17 @@ public class Game {
         numTurns++; //whatever has happened, the turn number will need to be increased.
     }
 
+    /**
+     * Handles allowed actions that player can make during his/hers move
+     */
     private void plays() {
         //TODO
     }
 
+    /**
+     * Handles movement of Mother Nature
+     * @param playerID player whose turn is to play
+     */
     private void moveMN(int playerID) {
         int maxMoves = listPlayers.get(playerID).getHand().getCardPlayed().getMaxMoves();
 
@@ -160,6 +211,13 @@ public class Game {
 
     }
 
+    /**
+     * Allows moving students from Entrance to Hall or Island
+     * @param playerId player who moves students
+     * @param where if 0 moves to hall, else moves to island with that ID
+     * @param student Color of student to be moved
+     * @throws RuntimeException if selected student is not in player's entrance
+     */
     protected void moveStudents(int playerId, int where, Color student) {
         Player p = listPlayers.get(playerId - 1);
 
@@ -170,13 +228,17 @@ public class Game {
         if (where == 0) {
             p.getGameBoard().removeStudentsEnter(List.of(student));
             p.getGameBoard().addStudentHall(student);
-        } else {
+        }else {
             p.getGameBoard().removeStudentsEnter(List.of(student));
             islands.get(where).addStudents(List.of(student));
         }
 
     }
 
+    /**
+     * Checks if any of win conditions are satisfied. <br>
+     * If there is winner changes attribute winner to playerID (of winner)
+     */
     private void checkWinner() { /* the ceckWinner method must be called at the end of each player's moves */
         //TODO
 
@@ -232,6 +294,14 @@ public class Game {
         }
     }
 
+    /**
+     *  Checks if player has enough money and if so changes owner of selected personality.
+     * @param playerID player who wants to buy personality
+     * @param personality selected personality
+     * @throws RuntimeException if selected personality is not among available
+     * @throws RuntimeException if player doesn't exist
+     * @throws RuntimeException if player doesn't have enough money to buy personality
+     */
     protected void buyPersonality(int playerID, Personality personality) {
         Player player = listPlayers.stream()
                 .filter(ply -> playerID == (ply.getPlayerId()))
@@ -251,10 +321,15 @@ public class Game {
 
         personality.setOwner(playerID);//changes card owner
         personality.increaseCost();//increases cost for future uses of Personality card
-
+        //personality.setActive(ture);
         //usePersonalityPower(personality); in case that personality is used immediately after being bought
     }
 
+    /**
+     * Generates clouds accordingly with number of players.<br>
+     * For each player cloud is created and filed with 3 or 4 students extracted from the Bag
+     * @return Map that represents all clouds and students on them
+     */
     public Map<Integer, List<Color>> getClouds() {
         Map<Integer, List<Color>> clouds = new HashMap<>();
         int numStudentsOnCloud, numPlayers = listPlayers.size();
@@ -275,6 +350,12 @@ public class Game {
         return clouds;
     }
 
+    /**
+     * Checks if selected island and one or both adjacent island have same owner, if true they are unified<br>
+     * All students and towers are added to selected island, while others are deleted from list of islands
+     * @param islandId selected island
+     * @throws RuntimeException if island is not on the list of available islands
+     */
     protected void uniteIslands(int islandId) {
         int current = -1;
         for(Island is : islands){
@@ -319,22 +400,43 @@ public class Game {
         islands.remove(isl2);
     }
 
+    /**
+     * Returns identifier of current game
+     * @return gameID
+     */
     public int getGameID() {
         return gameID;
     }
 
+    /**
+     * Returns all available personalities in current game (three personalities)
+     * @return copy of personality list
+     */
     public List<Personality> getPersonality() {
         return List.copyOf(listPersonality);
     }
 
+    /**
+     * Return all available professors
+     * @return copy of lsit of professors
+     */
     public List<Professor> getProfessors() {
         return List.copyOf(listProfessors);
     }
 
+    /**
+     * Handles effects of activated card. <br>
+     * Effects are determined based on card name
+     * @param card selected personality card
+     */
     private void usePersonalityPower(Personality card) {
         //TODO
     }
 
+    /**
+     * Returns currently active personality
+     * @return active Personality (if no active personality returns null)
+     */
     private Personality getActivePersonality() {
         for (Personality person : listPersonality) {
             if (person.isActive())
@@ -344,6 +446,11 @@ public class Game {
         return null;
     }
 
+    /**
+     * Returns personality with given name
+     * @param name Name of personality
+     * @return personality with selected name (null if not present in list)
+     */
     private Personality getPersonalityWithName(String name) {
         for (Personality person : listPersonality) {
             if (person.getName().equals(name))

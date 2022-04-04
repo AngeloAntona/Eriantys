@@ -69,10 +69,6 @@ public class Containers extends Personality {
             students.remove(student);
     }
 
-    public int chooseIsland() {
-        //TODO user choice of island
-        return 0;
-    }
 
     /**
      * Increase number of available tiles
