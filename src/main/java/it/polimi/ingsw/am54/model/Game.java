@@ -2,6 +2,7 @@ package it.polimi.ingsw.am54.model;
 
 import java.util.*;
 
+import static it.polimi.ingsw.am54.model.Constants.CONTAINERS_PERSONALITIES;
 import static it.polimi.ingsw.am54.model.Constants.ISLANDS_AT_START_OF_GAME;
 
 /**
@@ -36,10 +37,6 @@ public class Game {
      */
     protected int numTurns = 0;
     private int MotherNature = 0;
-    /**
-     * Property used by islandDomination in case that towers' influence doesn't count
-     */
-    public boolean noTowers = false;
 
     /**
      * Constructs game and initializes attributes
@@ -112,7 +109,7 @@ public class Game {
         List<Player> tmpList = new ArrayList<>(List.copyOf(listPlayers));
         //sort the list in decreasing order and then get the first element
         tmpList.sort((p1, p2) -> {
-            //Dominations points for each player who has the most points wins the domination of the island
+            //Domination points for each player who has the most points wins the domination of the island
             int p1Points = 0, p2Points = 0;
 
             //Tower points
@@ -126,7 +123,7 @@ public class Game {
                 Faun.setActive(false);
             }
 
-            //student ponits
+            //student points
             for (Color c : location.getStudents()) {
                 //if Glutton is active and the color is NoColor goes to the next iteration
                 Modifier Glutton = (Modifier) getPersonalityWithName("glutton");
@@ -141,7 +138,7 @@ public class Game {
                     }
                 }
                 //there should be a professor for every color so here currentProfofColor shouldn't be null
-                //adds ponits to the player who has the Professor of that color
+                //adds points to the player who has the Professor of that color
                 if (p1.getGameBoard().getProf().contains(currentProfofColor))
                     p1Points++;
                 if (p2.getGameBoard().getProf().contains(currentProfofColor))
@@ -257,17 +254,9 @@ public class Game {
             (the game cannot be finished already the first round, for this reason I did not put it before):*/
             if (winner == 0) {
                 //I sort the list of players in the order in which the players must play:
-                listPlayers.sort(new Comparator<>() {
-                    /* I override the 'compare' method to be able to sort the elements of listPlayers
-                    in ascending order according to the numerical value of the card played by each player: */
-                    @Override
-                    public int compare(Player player1, Player player2) {
-
-                       /*the numerical values of the cards played by the players are
-                       compared and the result of the comparison is returned */
-                        return player1.getHand().getCardPlayed().getValue() - player2.getHand().getCardPlayed().getValue();
-                    }
-                }); //at this point listBoard has been sorted.
+                /* I override the 'compare' method to be able to sort the elements of listPlayers
+                in ascending order according to the numerical value of the card played by each player: */
+                listPlayers.sort(Comparator.comparingInt(player -> player.getHand().getCardPlayed().getValue())); //at this point listBoard has been sorted.
             }
         numTurns++; //whatever has happened, the turn number will need to be increased.
     }
@@ -347,7 +336,7 @@ public class Game {
      * Checks if any of win conditions are satisfied. <br>
      * If there is winner changes attribute winner to playerID (of winner)
      */
-    private void checkWinner() { /* the ceckWinner method must be called at the end of each player's moves */
+    private void checkWinner() { /* the checkWinner method must be called at the end of each player's moves */
         //TODO
 
         /* if a player has run out of towers in his gameBoard, I name him the winner: */
@@ -367,16 +356,9 @@ public class Game {
         //if the hypotheses of the if are verified, the game is over and the winner will have to be calculated:
         if (this.islands.size() == 3 || bag.isEmpty() || cardFinished > 0) {
             //I sort the players in ascending order of "number of towers":
-            listPlayers.sort(new Comparator<>() {
-                /* I override the 'compare' method to be able to sort the elements of listPlayers
-                in ascending order according to the numerical value of the card played by each player: */
-                @Override
-                public int compare(Player player1, Player player2) {
-                   /*the numerical values of the cards played by the players are compared
-                   and the result of the comparison is returned */
-                    return player1.getGameBoard().getTowers().size() - player2.getGameBoard().getTowers().size();
-                }
-            }); //at this point listBoard has been sorted.
+            /* I override the 'compare' method to be able to sort the elements of listPlayers
+            in ascending order according to the numerical value of the card played by each player: */
+            listPlayers.sort(Comparator.comparingInt(player -> player.getGameBoard().getTowers().size())); //at this point listBoard has been sorted.
 
             int varTemp = 0;
             List<Player> almostWinner = null; //is the list that will contain the players with the highest number of towers placed on the islands.
@@ -532,7 +514,7 @@ public class Game {
     /**
      * Return all available professors
      *
-     * @return copy of lsit of professors
+     * @return copy of list of professors
      */
     public List<Professor> getProfessors() {
         return List.copyOf(listProfessors);
@@ -549,16 +531,23 @@ public class Game {
             throw new RuntimeException("Selected person is not active");
 
         Player player = getPlayerById(card.getOwner());
+
+        if(CONTAINERS_PERSONALITIES.containsKey(card.getName()))
+            useContainersPower((Containers) card,player);
+        else
+            useModifierPower((Modifier) card,player);
+
+        card.setActive(false);
+    }
+
+
+    private void useContainersPower(Containers card, Player player)
+    {
         GameBoard gb = player.getGameBoard();
-        switch (card.getName()) {
+        switch (card.getName()){
             case "botanist" -> {
                 int is = getIslandPosition(card.chooseIsland());
-                if (is == -1)
-                    throw new RuntimeException("Not existing island");
-                if (islands.get(is).getNoEntry()) {
-                    throw new RuntimeException("Island already contains noEntry, please select different island"); //currently, setup in this way. In the future, it will communicate to user or be checked by controller
-                }
-                if (!((Containers) card).useTile()) {
+                if (!card.useTile()) {
                     throw new RuntimeException("No more tiles available"); // will be replaced in the future
                 }
                 else {
@@ -570,64 +559,55 @@ public class Game {
                 Color student = null;
                 //TODO add player selection
                 selectedIsland = getIslandPosition(selectedIsland);
-                if (!((Containers) card).getStudents().contains(student))
-                    throw new RuntimeException("Card doesn't contain selected student");
-                if (selectedIsland == -1)
-                    throw new RuntimeException("Not existing island");
 
-                ((Containers) card).removeStudents(List.of(student));
+                card.removeStudents(List.of(student));
                 islands.get(selectedIsland).addStudents(List.of(student));
-                ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
+                card.addNewStudents(List.of(bag.getNextStudent()));
+
             }
             case "jester" -> {
 
                 List<Color> studentsFromCard = new ArrayList<>();
                 List<Color> studentsFromEntrance = new ArrayList<>();
                 //TODO add player selection
-                if (!((Containers) card).getStudents().containsAll(studentsFromCard))
-                    throw new RuntimeException("Not all selected students are present on the card");
 
-                if (!gb.getStudentsEnter().containsAll(studentsFromEntrance))
-                    throw new RuntimeException("Not all selected students are present in the entrance");
-
-                ((Containers) card).removeStudents(studentsFromCard);
-                ((Containers) card).addNewStudents(studentsFromEntrance);
+                card.removeStudents(studentsFromCard);
+                card.addNewStudents(studentsFromEntrance);
                 gb.removeStudentsEnter(studentsFromEntrance);
                 gb.addStudentsEnter(studentsFromCard);
             }
             case "courtesan" -> {
                 Color selectedStudent = null;
                 //TODO add player selection
-                if (!((Containers) card).getStudents().contains(selectedStudent))
-                    throw new RuntimeException("Card doesn't contain selected student");
-                ((Containers) card).removeStudents(List.of(selectedStudent));
+                card.removeStudents(List.of(selectedStudent));
                 gb.addStudentHall(selectedStudent);
-                ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
+                card.addNewStudents(List.of(bag.getNextStudent()));
             }
+        }
+    }
+
+
+    private void useModifierPower(Modifier card, Player player){
+        GameBoard gb = player.getGameBoard();
+        switch (card.getName()) {
+
             case "pirate" -> {
                 int selectedIsland = 0;
                 //TODO add player selection
                 selectedIsland = getIslandPosition(selectedIsland);
-                if (selectedIsland == -1)
-                    throw new RuntimeException("Not existing island");
                 islandDomination(islands.get(selectedIsland));
             }
+
             case "glutton" -> {
                 Color selectedColor = null;
                 //TODO player selection
-                ((Modifier) card).setNoColor(selectedColor);
+                card.setNoColor(selectedColor);
             }
+
             case "cantor" -> {
                 List<Color> studentsFromHall = new ArrayList<>();
                 List<Color> studentsFromEntrance = new ArrayList<>();
                 //TODO player selection
-                if (!gb.getStudentsEnter().containsAll(studentsFromEntrance))
-                    throw new RuntimeException("Not all selected students present in Entrance");
-                for (Color c : studentsFromHall) {
-                    if (gb.getStudentsHall(c) <= 0)
-                        throw new RuntimeException("Not all selected students present in Entrance");
-                }
-
                 gb.removeStudentsEnter(studentsFromEntrance);
                 gb.addStudentsEnter(studentsFromHall);
 
@@ -638,6 +618,7 @@ public class Game {
                     gb.addStudentHall(c);
                 }
             }
+
             case "witch" -> {
                 Color selectColor = null;
                 int totRemoved = 0, studentCount;
@@ -658,7 +639,6 @@ public class Game {
             }
         }
         //knight, faun, baker and archer are used in other method (islandDomination *2 , controlsProf, moveMN)
-        card.setActive(false);
     }
 
     /**
@@ -691,19 +671,19 @@ public class Game {
     }
 
     private int getIslandPosition(int id) {
-        int pos = -1;
         Island island = islands.stream()
                 .filter(isl -> id == (isl.getID()))
                 .findAny()
                 .orElse(null);
-        pos = islands.indexOf(island);
-        return pos;
+        if(island == null)
+            return -1;
+        else
+            return islands.indexOf(island);
     }
     private Player getPlayerById(int pid){
-        Player player = listPlayers.stream() //finds player who is owner of card
+        return listPlayers.stream() //finds player who is owner of card
                 .filter(ply -> pid == (ply.getPlayerId()))
                 .findAny()
                 .orElse(null);
-        return player;
     }
 }

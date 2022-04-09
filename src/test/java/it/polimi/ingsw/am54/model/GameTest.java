@@ -611,60 +611,6 @@ class GameTest {
     }
 
     /**
-     * Tests that usePersonalityPower throws an Exception in case botanist is the active personality
-     * but the island selected already has a noEntry tile
-     * @see Game#usePersonalityPower(Personality)
-     */
-    @Test
-    public void usePersonalityPowerBotanistExceptionTest1(){
-
-
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            Containers bot = new Containers("botanist");
-            bot.setOwner(game.listPlayers.get(0).getPlayerId());
-            game.listPersonality.add(bot);
-            game.listPersonality.add(new Modifier("witch"));
-            game.listPersonality.add(new Containers("jester"));
-            bot.setActive(true);
-
-            int  noEntryIs = 3;
-            game.islands.get(noEntryIs).setNoEntry(true);
-            System.setIn(new ByteArrayInputStream(((noEntryIs+1)+"\n").getBytes()));
-            game.usePersonalityPower(bot);
-        });
-        String actualMessage = exception.getMessage();
-        System.out.println(actualMessage);
-        assertTrue(actualMessage.contains("Island already contains noEntry, please select different island"));
-    }
-
-    /**
-     * checks that the method usePersonalityPower throws an exception when the active personality is
-     * botanist but the selected island is not on the list of the available islands
-     * @see Game#usePersonalityPower(Personality)
-     */
-    @Test
-    public void usePersonalityPowerBotanistExceptionTest2(){
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            Containers bot = new Containers("botanist");
-            bot.setOwner(game.listPlayers.get(0).getPlayerId());
-            game.listPersonality.add(bot);
-            game.listPersonality.add(new Modifier("witch"));
-            game.listPersonality.add(new Containers("jester"));
-            bot.setActive(true);
-
-            int  noEntryIs = 55;
-            System.setIn(new ByteArrayInputStream((noEntryIs+"\n").getBytes()));//+1 is added to get islandId
-            game.usePersonalityPower(bot);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Not existing island"));
-    }
-
-
-    /**
      * Tests that usePersonalityPower throws an exception in case that botanist is the active personality
      * and there are no more NoEntry tiles available
      * @see Game#usePersonalityPower(Personality)
