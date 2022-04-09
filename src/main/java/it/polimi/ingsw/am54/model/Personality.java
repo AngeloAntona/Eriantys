@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am54.model;
-import it.polimi.ingsw.am54.model.Game;
 
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Abstract class that serves for creating Modifiers and Containers. <br>
@@ -111,7 +111,10 @@ public abstract class Personality {
      * @return selected island
      */
     public int chooseIsland(){
-        //TODO ask the player for an island
-        return 0;
+        //This is only set up for initial testing and will be changed after communication protocol is implemented
+        int selected;
+        Scanner scan = new Scanner(System.in);
+        selected = scan.nextInt();
+        return selected;
     }
 }

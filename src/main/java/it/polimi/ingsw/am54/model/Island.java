@@ -11,7 +11,7 @@ public class Island {
     private final int islandID;
     private int owner;
     private List<Color> studentsPresent;
-    private int numTower = 0;
+    private List<Tower> listTowers;
     private boolean noEntry = false;
 
     /**
@@ -21,6 +21,7 @@ public class Island {
      */
     public Island(int islandID, int owner) {
         studentsPresent = new ArrayList<>();
+        listTowers = new ArrayList<>();
         this.islandID = islandID;
         this.owner = owner;
     }
@@ -51,21 +52,23 @@ public class Island {
     }
 
     /**
-     * Increases number of towers present on island
+     * Allows adding new towers to island
+     * @param towers list of towers
      */
-    public void addTower()
-    {
-        numTower++;
-    }
+    public void addTowers(List<Tower> towers) {listTowers.addAll(towers);}
 
     /**
-     * Returns number of towers present on island
-     * @return number of towers
+     * Returns the list of towers present on island
+     * @return list of towers
      */
-    public int getTower()
-    {
-        return numTower;
-    }
+    public List<Tower> getTowers() {return List.copyOf(listTowers);}
+
+    /**
+     * //TODO could be more sensible to use a method moveTowers or setTowers
+     * Removes a list of towers if present on the island
+     * @param towers to remove
+     */
+    public void removeTowers(List<Tower> towers){ listTowers.removeAll(towers);}
 
     /**
      * Returns list of students currently present on island

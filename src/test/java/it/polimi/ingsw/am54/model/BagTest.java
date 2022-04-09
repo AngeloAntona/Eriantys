@@ -10,11 +10,17 @@ import static it.polimi.ingsw.am54.model.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * Set of tests to ensure functionality of class Bag and its methods
+ */
 
-class BagTest {
+public class BagTest {
 
     /**
-     * This test will check functionality of adding students to the bag
+     * This test will check functionality of adding students to the bag, by filling list by initials students (given by fillBag()) and then adding same students
+     * to both list and bag. To check if everything is in order students will be extracted from bag and in same time removed from list. If at the end both list and bag
+     * are empty, the test is successful
+     * @see Bag#addStudents(List)
      */
     @Test
     public void addStudentsTest(){
@@ -43,7 +49,8 @@ class BagTest {
     }
 
     /**
-     * Test checks functionality isEmpty() by extracting all initial students from bag
+     * Test extracts all initial students from the bag and checks if it is empty after that
+     * @see Bag#isEmpty()
      */
     @Test
     public void emptyTest(){
@@ -52,7 +59,7 @@ class BagTest {
         assertFalse(bag.isEmpty());
 
         for(int i=0; i<(STUDENTS_FOR_EACH_COLOR-2) * 5; i++){
-            Color color = bag.getNextStudent();
+            bag.getNextStudent();
         }
 
         assertTrue(bag.isEmpty());
@@ -62,6 +69,7 @@ class BagTest {
      * Test checks functionality of method that initializes students in the bag
      * by counting removed students of each color until bag is empty, and then
      * it confronts counted with expected number
+     * @see Bag#Bag()
      */
     @Test
     public void fillBagTest() {

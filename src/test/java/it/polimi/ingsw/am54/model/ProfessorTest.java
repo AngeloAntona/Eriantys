@@ -1,10 +1,19 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProfessorTest {
-
+/**
+ * Tests for the class Professor
+ */
+public class ProfessorTest {
+    /**
+     * Assures that initial owner of professor has value 0 and that it can be changed
+     * @see Professor#Professor(Color, int)
+     * @see Professor#setOwner(int)
+     * @see Professor#getOwner()
+     */
     @Test
     public void ownerTest()
     {
@@ -19,6 +28,11 @@ class ProfessorTest {
         assertEquals(newOwner, professor.getOwner());
     }
 
+    /**
+     * Assures that correct color is set by constructor
+     * @see Professor#Professor(Color, int)
+     * @see Professor#getColor()
+     */
     @Test
     public void colorTest(){
         Color expected = Color.GREEN;

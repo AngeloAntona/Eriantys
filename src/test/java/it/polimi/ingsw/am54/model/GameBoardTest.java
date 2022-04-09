@@ -1,13 +1,22 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameBoardTest {
+/**
+ * Set of tests that ensures expected behavior of class GameBoard and its methods
+ */
+public class GameBoardTest {
 
+    /**
+     * Checks if owner is set correctly
+     * @see  GameBoard#getOwner()
+     * @see  GameBoard#GameBoard(int)
+     */
     @Test
     public void ownerTest(){
         int expected = 2;
@@ -16,6 +25,11 @@ class GameBoardTest {
         assertEquals(expected, gb.getOwner());
     }
 
+    /**
+     * Checks if students in the entrance can be manipulated correct way, by adding and removing them
+     * @see  GameBoard#getStudentsEnter()
+     * @see  GameBoard#addStudentsEnter(List)
+     */
     @Test
     public void studentEnterTest(){
         GameBoard gb = new GameBoard(2);
@@ -45,6 +59,11 @@ class GameBoardTest {
 
     }
 
+    /**
+     * Checks if students in the hall can be manipulated correct way, by adding and removing them
+     * @see  GameBoard#getStudentsHall(Color)
+     * @see  GameBoard#addStudentHall(Color)
+     */
     @Test
     public void studentHallTest(){
         GameBoard gb = new GameBoard(2);
@@ -71,6 +90,12 @@ class GameBoardTest {
 
     }
 
+    /**
+     * Tests functionality of list that contains currently owned professors by asserting that owner of every added
+     * professor is same as owner of game board
+     * @see  GameBoard#addProf(Professor)
+     * @see  GameBoard#removeProf(Professor)
+     */
     @Test
     public void profTest()
     {
@@ -93,6 +118,14 @@ class GameBoardTest {
         assertEquals(gb.getProf().get(0),prof2);
     }
 
+    /**
+     * Checks if correct amount of coins is added to game board when filling the hall with students.<br>
+     * Also assures that coins are gained if same spot is filled multiple times <br>
+     * Spending of coins is also tested
+     * @see  GameBoard#getCoins()
+     * @see  GameBoard#spendCoins(int)
+     * @see  GameBoard#addStudentHall(Color)
+     */
     @Test
     public void coinTest()
     {
@@ -113,8 +146,17 @@ class GameBoardTest {
             gb.addStudentHall(Color.PINK);
 
         assertEquals(expectedCoins, gb.getCoins());// number of coins shouldn't change if we pass position 9 two times
+
+        expectedCoins -= 2;
+        gb.spendCoins(2);
+        assertEquals(expectedCoins, gb.getCoins());
     }
 
+    /**
+     * Test assures that adding and removing towers functions correctly
+     * @see  GameBoard#addTower(List)
+     * @see  GameBoard#removeTower(List)
+     */
     @Test
     public void towerGBTest()
     {

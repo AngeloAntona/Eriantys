@@ -1,13 +1,22 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class IslandTest {
+/**
+ * Assures functionality of class Island
+ */
+public class IslandTest {
 
+    /**
+     * Checks if correct ID is set at island by constructor
+     * @see  Island#getID()
+     * @see Island#Island(int, int)
+     */
     @Test
     public void idTest()
     {
@@ -16,6 +25,12 @@ class IslandTest {
         assertEquals(expectedId, island.getID());
     }
 
+    /**
+     * Tests if correct owner is set by constructor and assures that owner can be changed
+     * @see Island#Island(int, int)
+     * @see Island#getOwner()
+     * @see Island#setOwner(int)
+     */
     @Test
     public void ownerTest()
     {
@@ -28,18 +43,44 @@ class IslandTest {
         assertEquals(newOwner, island.getOwner());
     }
 
+    /**
+     * Assures that towers can be added to island, removed from it, and that list of all towers can be retrieved
+     * @see Island#addTowers(List)
+     * @see Island#removeTowers(List)
+     * @see Island#getTowers()
+     */
     @Test
     public void towerTest()
     {
         Island island = new Island(2,3);
 
-        assertEquals(0,island.getTower()); //check if initial number of towers is 0
+        assertEquals(0,island.getTowers().size()); //check if initial number of towers is 0
 
-        int expected = island.getTower() + 1;
-        island.addTower();
-        assertEquals(expected, island.getTower());
+        int expected = 7;
+        List<Tower> expectedList = new ArrayList<>();
+        for(int i = 0; i < expected; i++) {
+            Tower t;
+            if(i % 2 == 0 ) {
+                t = new Tower(TColor.BLACK, 1);
+            }
+            else
+                t = new Tower(TColor.WHITE, 1);
+            island.addTowers(List.of(t));
+            expectedList.add(t);
+        }
+
+        assertEquals(expected, island.getTowers().size());
+        assertEquals(expectedList,island.getTowers());
+
+        island.removeTowers(expectedList);
+        assertTrue(island.getTowers().isEmpty());
     }
 
+    /**
+     * Tests if students can be placed to island and if list of present students contains right values
+     * @see Island#addStudents(List)
+     * @see Island#getStudents()
+     */
     @Test
     public void studentsTest()
     {
@@ -57,6 +98,11 @@ class IslandTest {
         }
     }
 
+    /**
+     * Assures that initial value of property noEntry is false and that it can be changed to true
+     * @see Island#getNoEntry()
+     * @see Island#setNoEntry(boolean)
+     */
     @Test
     public void noEntryTest()
     {

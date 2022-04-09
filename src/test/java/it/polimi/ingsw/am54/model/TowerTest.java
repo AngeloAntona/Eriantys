@@ -1,10 +1,18 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TowerTest {
-
+/**
+ * Assures that class Tower behaves in expected way
+ */
+public class TowerTest {
+    /**
+     * Test if constructor creates correct instance of class Tower when there is single owner
+     * @see Tower#Tower(TColor, int)
+     * @see Tower#getOwners()
+     */
     @Test
     public void singleOwnerTest()
     {
@@ -17,7 +25,11 @@ class TowerTest {
         for(int i = 0; i < expected.length; i++)
             assertEquals(expected[i], t.getOwners()[i]);
     }
-
+    /**
+     * Test if constructor creates correct instance of class Tower when there are multiple owners
+     * @see Tower#Tower(TColor, int[])
+     * @see Tower#getOwners()
+     */
     @Test
     public void doubleOwnerTest()
     {
@@ -28,6 +40,12 @@ class TowerTest {
             assertEquals(expected[i], t.getOwners()[i]);
     }
 
+    /**
+     * Assures that tower has correct color associated to it
+     * @see Tower#getColor()
+     * @see Tower#Tower(TColor, int[])
+     * @see Tower#Tower(TColor, int)
+     */
     @Test
     public void colorTest()
     {

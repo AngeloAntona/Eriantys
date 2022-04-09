@@ -1,13 +1,19 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class ColorTest {
+/**
+ * Enumerators are usually not tested but due to override of method toString it is best
+ * to ensure that overridden methods behave in expected way
+ */
+public class ColorTest {
+
     /**
-     * Enumerators are usually not tested but due to override of method toString it is best
-     * to ensure that overridden methods behave in expected way
-     * Test check if toString returns expected values*/
+     *  Test check if toString returns expected values
+     * @see Color
+     *  */
     @Test
     public void stringTest()
     {

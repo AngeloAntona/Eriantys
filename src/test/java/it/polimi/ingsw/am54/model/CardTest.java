@@ -1,14 +1,18 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
+/**
+ * Set of tests to ensure functionality of class Card and its methods
+ */
+public class CardTest {
 
-class CardTest {
     /**
-     * Tests for class Card are two test of which one checks is the value of card set to cored number
-     * and other which checks if maximal number of moves of Mother Nature is correctly calculated
+     * Test that checks if constructor sets correct value of card and if getValue() returns correct number
+     * @see Card#getValue()
      */
-
     @Test
     public void valueTest()
     {
@@ -17,6 +21,12 @@ class CardTest {
         assertEquals(value, c.getValue());
     }
 
+    /**
+     * Test checks if maximal number of moves of Mather Nature are calculated and returned correctly. <br>
+     * It contains array of expected values witch are compared with calculated ones
+     * @see Card#getMaxMoves()
+     * @see Card#Card(int)
+     */
     @Test
     public void maxMovesTest()
     {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am54.model;
 
-//@pure
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Tower is used to mark islands that player controls<br>
@@ -48,5 +49,20 @@ public class Tower {
      */
     public int[] getOwners() {
         return owners;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tower tower = (Tower) o;
+        return color == tower.color && Arrays.equals(owners, tower.owners);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(color);
+        result = 31 * result + Arrays.hashCode(owners);
+        return result;
     }
 }

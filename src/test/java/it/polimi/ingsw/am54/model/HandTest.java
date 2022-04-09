@@ -1,13 +1,23 @@
 package it.polimi.ingsw.am54.model;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.am54.model.Constants.CARD_FOR_EACH_HAND;
 import static org.junit.jupiter.api.Assertions.*;
 
-class HandTest {
+/**
+ * Set of testes used for checking functionality of class Hand
+ */
+public class HandTest {
+    /**
+     * Checks if Hand constructor generates correct card (values and moves)
+     * @see  Hand#Hand()
+     * @see  Hand#getAllCards()
+     * @see Card
+     */
     @Test
     public void getAllCardsTest()
     {
@@ -29,6 +39,10 @@ class HandTest {
         }
     }
 
+    /**
+     * Tests if desired cards can be removed from hand
+     * @see  Hand#removeFromCards(Card)
+     */
     @Test
     public void removeTest(){
         int rem = 4;
@@ -48,6 +62,11 @@ class HandTest {
         }
     }
 
+    /**
+     * Checks if setting of played card is done correctly
+     * @see  Hand#setCardPlayed(Card)
+     * @see  Hand#getCardPlayed()
+     */
     @Test
     public void playedCardTest()
     {
