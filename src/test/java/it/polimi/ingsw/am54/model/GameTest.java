@@ -597,6 +597,7 @@ class GameTest {
     public void usePersonalityPowerBotanist1(){
         Game game = new Game(1,2);
         Containers bot = new Containers("botanist");
+        bot.setOwner(game.listPlayers.get(0).getPlayerId());
         game.listPersonality.add(bot);
         game.listPersonality.add(new Modifier("witch"));
         game.listPersonality.add(new Containers("jester"));
@@ -622,6 +623,7 @@ class GameTest {
         Exception exception = assertThrows(RuntimeException.class, () -> {
             Game game = new Game(1,2);
             Containers bot = new Containers("botanist");
+            bot.setOwner(game.listPlayers.get(0).getPlayerId());
             game.listPersonality.add(bot);
             game.listPersonality.add(new Modifier("witch"));
             game.listPersonality.add(new Containers("jester"));
@@ -633,6 +635,7 @@ class GameTest {
             game.usePersonalityPower(bot);
         });
         String actualMessage = exception.getMessage();
+        System.out.println(actualMessage);
         assertTrue(actualMessage.contains("Island already contains noEntry, please select different island"));
     }
 
@@ -646,6 +649,7 @@ class GameTest {
         Exception exception = assertThrows(RuntimeException.class, () -> {
             Game game = new Game(1,2);
             Containers bot = new Containers("botanist");
+            bot.setOwner(game.listPlayers.get(0).getPlayerId());
             game.listPersonality.add(bot);
             game.listPersonality.add(new Modifier("witch"));
             game.listPersonality.add(new Containers("jester"));
@@ -674,6 +678,7 @@ class GameTest {
             Game game = new Game(1,2);
             Containers bot = new Containers("botanist");
             game.listPersonality.add(bot);
+            bot.setOwner(game.listPlayers.get(0).getPlayerId());
             for (int i = 0; i < 4; i++)
                 bot.useTile();
             game.listPersonality.add(new Modifier("witch"));

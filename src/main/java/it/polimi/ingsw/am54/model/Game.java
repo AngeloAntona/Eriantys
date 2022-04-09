@@ -549,124 +549,113 @@ public class Game {
             throw new RuntimeException("Selected person is not active");
 
         Player player = getPlayerById(card.getOwner());
-
-        if (card.getName().equals("botanist")) {
-            int is = getIslandPosition(((Containers) card).chooseIsland());
-            if (is == -1)
-                throw new RuntimeException("Not existing island");
-            if (islands.get(is).getNoEntry()) {
-                throw new RuntimeException("Island already contains noEntry, please select different island"); //currently, setup in this way. In the future, it will communicate to user or be checked by controller
+        GameBoard gb = player.getGameBoard();
+        switch (card.getName()) {
+            case "botanist" -> {
+                int is = getIslandPosition(card.chooseIsland());
+                if (is == -1)
+                    throw new RuntimeException("Not existing island");
+                if (islands.get(is).getNoEntry()) {
+                    throw new RuntimeException("Island already contains noEntry, please select different island"); //currently, setup in this way. In the future, it will communicate to user or be checked by controller
+                }
+                if (!((Containers) card).useTile()) {
+                    throw new RuntimeException("No more tiles available"); // will be replaced in the future
+                }
+                else {
+                    islands.get(is).setNoEntry(true);
+                }
             }
+            case "winemaker" -> {
+                int selectedIsland = 0;
+                Color student = null;
+                //TODO add player selection
+                selectedIsland = getIslandPosition(selectedIsland);
+                if (!((Containers) card).getStudents().contains(student))
+                    throw new RuntimeException("Card doesn't contain selected student");
+                if (selectedIsland == -1)
+                    throw new RuntimeException("Not existing island");
 
-
-            if (!((Containers) card).useTile()) {
-                throw new RuntimeException("No more tiles available"); // will be replaced in the future
+                ((Containers) card).removeStudents(List.of(student));
+                islands.get(selectedIsland).addStudents(List.of(student));
+                ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
             }
-            else {
-                islands.get(is).setNoEntry(true);
+            case "jester" -> {
+
+                List<Color> studentsFromCard = new ArrayList<>();
+                List<Color> studentsFromEntrance = new ArrayList<>();
+                //TODO add player selection
+                if (!((Containers) card).getStudents().containsAll(studentsFromCard))
+                    throw new RuntimeException("Not all selected students are present on the card");
+
+                if (!gb.getStudentsEnter().containsAll(studentsFromEntrance))
+                    throw new RuntimeException("Not all selected students are present in the entrance");
+
+                ((Containers) card).removeStudents(studentsFromCard);
+                ((Containers) card).addNewStudents(studentsFromEntrance);
+                gb.removeStudentsEnter(studentsFromEntrance);
+                gb.addStudentsEnter(studentsFromCard);
             }
-        }
-
-        if (card.getName().equals("winemaker")) {
-            int selectedIsland = 0;
-            Color student = null;
-            //TODO add player selection
-            selectedIsland = getIslandPosition(selectedIsland);
-            if (!((Containers) card).getStudents().contains(student))
-                throw new RuntimeException("Card doesn't contain selected student");
-            if (selectedIsland == -1)
-                throw new RuntimeException("Not existing island");
-
-            ((Containers) card).removeStudents(List.of(student));
-            islands.get(selectedIsland).addStudents(List.of(student));
-            ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
-
-        }
-
-        if (card.getName().equals("jester")) {
-
-            List<Color> studentsFromCard = new ArrayList<>();
-            List<Color> studentsFromEntrance = new ArrayList<>();
-            //TODO add player selection
-            if (!((Containers) card).getStudents().containsAll(studentsFromCard))
-                throw new RuntimeException("Not all selected students are present on the card");
-
-            if (!player.getGameBoard().getStudentsEnter().containsAll(studentsFromEntrance))
-                throw new RuntimeException("Not all selected students are present in the entrance");
-
-            ((Containers) card).removeStudents(studentsFromCard);
-            ((Containers) card).addNewStudents(studentsFromEntrance);
-            player.getGameBoard().removeStudentsEnter(studentsFromEntrance);
-            player.getGameBoard().addStudentsEnter(studentsFromCard);
-        }
-
-        if (card.getName().equals("courtesan")) {
-            Color selectedStudent = null;
-            //TODO add player selection
-            if(!((Containers) card).getStudents().contains(selectedStudent))
-                throw new RuntimeException("Card doesn't contain selected student");
-
-            ((Containers) card).removeStudents(List.of(selectedStudent));
-            player.getGameBoard().addStudentHall(selectedStudent);
-            ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
-
-        }
-
-        if (card.getName().equals("pirate")) {
-            int selectedIsland = 0;
-            //TODO add player selection
-            selectedIsland = getIslandPosition(selectedIsland);
-            if(selectedIsland == -1)
-                throw new RuntimeException("Not existing island");
-            islandDomination(islands.get(selectedIsland));
-        }
-        if (card.getName().equals("glutton")) {
-            Color selectedColor = null;
-            //TODO player selection
-            ((Modifier) card).setNoColor(selectedColor);
-        }
-
-        if (card.getName().equals("cantor")) {
-            List<Color> studentsFromHall = new ArrayList<>();
-            List<Color> studentsFromEntrance = new ArrayList<>();
-            //TODO player selection
-            if(!player.getGameBoard().getStudentsEnter().containsAll(studentsFromEntrance))
-                throw new RuntimeException("Not all selected students present in Entrance");
-            for(Color c : studentsFromHall) {
-                if (player.getGameBoard().getStudentsHall(c) <= 0)
+            case "courtesan" -> {
+                Color selectedStudent = null;
+                //TODO add player selection
+                if (!((Containers) card).getStudents().contains(selectedStudent))
+                    throw new RuntimeException("Card doesn't contain selected student");
+                ((Containers) card).removeStudents(List.of(selectedStudent));
+                gb.addStudentHall(selectedStudent);
+                ((Containers) card).addNewStudents(List.of(bag.getNextStudent()));
+            }
+            case "pirate" -> {
+                int selectedIsland = 0;
+                //TODO add player selection
+                selectedIsland = getIslandPosition(selectedIsland);
+                if (selectedIsland == -1)
+                    throw new RuntimeException("Not existing island");
+                islandDomination(islands.get(selectedIsland));
+            }
+            case "glutton" -> {
+                Color selectedColor = null;
+                //TODO player selection
+                ((Modifier) card).setNoColor(selectedColor);
+            }
+            case "cantor" -> {
+                List<Color> studentsFromHall = new ArrayList<>();
+                List<Color> studentsFromEntrance = new ArrayList<>();
+                //TODO player selection
+                if (!gb.getStudentsEnter().containsAll(studentsFromEntrance))
                     throw new RuntimeException("Not all selected students present in Entrance");
+                for (Color c : studentsFromHall) {
+                    if (gb.getStudentsHall(c) <= 0)
+                        throw new RuntimeException("Not all selected students present in Entrance");
+                }
+
+                gb.removeStudentsEnter(studentsFromEntrance);
+                gb.addStudentsEnter(studentsFromHall);
+
+                for (Color c : studentsFromHall) {
+                    gb.removeStudentHall(c, 1);
+                }
+                for (Color c : studentsFromEntrance) {
+                    gb.addStudentHall(c);
+                }
             }
+            case "witch" -> {
+                Color selectColor = null;
+                int totRemoved = 0, studentCount;
 
-            player.getGameBoard().removeStudentsEnter(studentsFromEntrance);
-            player.getGameBoard().addStudentsEnter(studentsFromHall);
+                //TODO player Selection
 
-            for(Color c : studentsFromHall) {
-                player.getGameBoard().removeStudentHall(c,1);
+                for (Player ply : listPlayers) {
+                    studentCount = ply.getGameBoard().getStudentsHall(selectColor);
+
+                    if (studentCount > 3)
+                        studentCount = 3;
+
+                    totRemoved += studentCount;
+                    ply.getGameBoard().removeStudentHall(selectColor, studentCount);
+                }
+                for (int i = 0; i < totRemoved; i++)
+                    bag.addStudents(List.of(selectColor));
             }
-            for(Color c : studentsFromEntrance) {
-                player.getGameBoard().addStudentHall(c);
-            }
-        }
-
-        if (card.getName().equals("witch")) {
-            Color selectColor = null;
-            int totRemoved = 0, studentCount = 0;
-
-            //TODO player Selection
-
-            for(Player ply : listPlayers)
-            {
-                studentCount = ply.getGameBoard().getStudentsHall(selectColor);
-
-                if(studentCount > 3)
-                    studentCount = 3;
-
-                totRemoved += studentCount;
-                ply.getGameBoard().removeStudentHall(selectColor,studentCount);
-            }
-
-            for(int i = 0; i < totRemoved; i++)
-                bag.addStudents(List.of(selectColor));
         }
         //knight, faun, baker and archer are used in other method (islandDomination *2 , controlsProf, moveMN)
         card.setActive(false);
