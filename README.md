@@ -10,6 +10,23 @@ The game is implemented using the MVC (Model-View-Controller) patter and allows 
 UML diagramm:
 * [Initial UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML%201.0.pdf)
 
+## Status
+| Functionality         | State           |
+| --------------------- |:---------------:|
+| Basic Rules           | :green_circle:  | 
+| Complete Rules        | :yellow_circle: |
+| CLI                   | :red_circle:    |
+| GUI                   | :red_circle:    |
+| Socket                | :red_circle:    |
+| All Personality Cards | :yellow_circle: |
+| Game for 4 players    | :yellow_circle: |
+| Multiple games        | :yellow_circle: |
+
+### Legend
+- :green_circle: Implemented
+- :yellow_circle: Implementing
+- :red_circle: Not Implemented
+
 ## Members of group
 | Name                                                  | Email                         |
 | ----------------------------------------------------- |:-----------------------------:|
