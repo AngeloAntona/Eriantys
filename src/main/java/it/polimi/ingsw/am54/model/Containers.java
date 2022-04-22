@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am54.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 
 import static it.polimi.ingsw.am54.model.Constants.*;
 
@@ -61,7 +63,7 @@ public class Containers extends Personality {
      * @param remove list of students that should be removed from card
      */
     public void removeStudents(List<Color> remove) {
-        if (!students.containsAll(remove)) {
+        if (!new HashSet<>(students).containsAll(remove)) {
             throw new RuntimeException(super.getName() + " does not contain all selected students");
         }
 

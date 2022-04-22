@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am54.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am54.model.Constants.CONTAINERS_PERSONALITIES;
 import static it.polimi.ingsw.am54.model.Constants.ISLANDS_AT_START_OF_GAME;
@@ -36,7 +37,7 @@ public class Game {
      * Number of turns played
      */
     protected int numTurns = 0;
-    private int MotherNature = 0;
+    protected int MotherNature = 0;
 
     /**
      * Constructs game and initializes attributes
@@ -97,6 +98,13 @@ public class Game {
             listProfessors.add(prof);
         }
 
+        /*selects three random personalities */
+        List<String> tmp = new ArrayList(Constants.PERSONALITIES_STARTING_PRICE.keySet());
+        Collections.shuffle(tmp);
+        for(int i = 0; i < 3; i++)
+            listPersonality.add(PersonalityFactory.generate(tmp.get(i)));
+
+
         bag = new Bag(); //creates instance of Bag
     }
 
@@ -107,60 +115,66 @@ public class Game {
      */
     public void islandDomination(Island location) {
         List<Player> tmpList = new ArrayList<>(List.copyOf(listPlayers));
+        Map<Player, Integer> playerPoints = new HashMap<>();
         //sort the list in decreasing order and then get the first element
-        tmpList.sort((p1, p2) -> {
+        for(Player p: tmpList) {
             //Domination points for each player who has the most points wins the domination of the island
-            int p1Points = 0, p2Points = 0;
+            int Points = 0;
 
             //Tower points
             Personality Faun = getPersonalityWithName("faun");
             if (Faun == null || !Faun.isActive()) { //NOTE: if faun is activated towers shouldn't count
-                if (location.getOwner() == p1.getPlayerId())
-                    p1Points += location.getTowers().size();
-                if (location.getOwner() == p2.getPlayerId())
-                    p2Points += location.getTowers().size();
-            } else{
-                Faun.setActive(false);
+                if (location.getOwner() == p.getPlayerId())
+                    Points += location.getTowers().size();
             }
 
             //student points
             for (Color c : location.getStudents()) {
                 //if Glutton is active and the color is NoColor goes to the next iteration
                 Modifier Glutton = (Modifier) getPersonalityWithName("glutton");
-                if (Glutton != null && Glutton.getNoColor().equals(c))
+                if (Glutton != null && Glutton.isActive() && Glutton.getNoColor().equals(c) ){
                     continue;
+                }
+
 
                 Professor currentProfofColor = null;
-                for (Professor p : listProfessors) { // selects professor of current color
-                    if (p.getColor().equals(c)) {
-                        currentProfofColor = p;
+                for (Professor prof : listProfessors) { // selects professor of current color
+                    if (prof.getColor().equals(c)) {
+                        currentProfofColor = prof;
                         break;
                     }
                 }
                 //there should be a professor for every color so here currentProfofColor shouldn't be null
                 //adds points to the player who has the Professor of that color
-                if (p1.getGameBoard().getProf().contains(currentProfofColor))
-                    p1Points++;
-                if (p2.getGameBoard().getProf().contains(currentProfofColor))
-                    p2Points++;
+                if (p.getGameBoard().getProf().contains(currentProfofColor))
+                    Points++;
             }
 
             //if Knight is active 2 points are added to the corresponding player
             Modifier Knight = (Modifier) getPersonalityWithName("knight");
             if(Knight != null && Knight.isActive()) {
-                if (Knight.getOwner() == p1.getPlayerId())
-                    p1Points += 2;
-                if (Knight.getOwner() == p2.getPlayerId())
-                    p2Points += 2;
-                Knight.setActive(false);
+                if (Knight.getOwner() == p.getPlayerId())
+                    Points += 2;
             }
+            playerPoints.put(p, Points);
+        }
+        Personality tmp = getActivePersonality();
+        if(tmp != null && (tmp.getName().equals("faun") || tmp.getName().equals("knight") || tmp.getName().equals("glutton")))
+            tmp.setActive(false);
 
-            return p2Points - p1Points;
-        });
+        //we sort the map playerPoints
+        Map<Player, Integer> result = playerPoints.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap( Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        //gets the dominant player after sorting it by dominance
+        // get the first (the most dominant)
+        Iterator<Map.Entry<Player, Integer>> iterator = result.entrySet().iterator();
+        Player dominant = iterator.next().getKey();
+
+        // if the first and the second are equal do nothing
+        if(iterator.next().getValue().equals(result.get(dominant)))
+            return;
+
         Player current = getPlayerById(location.getOwner());
-        Player dominant = tmpList.get(0);
         if (current == null) { //if no One was the owner we set a new owner
             List<Tower> towerToMove = List.of(dominant.getGameBoard().getTowers().get(0));
             location.addTowers(towerToMove);
@@ -270,27 +284,26 @@ public class Game {
 
     /**
      * Handles movement of Mother Nature
-     *
      * @param playerID player whose turn is to play
      */
-    private void moveMN(int playerID) {
-        int maxMoves = listPlayers.get(playerID).getHand().getCardPlayed().getMaxMoves();
+    protected void moveMN(int playerID, int playerSelection) {
 
+        int maxMoves = getPlayerById(playerID).getHand().getCardPlayed().getMaxMoves();
 
         if (getActivePersonality() != null && getActivePersonality().getName().equals("archer") && getPersonalityWithName("archer").getOwner() == playerID) {
             maxMoves += 2;
             getPersonalityWithName("archer").setActive(false);
         }
 
-        int playerSelection = 0; // this value will arrive from player and should be between 1 and maxMoves
+        //playerSelection this value will arrive from player and should be between 1 and maxMoves (for now is used as parameter)
         //TODO playerSelection
 
-        if (maxMoves < playerSelection) {
-            //TODO communicate ERROR to player and ask for new input
+        if (maxMoves < playerSelection || playerSelection <= 0) {
+            throw new RuntimeException("Invalid selection");
         }
         else {
 
-            MotherNature = (MotherNature + playerSelection) % ISLANDS_AT_START_OF_GAME; //Mother Nature's position is calculated in this way so that when MN goes over 12th island it lands at right position
+            MotherNature = (MotherNature + playerSelection) % islands.size(); //Mother Nature's position is calculated in this way so that when MN goes over last island it lands at right position
             Island currentIsland = islands.get(MotherNature);
 
             if (currentIsland.getNoEntry()) {
@@ -315,7 +328,7 @@ public class Game {
      * @throws RuntimeException if selected student is not in player's entrance
      */
     protected void moveStudents(int playerId, int where, Color student) {
-        Player p = listPlayers.get(playerId - 1);
+        Player p = getPlayerById(playerId);
 
         if (!p.getGameBoard().getStudentsEnter().contains(student)) {
             throw new RuntimeException("Selected student is not in player's entrance"); // this may be changed to other exception later
@@ -327,7 +340,8 @@ public class Game {
         }
         else {
             p.getGameBoard().removeStudentsEnter(List.of(student));
-            islands.get(where).addStudents(List.of(student));
+            Island isl = islands.get(getIslandPosition(where));
+            isl.addStudents(List.of(student));
         }
 
     }
@@ -336,7 +350,7 @@ public class Game {
      * Checks if any of win conditions are satisfied. <br>
      * If there is winner changes attribute winner to playerID (of winner)
      */
-    private void checkWinner() { /* the checkWinner method must be called at the end of each player's moves */
+    protected void checkWinner() { /* the checkWinner method must be called at the end of each player's moves */
         //TODO
 
         /* if a player has run out of towers in his gameBoard, I name him the winner: */
@@ -361,24 +375,31 @@ public class Game {
             listPlayers.sort(Comparator.comparingInt(player -> player.getGameBoard().getTowers().size())); //at this point listBoard has been sorted.
 
             int varTemp = 0;
-            List<Player> almostWinner = null; //is the list that will contain the players with the highest number of towers placed on the islands.
-            almostWinner.add(listPlayers.get(varTemp));
+            List<Player> almostWinner = new ArrayList<>(); //is the list that will contain the players with the highest number of towers placed on the islands.
 
             /* I put in the list of winners all the players with the highest number of towers positioned on islands
             (which will be the first on the list we ordered before): */
-            while (almostWinner.get(varTemp).getGameBoard().getTowers().size() == listPlayers.get(varTemp++).getGameBoard().getTowers().size()) {
-                almostWinner.add(listPlayers.get(varTemp++));
+            almostWinner.add(listPlayers.get(varTemp)); //the first player in the list will certainly have the highest card number
+            for(int i = 1; i < listPlayers.size();i++) {
+                if (almostWinner.get(0).getGameBoard().getTowers().size() == listPlayers.get(i).getGameBoard().getTowers().size())
+                    almostWinner.add(listPlayers.get(i));
             }
+
 
             //at this point two cases can occur:
             if (almostWinner.size() == 1) { //there is a player who has placed the most towers of all: NET WIN.
+
                 winner = almostWinner.get(0).getPlayerId();
             }
             else { //DRAW. among the players who tied, I find the one with the highest number of profs controlled:
                 Player playerWinner = almostWinner.get(0);
-                for (Player playerTemp : almostWinner) {
-                    if (playerTemp.getGameBoard().getProf().size() > playerWinner.getGameBoard().getProf().size())
-                        playerWinner = playerTemp;
+
+                for (int i = 1;  i < almostWinner.size(); i++) {
+                    if (almostWinner.get(i).getGameBoard().getProf().size() > playerWinner.getGameBoard().getProf().size()){
+
+                        playerWinner = almostWinner.get(i);
+                    }
+
                 }
                 winner = playerWinner.getPlayerId(); //I declare the player with the highest number of controlled profs the winner.
             }
@@ -555,20 +576,20 @@ public class Game {
                 }
             }
             case "winemaker" -> {
-                int selectedIsland = 0;
-                Color student = null;
-                //TODO add player selection
+                int selectedIsland = 1;
+                Color student = Color.GREEN;
+                //TODO add player selection (to change also usePersonalityPower)
                 selectedIsland = getIslandPosition(selectedIsland);
 
                 card.removeStudents(List.of(student));
                 islands.get(selectedIsland).addStudents(List.of(student));
                 card.addNewStudents(List.of(bag.getNextStudent()));
-
             }
             case "jester" -> {
-
-                List<Color> studentsFromCard = new ArrayList<>();
-                List<Color> studentsFromEntrance = new ArrayList<>();
+                // the color values are random, we need to change that when
+                // player selection is implemented
+                List<Color> studentsFromCard = List.of(Color.BLUE, Color.RED);
+                List<Color> studentsFromEntrance = List.of(Color.GREEN, Color.YELLOW);
                 //TODO add player selection
 
                 card.removeStudents(studentsFromCard);
@@ -577,7 +598,7 @@ public class Game {
                 gb.addStudentsEnter(studentsFromCard);
             }
             case "courtesan" -> {
-                Color selectedStudent = null;
+                Color selectedStudent = Color.RED;
                 //TODO add player selection
                 card.removeStudents(List.of(selectedStudent));
                 gb.addStudentHall(selectedStudent);
@@ -592,7 +613,7 @@ public class Game {
         switch (card.getName()) {
 
             case "pirate" -> {
-                int selectedIsland = 0;
+                int selectedIsland = 1;
                 //TODO add player selection
                 selectedIsland = getIslandPosition(selectedIsland);
                 islandDomination(islands.get(selectedIsland));
@@ -661,7 +682,7 @@ public class Game {
      * @param name Name of personality
      * @return personality with selected name (null if not present in list)
      */
-    private Personality getPersonalityWithName(String name) {
+    protected Personality getPersonalityWithName(String name) {
         for (Personality person : listPersonality) {
             if (person.getName().equals(name))
                 return person;
@@ -670,7 +691,7 @@ public class Game {
         return null;
     }
 
-    private int getIslandPosition(int id) {
+    protected int getIslandPosition(int id) {
         Island island = islands.stream()
                 .filter(isl -> id == (isl.getID()))
                 .findAny()
@@ -680,7 +701,8 @@ public class Game {
         else
             return islands.indexOf(island);
     }
-    private Player getPlayerById(int pid){
+
+    protected Player getPlayerById(int pid){
         return listPlayers.stream() //finds player who is owner of card
                 .filter(ply -> pid == (ply.getPlayerId()))
                 .findAny()

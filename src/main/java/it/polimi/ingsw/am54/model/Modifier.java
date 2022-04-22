@@ -13,7 +13,6 @@ public class Modifier extends Personality{
      */
     public Modifier(String name) {
         super(name, 0, Constants.PERSONALITIES_STARTING_PRICE.get(name));
-        //TODO switch case in which we set noDraw, noTowers to the respective values for the specific cards
         this.noColor = null;
     }
 
@@ -42,8 +41,4 @@ public class Modifier extends Personality{
     public Color getNoColor(){
         return noColor;
     }
-
-
-
-
 }

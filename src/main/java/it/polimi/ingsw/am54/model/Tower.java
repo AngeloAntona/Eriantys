@@ -51,18 +51,17 @@ public class Tower {
         return owners;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tower tower = (Tower) o;
-        return color == tower.color && Arrays.equals(owners, tower.owners);
+        return color == tower.color;
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(color);
-        result = 31 * result + Arrays.hashCode(owners);
-        return result;
+        return Objects.hash(color);
     }
 }
