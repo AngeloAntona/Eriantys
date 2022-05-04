@@ -15,9 +15,9 @@ UML diagramm:
 | --------------------- |:---------------:|
 | Basic Rules           | :green_circle:  | 
 | Complete Rules        | :yellow_circle: |
-| CLI                   | :red_circle:    |
+| CLI                   | :yellow_circle: |
 | GUI                   | :red_circle:    |
-| Socket                | :red_circle:    |
+| Socket                | :yellow_circle: |
 | All Personality Cards | :yellow_circle: |
 | Game for 4 players    | :yellow_circle: |
 | Multiple games        | :yellow_circle: |
