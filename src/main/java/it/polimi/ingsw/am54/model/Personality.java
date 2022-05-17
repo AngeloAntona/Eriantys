@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -8,10 +9,11 @@ import java.util.Scanner;
  * Contains methods used by both types
  */
 public abstract class Personality {
-    private final String name;
-    private int cost;
-    private int owner;
-    private boolean active = false;
+    public final String name;
+    public int cost;
+    public int owner;
+    public boolean active = false;
+
 
     /**
      * Constructor that sets main attributes' values

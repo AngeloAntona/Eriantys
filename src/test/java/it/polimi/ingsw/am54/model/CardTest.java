@@ -11,7 +11,7 @@ public class CardTest {
 
     /**
      * Test that checks if constructor sets correct value of card and if getValue() returns correct number
-     * @see Card#getValue()
+     * @see Card#getValue() 
      */
     @Test
     public void valueTest()
@@ -24,7 +24,7 @@ public class CardTest {
     /**
      * Test checks if maximal number of moves of Mather Nature are calculated and returned correctly. <br>
      * It contains array of expected values witch are compared with calculated ones
-     * @see Card#getMaxMoves()
+     * @see Card#getMaxMoves() 
      * @see Card#Card(int)
      */
     @Test

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -9,9 +10,9 @@ import java.util.Objects;
  *  2-3 players -> single owner <br>
  *  4 players   -> two owners
  */
-public class Tower {
-    private final TColor color;
-    private final int[] owners;
+public class Tower implements Serializable {
+    public final TColor color;
+    public final int[] owners;
 
     /**
      * Constructs tower, setting its color and owner<br>

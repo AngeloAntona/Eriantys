@@ -14,8 +14,8 @@ public class GameBoardTest {
 
     /**
      * Checks if owner is set correctly
-     * @see  GameBoard#getOwner()
-     * @see  GameBoard#GameBoard(int)
+     * @see  GameBoard#getOwner() 
+     * @see  GameBoard#GameBoard(int) 
      */
     @Test
     public void ownerTest(){
@@ -27,8 +27,8 @@ public class GameBoardTest {
 
     /**
      * Checks if students in the entrance can be manipulated correct way, by adding and removing them
-     * @see  GameBoard#getStudentsEnter()
-     * @see  GameBoard#addStudentsEnter(List)
+     * @see  GameBoard#getStudentsEnter() 
+     * @see  GameBoard#addStudentsEnter(List) 
      */
     @Test
     public void studentEnterTest(){

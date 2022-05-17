@@ -1,4 +1,5 @@
 package it.polimi.ingsw.am54.model;
+import java.io.Serializable;
 import java.util.*;
 
 import static it.polimi.ingsw.am54.model.Constants.STUDENTS_FOR_EACH_COLOR;
@@ -6,8 +7,8 @@ import static it.polimi.ingsw.am54.model.Constants.STUDENTS_FOR_EACH_COLOR;
 /**
  * The class Bag allows randomized extraction of students
  */
-public class Bag {
-    final private List<Color> availableStudents;
+public class Bag implements Serializable  {
+    final public List<Color> availableStudents;
 
     /**
      * Constructs Bag initializing list of students and filling it with appropriate number of students

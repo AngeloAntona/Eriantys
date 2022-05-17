@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am54.model;
 import static it.polimi.ingsw.am54.model.Constants.MAX_STUDENTS_PER_HALL;
+
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -7,14 +9,14 @@ import java.util.*;
  *  Class GameBoard is used as game board of each player.<br>
  *  It keeps track of students present in entrance and hall, number of tower and available coins.
  */
-public class GameBoard {
-    private final int owner;
-    private List<Color> studentsEnter;
-    private Map<Color, Integer> hall;
-    private Map<Color, Integer> nextCoin;
-    private List<Professor> profControlled;
-    private int coins = 0;
-    private List<Tower> towers;
+public class GameBoard implements Serializable {
+    public final int owner;
+    public List<Color> studentsEnter;
+    public Map<Color, Integer> hall;
+    public Map<Color, Integer> nextCoin;
+    public List<Professor> profControlled;
+    public int coins = 0;
+    public List<Tower> towers;
     /**
      * Additional influence points given by Personality's power
      */

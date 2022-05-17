@@ -11,7 +11,7 @@ public class TowerTest {
     /**
      * Test if constructor creates correct instance of class Tower when there is single owner
      * @see Tower#Tower(TColor, int)
-     * @see Tower#getOwners()
+     * @see Tower#getOwners() 
      */
     @Test
     public void singleOwnerTest()
@@ -27,7 +27,7 @@ public class TowerTest {
     }
     /**
      * Test if constructor creates correct instance of class Tower when there are multiple owners
-     * @see Tower#Tower(TColor, int[])
+     * @see Tower#Tower(TColor, int[]) 
      * @see Tower#getOwners()
      */
     @Test
@@ -42,9 +42,9 @@ public class TowerTest {
 
     /**
      * Assures that tower has correct color associated to it
-     * @see Tower#getColor()
-     * @see Tower#Tower(TColor, int[])
-     * @see Tower#Tower(TColor, int)
+     * @see Tower#getColor() 
+     * @see Tower#Tower(TColor, int[]) 
+     * @see Tower#Tower(TColor, int) 
      */
     @Test
     public void colorTest()

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
+
 /**
  * Class represents professors that can be controlled by player.<br>
  * There is exactly one professor of each color.
  */
-public class Professor {
-    private final Color color;
-    private int owner;
+public class Professor implements Serializable {
+    public final Color color;
+    public int owner;
 
     /**
      * Constructs instance of professor based on color

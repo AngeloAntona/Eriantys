@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ColorTest {
 
-    /**
-     *  Test check if toString returns expected values
-     * @see Color
-     *  */
+     /**
+      *  Test check if toString returns expected values
+      * @see Color
+      *  */
     @Test
     public void stringTest()
     {

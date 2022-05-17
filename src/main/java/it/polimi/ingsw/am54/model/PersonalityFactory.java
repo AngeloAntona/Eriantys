@@ -15,7 +15,7 @@ public class PersonalityFactory {
     public static Personality generate(String personalityName) throws RuntimeException{
         if(CONTAINERS_PERSONALITIES.containsKey(personalityName)){
             return new Containers(personalityName);
-        } else if (PERSONALITIES_STARTING_PRICE.containsKey(personalityName)){
+        } else if (PERSONALITIES_STARTING_PRICE.keySet().contains(personalityName)){
             return new Modifier(personalityName);
         } else {
             throw new RuntimeException("Personality name not existing: " + personalityName);

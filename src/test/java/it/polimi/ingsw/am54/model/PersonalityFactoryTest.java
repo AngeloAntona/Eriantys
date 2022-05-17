@@ -19,7 +19,7 @@ class PersonalityFactoryTest {
         assertSame(expectedContainer.getClass(), Containers.class);
         assertSame(expectedModifier.getClass(), Modifier.class);
         assertThrows(RuntimeException.class,() -> {
-            Personality expectedThrow = PersonalityFactory.generate("chicken") ;
+           Personality expectedThrow = PersonalityFactory.generate("chicken") ;
         });
     }
 

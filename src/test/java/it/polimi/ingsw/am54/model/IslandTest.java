@@ -64,7 +64,7 @@ public class IslandTest {
                 t = new Tower(TColor.BLACK, 1);
             }
             else
-                t = new Tower(TColor.WHITE, 1);
+               t = new Tower(TColor.WHITE, 1);
             island.addTowers(List.of(t));
             expectedList.add(t);
         }

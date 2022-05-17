@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import static it.polimi.ingsw.am54.model.Constants.CARD_FOR_EACH_HAND;
  * Class Hand serves as container for Assistant cards available to player.<br>
  * It also contains method that allows player to select next card to play.
  */
-public class Hand {
-    private final List<Card> cards;
-    private Card cardPlayed;
+public class Hand implements Serializable {
+    public final List<Card> cards;
+    public Card cardPlayed;
 
     /**
      * Constructs Hand and initializes list of card, and fills it whit cards

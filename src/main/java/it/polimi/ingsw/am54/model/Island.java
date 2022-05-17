@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,12 @@ import java.util.List;
  * Class represents islands, containing information about them
  * (number of present towers and students, presence of noEntry tile)
  */
-public class Island {
-    private final int islandID;
-    private int owner;
-    private List<Color> studentsPresent;
-    private List<Tower> listTowers;
-    private boolean noEntry = false;
+public class Island implements Serializable {
+    public final int islandID;
+    public int owner;
+    public List<Color> studentsPresent;
+    public List<Tower> listTowers;
+    public boolean noEntry = false;
 
     /**
      * Constructs Island, initializing list of students and setting owner and island id

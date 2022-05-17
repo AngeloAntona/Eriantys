@@ -1,10 +1,12 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
+
 /**
  * Class contains all personalities which modify general game logic (e.g. island domination, moves of Mature Nature)
  */
-public class Modifier extends Personality{
-    private Color noColor;
+public class Modifier extends Personality implements Serializable {
+    public Color noColor;
 
 
     /**

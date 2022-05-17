@@ -76,65 +76,65 @@ public class ContainersTest  {
     }
 
 
-    /**
-     * Checks if exception is thrown when tyring to remove non-existing students from Container card
-     * @see Containers#removeStudents(List)
-     */
-    @Test
-    public void removeStudentsExceptionTest(){
+   /**
+    * Checks if exception is thrown when tyring to remove non-existing students from Container card
+    * @see Containers#removeStudents(List)
+    */
+   @Test
+   public void removeStudentsExceptionTest(){
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Containers container = new Containers("jester");
-            /*
-             *  container currently has an empty list of available students and removeStudents should throw the exception
-             */
-
-
-            container.removeStudents(List.of(Color.RED));
-
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("does not contain all selected students"));
-    }
+       Exception exception = assertThrows(RuntimeException.class, () -> {
+           Containers container = new Containers("jester");
+           /*
+            *  container currently has an empty list of available students and removeStudents should throw the exception
+            */
 
 
-    /**
-     * Checks if useTile() can be called exactly for times (without using method bringBackTile())
-     * @see Containers#useTile()
-     * @see  Containers#bringBackTile()
-     */
-    @Test
-    public void useTileTest()
-    {
-        Containers container = new Containers("botanist");
-        for(int i = 0; i <4 ; i++){
-            assertTrue(container.useTile());
-        }
+           container.removeStudents(List.of(Color.RED));
 
-        assertFalse(container.useTile());
-    }
+       });
+       String actualMessage = exception.getMessage();
+       assertTrue(actualMessage.contains("does not contain all selected students"));
+   }
 
 
-    /**
-     * Checks functionality of bringBackTile()
-     * @see Containers#bringBackTile()
-     */
-    @Test
-    public void bringBackTileTest(){
+   /**
+    * Checks if useTile() can be called exactly for times (without using method bringBackTile())
+    * @see Containers#useTile()
+    * @see  Containers#bringBackTile()
+    */
+   @Test
+   public void useTileTest()
+   {
+       Containers container = new Containers("botanist");
+       for(int i = 0; i <4 ; i++){
+           assertTrue(container.useTile());
+       }
+
+       assertFalse(container.useTile());
+   }
+
+
+   /**
+    * Checks functionality of bringBackTile()
+    * @see Containers#bringBackTile()
+    */
+   @Test
+   public void bringBackTileTest(){
         Containers  container = new Containers("botanist");
         for(int i = 0; i < 4; i++){
             container.useTile();
             container.bringBackTile();
         }
-        //there should be 4 tiles in container because every used tile has been brought back
+       //there should be 4 tiles in container because every used tile has been brought back
 
 
-        for(int i = 0; i <4 ; i++){
-            assertTrue(container.useTile());
-        }
+       for(int i = 0; i <4 ; i++){
+           assertTrue(container.useTile());
+       }
 
-        assertFalse(container.useTile());
-    }
+       assertFalse(container.useTile());
+   }
 
 
     /**

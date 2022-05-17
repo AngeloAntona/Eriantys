@@ -1,13 +1,20 @@
 package it.polimi.ingsw.am54.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+
 /**
  * Enumerator that contains possible colors of towers
  */
-public enum TColor {
+public enum TColor  implements Serializable {
+
     /**
      * Used black towers
      */
-    BLACK{
+    @SerializedName("BLACK")
+    BLACK {
         @Override
         public String toString() {
             return "BLACK";
@@ -16,7 +23,8 @@ public enum TColor {
     /**
      * Used for gray towers
      */
-    GRAY{
+    @SerializedName("GRAY")
+    GRAY {
         @Override
         public String toString() {
             return "GRAY";
@@ -25,10 +33,14 @@ public enum TColor {
     /**
      * Used for with towers
      */
-    WHITE{
+    @SerializedName("WHITE")
+    WHITE {
         @Override
         public String toString() {
             return "WHITE";
         }
     }
+
+
+
 }

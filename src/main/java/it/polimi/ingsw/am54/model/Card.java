@@ -2,13 +2,15 @@ package it.polimi.ingsw.am54.model;
 
 //@pure
 
+import java.io.Serializable;
+
 /**
  * Represents Assistant card and stores value
  * and maximal number of moves that Mother Nature can make.
  */
-public class Card {
-    private final int value;
-    private final int MNMaxMoves;
+public class Card implements Serializable {
+    public final int value;
+    public final int MNMaxMoves;
 
     /**
      * Constructs card with value and maximal number of moves of Mother Nature

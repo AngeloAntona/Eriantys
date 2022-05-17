@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,25 +10,26 @@ import static it.polimi.ingsw.am54.model.Constants.ISLANDS_AT_START_OF_GAME;
 /**
  * Main class that controls game flow and its principal logic
  */
-public class Game {
-    private final int gameID;
+public class Game implements Serializable {
+    public final int gameID;
     /**
      * List of all players
      */
-    protected List<Player> listPlayers;
+    public List<Player> listPlayers;
     /**
      * List of available islands
      */
-    protected List<Island> islands;
+    public List<Island> islands;
     /**
      * List of available professors
      */
-    protected List<Professor> listProfessors;
+    public List<Professor> listProfessors;
+    public Map<Integer, List<Color>> clouds;
     /**
      * List containing personalities in current game (three)
      */
-    protected List<Personality> listPersonality;
-    private Bag bag;
+    public List<Personality> listPersonality;
+    public Bag bag;
     /**
      * Winner will be id of player who won the game. <br>
      * While there is no winner, the value is 0
@@ -36,8 +38,8 @@ public class Game {
     /**
      * Number of turns played
      */
-    protected int numTurns = 0;
-    protected int MotherNature = 0;
+    public int numTurns = 0;
+    public int MotherNature = 0;
 
     /**
      * Constructs game and initializes attributes
@@ -46,12 +48,26 @@ public class Game {
      * @param numPlayers number of players for current game
      */
     public Game(int gameID, int numPlayers) {
+        Map< Integer,TColor> towcol = new HashMap<>() {{
+            put(1, TColor.valueOf("BLACK"));
+            put(2, TColor.valueOf("WHITE"));
+            put(3, TColor.valueOf("GRAY"));
+            put(4,null);
+        }};
         this.gameID = gameID;
         listPlayers = new ArrayList<>();
         islands = new ArrayList<>();
         listProfessors = new ArrayList<>();
         listPersonality = new ArrayList<>();
-        startGame(numPlayers);
+        startGame(numPlayers, towcol);
+    }
+    public Game(int gameID, int numPlayers, Map< Integer,TColor> towcol) {
+        this.gameID = gameID;
+        listPlayers = new ArrayList<>();
+        islands = new ArrayList<>();
+        listProfessors = new ArrayList<>();
+        listPersonality = new ArrayList<>();
+        startGame(numPlayers, towcol);
     }
 
     /**
@@ -59,7 +75,7 @@ public class Game {
      *
      * @param numPlayers number of players
      */
-    private void startGame(int numPlayers) {
+    private void startGame(int numPlayers,Map<Integer, TColor> towcol) {
         /* it creates a GameBoard for each player (depends on numPlayers). */
         for (int i = 1; i <= numPlayers; i++) {
             Player player = new Player(i);
@@ -68,22 +84,37 @@ public class Game {
 
         /*for each player adds Towers*/
         int numTower = (numPlayers == 3) ? 6 : 8;
-        ArrayList<Tower> blackTowers = new ArrayList<>();
-        ArrayList<Tower> whiteTowers = new ArrayList<>();
-        ArrayList<Tower> grayTowers = new ArrayList<>();
-        for (int i = 0; i < numTower; i++) {
-            blackTowers.add(new Tower(TColor.BLACK, listPlayers.get(0).getPlayerId()));
-            whiteTowers.add(new Tower(TColor.WHITE, listPlayers.get(1).getPlayerId()));
-            if (numPlayers == 3)
-                grayTowers.add(new Tower(TColor.GRAY, listPlayers.get(2).getPlayerId()));
-        }
-        listPlayers.get(0).getGameBoard().addTower(blackTowers);
-        listPlayers.get(1).getGameBoard().addTower(whiteTowers);
-        if (numPlayers == 3)
-            listPlayers.get(2).getGameBoard().addTower(grayTowers);
-        if (numPlayers == 4) {
-            listPlayers.get(2).getGameBoard().addTower(blackTowers);
-            listPlayers.get(3).getGameBoard().addTower(whiteTowers);
+
+        if(numPlayers != 4){
+            for(int i = 1; i <= numPlayers; i++)
+            {
+                ArrayList<Tower> towers = new ArrayList<>();
+                Player p = getPlayerById(i);
+                for(int j = 0; j < numPlayers; j++) {
+                    towers.add(new Tower(towcol.get(i), p.getPlayerId()));
+                }
+                p.getGameBoard().addTower(towers);
+            }
+        } else {
+            for(int i = 1; i <= numPlayers; i++)
+            {
+                ArrayList<Tower> towers = new ArrayList<>();
+                Player p = getPlayerById(i);
+
+                if(i % 2 == 0)
+                {
+                    for(int j = 0; j < numPlayers; j++) {
+                        towers.add(new Tower(towcol.get(2), p.getPlayerId()));
+                    }
+                } else {
+
+                    for(int j = 0; j < numPlayers; j++) {
+                        towers.add(new Tower(towcol.get(1), p.getPlayerId()));
+                    }
+                }
+                p.getGameBoard().addTower(towers);
+
+            }
         }
 
         /* it creates the empty islands */
@@ -104,8 +135,19 @@ public class Game {
         for(int i = 0; i < 3; i++)
             listPersonality.add(PersonalityFactory.generate(tmp.get(i)));
 
-
         bag = new Bag(); //creates instance of Bag
+
+        /*sets initial students to the Entrance of every player*/
+        int initialStudents = (numPlayers == 3) ? 9 : 7;
+        for(Player p : listPlayers) {
+            List<Color> studentsEntering = new ArrayList<>();
+            for (int i = 0; i < initialStudents; i++) {
+                studentsEntering.add(bag.getNextStudent());
+            }
+
+            p.getGameBoard().addStudentsEnter(studentsEntering);
+        }
+
     }
 
     /**
@@ -259,7 +301,7 @@ public class Game {
     /**
      * Determines order in which players will play next round.
      */
-    protected void nextRound() {
+    public void nextRound() {
         if (numTurns == 0) {
             Collections.shuffle(listPlayers); /* in the first round the players' order is chosen randomly */
         }
@@ -295,7 +337,7 @@ public class Game {
             getPersonalityWithName("archer").setActive(false);
         }
 
-        //playerSelection this value will arrive from player and should be between 1 and maxMoves (for now is used as parameter)
+         //playerSelection this value will arrive from player and should be between 1 and maxMoves (for now is used as parameter)
         //TODO playerSelection
 
         if (maxMoves < playerSelection || playerSelection <= 0) {
@@ -350,7 +392,7 @@ public class Game {
      * Checks if any of win conditions are satisfied. <br>
      * If there is winner changes attribute winner to playerID (of winner)
      */
-    protected void checkWinner() { /* the checkWinner method must be called at the end of each player's moves */
+    public void checkWinner() { /* the checkWinner method must be called at the end of each player's moves */
         //TODO
 
         /* if a player has run out of towers in his gameBoard, I name him the winner: */
@@ -387,7 +429,7 @@ public class Game {
 
 
             //at this point two cases can occur:
-            if (almostWinner.size() == 1) { //there is a player who has placed the most towers of all: NET WIN.
+           if (almostWinner.size() == 1) { //there is a player who has placed the most towers of all: NET WIN.
 
                 winner = almostWinner.get(0).getPlayerId();
             }
@@ -629,7 +671,7 @@ public class Game {
                 List<Color> studentsFromHall = new ArrayList<>();
                 List<Color> studentsFromEntrance = new ArrayList<>();
                 //TODO player selection
-                gb.removeStudentsEnter(studentsFromEntrance);
+                             gb.removeStudentsEnter(studentsFromEntrance);
                 gb.addStudentsEnter(studentsFromHall);
 
                 for (Color c : studentsFromHall) {
@@ -696,10 +738,10 @@ public class Game {
                 .filter(isl -> id == (isl.getID()))
                 .findAny()
                 .orElse(null);
-        if(island == null)
-            return -1;
-        else
-            return islands.indexOf(island);
+       if(island == null)
+           return -1;
+       else
+        return islands.indexOf(island);
     }
 
     protected Player getPlayerById(int pid){

@@ -1,13 +1,15 @@
 package it.polimi.ingsw.am54.model;
 
+import java.io.Serializable;
+
 /**
  * Class serves to connect game board and hand which are referred to same player
  */
-public class Player {
+public class Player implements Serializable {
 
-    private final int playerId;
-    private final Hand hand;
-    private final GameBoard gameBoard;
+    public final int playerId;
+    public final Hand hand;
+    public final GameBoard gameBoard;
 
     /**
      * Constructs player, creating game board and hand for that player
