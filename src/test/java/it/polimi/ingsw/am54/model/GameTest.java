@@ -136,7 +136,7 @@ class GameTest {
         assertEquals(2, islands.get(4).getOwner());
         assertFalse(glutton.isActive());
     }
-
+/*
     /**
      * checks that islandDomination works properly when no Personality is active
      * (contronlsProf is also used)
@@ -513,6 +513,22 @@ class GameTest {
      * isn't contained in the corresponding player GameBoard entrance
      * @see Game#moveStudents(int, int, Color)
      */
+
+    @Test
+    public void moveStudentExceptionTest(){
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            Game game = new Game(1,2);
+            Player p = game.listPlayers.get(0);
+
+
+            p.getGameBoard().removeStudentsEnter(p.getGameBoard().getStudentsEnter());
+
+            game.moveStudents(p.getPlayerId(), 0, Color.RED);//Player's entrance doesn't contain any red students
+
+        });
+        String actualMessage = exception.getMessage();
+        assertEquals("Selected student is not in player's entrance", actualMessage);
+    }
 
 
     /**
