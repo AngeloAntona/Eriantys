@@ -514,23 +514,6 @@ class GameTest {
      * @see Game#moveStudents(int, int, Color)
      */
 
-    @Test
-    public void moveStudentExceptionTest(){
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            Player p = game.listPlayers.get(0);
-
-
-            for(int i = 0; i < 3; i ++)
-                p.getGameBoard().addStudentsEnter(List.of(Color.BLUE));
-
-            game.moveStudents(p.getPlayerId(), 0, Color.RED);//Player's entrance doesn't contain any red students
-
-        });
-        String actualMessage = exception.getMessage();
-        assertEquals("Selected student is not in player's entrance", actualMessage);
-    }
-
 
     /**
      * I check that the checkWinner method calculates the winner in the case of a clear win
