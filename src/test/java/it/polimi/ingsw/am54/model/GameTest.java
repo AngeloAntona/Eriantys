@@ -20,6 +20,12 @@ class GameTest {
         game.listPersonality.add(faun);
         faun.setActive(true);
         Player p1 = game.getPlayerById(1);
+        game.islands = new ArrayList<>();
+        for(int i = 0; i < 12; i++)
+        {
+            Island is = new Island(i+1,0);
+            game.islands.add(i,is);
+        }
 
 
         //adding professors
@@ -100,6 +106,12 @@ class GameTest {
         game.listPersonality.add(glutton);
         glutton.setActive(true);
         glutton.setNoColor(Color.RED);
+        game.islands = new ArrayList<>();
+        for(int i = 0; i < 12; i++)
+        {
+            Island is = new Island(i+1,0);
+            game.islands.add(i,is);
+        }
 
         //adding professors
         //add 2 Blue, 1 Green to player 1
@@ -136,7 +148,7 @@ class GameTest {
         assertEquals(2, islands.get(4).getOwner());
         assertFalse(glutton.isActive());
     }
-/*
+
     /**
      * checks that islandDomination works properly when no Personality is active
      * (contronlsProf is also used)
@@ -314,11 +326,11 @@ class GameTest {
         Game game = new Game(1, 2);
         int expected = 1; // activated Personality baker
 
-        Modifier botanist = new Modifier("baker");
-        List<Personality> listPersonality = game.listPersonality;
-        listPersonality.add(0,botanist);
-        listPersonality.get(0).setActive(true);
-        listPersonality.get(0).setOwner(1);
+        Modifier baker = new Modifier("baker");
+        game.listPersonality = new ArrayList<>();
+        game.listPersonality.add(0,baker);
+        game.listPersonality.get(0).setActive(true);
+        game.listPersonality.get(0).setOwner(1);
 
         game.listPlayers.get(0).getGameBoard().addStudentHall(Color.RED);
         game.listPlayers.get(1).getGameBoard().addStudentHall(Color.RED);
@@ -331,6 +343,7 @@ class GameTest {
                 assertEquals(expected, p.getOwner());
 
         }
+        assertFalse(baker.isActive());
     }
 
     /**
@@ -428,6 +441,13 @@ class GameTest {
     public void MoveMNTest2(){
         int expected = 3;
         Game game = new Game(1,2);
+        game.islands = new ArrayList<>();
+        game.MotherNature = 0;
+        for(int i = 0; i < 12; i++)
+        {
+            Island is = new Island(i+1,0);
+            game.islands.add(i,is);
+        }
         Containers botanist = (Containers) game.getPersonalityWithName("botanist");
         if( botanist == null) {
             botanist = new Containers("botanist");
@@ -573,6 +593,13 @@ class GameTest {
     public void checkWinnerTest2(){
         //we want to find the winner
         Game game = new Game(1,2);
+        game.islands = new ArrayList<>();
+        game.MotherNature = 0;
+        for(int i = 0; i < 12; i++)
+        {
+            Island is = new Island(i+1,0);
+            game.islands.add(i,is);
+        }
         game.listPersonality = new ArrayList<>();
         Player p1 = game.listPlayers.get(0);
         Player p2 = game.listPlayers.get(1);
@@ -670,6 +697,12 @@ class GameTest {
     public void uniteIslandsTest(){
         //test assures that number and color of student is good after unification and enters first if
         Game game = new Game(1,2);
+        game.islands = new ArrayList<>();
+        for(int i = 0; i < 12; i++)
+        {
+            Island is = new Island(i+1,0);
+            game.islands.add(i,is);
+        }
         List<Island> islands = game.islands;
         assertEquals(12, islands.size());//initial number of islands
         List<Color> students = new ArrayList<>(List.of(Color.RED,Color.RED,Color.RED));
@@ -803,74 +836,62 @@ class GameTest {
         assertEquals(expected,game.listPlayers);
     }
 
-    /**
+    /*
      * checks that the method buyPersonality correctly throws an exception if
      * the selected personality is not among the available personalities
      * NOTE: Sometimes test may fail due to random selection of personalities done by startGame(), rerun may resolve error
-     * @see Game#buyPersonality(int, Personality)
+     * @see Game#usePersonalityPower(Personality, int)
      * @see Constants#PERSONALITIES_STARTING_PRICE
-     */
+     *
     @Test
     public void buyPersonalityExceptionTest1(){
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Containers botanist = new Containers("botanist");
+        String out = game.usePersonalityPower(botanist,1);
 
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            game.listPersonality = new ArrayList<>(); //puts empty list
-            Containers botanist = new Containers("botanist");
-            game.buyPersonality(1,botanist);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Non existing personality"));
+        assertEquals("Non existing personality", out);
     }
 
     /**
      * checks that the method buyPersonality() correctly trows an exception when
      * the player doesn't exist
-     * @see Game#buyPersonality(int, Personality)
-     */
+     * @see Game#usePersonalityPower(Personality, int)
+     *
     @Test
     public void buyPersonalityExceptionTest2(){
-
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            game.listPersonality = new ArrayList<>(); //puts empty list
-            Containers botanist = new Containers("botanist");
-            game.listPersonality.add(botanist);
-            game.buyPersonality(5,botanist);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Non existing player"));
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Containers botanist = new Containers("botanist");
+        game.listPersonality.add(botanist);
+        String out =  game.usePersonalityPower(botanist,5);
+        assertEquals("Non existing player", out);
     }
 
     /**
      * checks that the method buyPersonality correctly throws an exception when
      * the player doesn't have enough money to buy personality
-     * @see Game#buyPersonality(int, Personality)
-     */
+     * @see Game#usePersonalityPower(Personality, int)
+     *
     @Test
     public void buyPersonalityExceptionTest3(){
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Containers botanist = new Containers("botanist");
+        game.listPersonality.add(botanist);
+        String actualMessage  = game.usePersonalityPower(botanist,2);
 
+        assertEquals("Not enough money", actualMessage);
+    }*/
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            game.listPersonality = new ArrayList<>(); //puts empty list
-            Containers botanist = new Containers("botanist");
-            game.listPersonality.add(botanist);
-            game.buyPersonality(2,botanist);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Not enough money"));
-    }
-
-    /**
+    /*
      * checks that the method buyPersonality() correctly sets the owner and increases the cost of the card
      * while decreasing the available coins for the player selected
-     * @see Game#buyPersonality(int, Personality)
+     * @see Game#usePersonalityPower(Personality, int)
      * @see GameBoard#getCoins()
      * @see Personality#getCost()
-     */
+     *
     @Test
     public void buyPersonalityTest(){
         Game game = new Game(1,2);
@@ -888,64 +909,20 @@ class GameTest {
         assertEquals(expectedCoin, player.getGameBoard().getCoins());
 
         expectedCoin -= oldCost;
-        game.buyPersonality(player.getPlayerId(),botanist);
+        game.usePersonalityPower(botanist,player.getPlayerId());
 
         assertEquals(expectedCoin, player.getGameBoard().getCoins());//checks that player has decreased amount of coins
         assertEquals(oldCost+1, botanist.getCost());//checks increase in botanist's price for future usese
         assertEquals(player.getPlayerId(), botanist.getOwner());//checks botanist's owner
 
     }
-
-    /**
-     * Test checks if the method usePersonalityPower throws an exception when no personality is set as active
-     * @see Game#usePersonalityPower(Personality)
-     */
-    @Test
-    public void usePersonalityPowerExceptionTest1(){
+*/
 
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            game.listPersonality = new ArrayList<>(); //puts empty list
-            Containers bot = new Containers("botanist");
-            game.listPersonality.add(bot);
-            game.listPersonality.add(new Modifier("witch"));
-            game.listPersonality.add(new Containers("jester"));
-            game.usePersonalityPower(bot);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Selected person is not active"));
-
-    }
-
-    /**
-     * Test checks if the method usePersonalityPower throws an exception when one personality is set as active
-     * but usePower is called for another
-     * @see Game#usePersonalityPower(Personality)
-     */
-    @Test
-    public void usePersonalityPowerExceptionTest2(){
-
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            game.listPersonality = new ArrayList<>(); //puts empty list
-            Containers bot = new Containers("botanist");
-            game.listPersonality.add(bot);
-            game.listPersonality.add(new Modifier("witch"));
-            game.listPersonality.add(new Containers("jester"));
-            game.listPersonality.get(2).setActive(true);
-            game.usePersonalityPower(bot);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Selected person is not active"));
-
-    }
-
-    /**
+    /*
      * Tests that usePersonalityPower works when used with correct parameters
-     * @see Game#usePersonalityPower(Personality)
-     */
+     * @see Game#usePersonalityPower(Personality, int)
+     *
     @Test
     public void usePersonalityPowerBotanist1(){
         Game game = new Game(1,2);
@@ -960,16 +937,16 @@ class GameTest {
         int island = 5;
         //TODO change after player selection is implemented
         System.setIn(new ByteArrayInputStream(((island+1)+"\n").getBytes()));//sends value as console input (+1 is added to get islandId)
-        game.usePersonalityPower(bot);
+        game.usePersonalityPower(bot,1);
         assertTrue(game.islands.get(island).getNoEntry());
         assertFalse(bot.isActive());
-    }
+    }*/
 
-    /**
+    /*
      * Tests that usePersonalityPower throws an exception in case that botanist is the active personality
      * and there are no more NoEntry tiles available
      * @see Game#usePersonalityPower(Personality)
-     */
+     *
     @Test
     public void usePersonalityPowerBotanistExceptionTest3(){
 
@@ -994,7 +971,7 @@ class GameTest {
         });
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains("No more tiles available"));
-    }
+    }*/
 
     /**
      * Assures that GameID is correctly set
@@ -1036,11 +1013,11 @@ class GameTest {
                     assertNotEquals(p.getColor(), p2.getColor());
         }
     }
-
+/*  These test will be reimplemented when method change is completed
     /**
      * Tests that usePersonalityPower works when used with winemaker active
      * @see Game#usePersonalityPower(Personality)
-     */
+     *
     @Test
     public void usePersonalityPowerWinemaker(){
         Game game = new Game(1,2);
@@ -1070,7 +1047,7 @@ class GameTest {
     /**
      * Tests that usePersonalityPower works when used with Jester active
      * @see Game#usePersonalityPower(Personality)
-     */
+     *
     @Test
     public void usePersonalityPowerJester(){
         Game game = new Game(1,2);
@@ -1095,7 +1072,7 @@ class GameTest {
     /**
      * Tests that usePersonalityPower works when used with Courtesan active
      * @see Game#usePersonalityPower(Personality)
-     */
+     *
     @Test
     public void usePersonalityPowerCourtesan(){
         Game game = new Game(1,2);
@@ -1120,7 +1097,7 @@ class GameTest {
     /**
      * Tests that usePersonalityPower works when used with Pirate active
      * @see Game#usePersonalityPower(Personality)
-     */
+     *
     @Test
     public void usePersonalityPowerPirate(){
         Game game = new Game(1,2);
@@ -1141,4 +1118,6 @@ class GameTest {
         }
         //TODO see if island domination worked correctly
     }
+    */
+
 }

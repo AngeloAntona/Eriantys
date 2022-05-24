@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.network;
 
+import it.polimi.ingsw.am54.model.Game;
 import it.polimi.ingsw.am54.model.GameThread;
 
 import java.io.IOException;

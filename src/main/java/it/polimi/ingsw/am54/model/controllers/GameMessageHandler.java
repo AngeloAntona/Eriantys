@@ -1,10 +1,11 @@
-package it.polimi.ingsw.am54.model;
+package it.polimi.ingsw.am54.model.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.am54.model.*;
 import it.polimi.ingsw.am54.network.ConnectionManager;
 import it.polimi.ingsw.am54.network.Mage;
 import it.polimi.ingsw.am54.network.updateMessage;
@@ -21,7 +22,7 @@ import java.util.Map;
  * @see ConnectionManager
  * @see GameThread
  */
-public class ControlHandler {
+public class GameMessageHandler {
     private ConnectionManager cm;
     private GameThread currentGame = null;
     private static final Gson gson = new GsonBuilder().create();
@@ -33,13 +34,6 @@ public class ControlHandler {
      */
     public void commandHandler(String command, String parameter) {
         switch (command) {
-            // initial phase messages
-            case "set_username" -> setUsername(parameter);
-            case "get_available_mages" -> sendAvailableMages();
-            case "select_mage" -> selectMage(parameter);
-            case "get_available_towers" -> sendAvailableTowers();
-            case "select_tower" -> selectTower(parameter);
-            case "player_ready" -> startGameIfReady();
             // tmp messages
             case "get_cards" -> sendCardsInHand();
             case "get_students" -> sendStudents();
@@ -55,7 +49,6 @@ public class ControlHandler {
             default -> cm.sendText("ERR");
         }
     }
-
 
 
     /**
@@ -80,13 +73,6 @@ public class ControlHandler {
 
 
     /**
-     * just sets the setReadyToStart boolean as true.
-     */
-    private void startGameIfReady(){
-        cm.setReadyToStart(true);
-        currentGame.checkAndStart();
-    }
-    /**
      * sends the list of card that are in the player's hand  to client.
      * NOTE: TEMPORARY METHOD
      */
@@ -105,56 +91,6 @@ public class ControlHandler {
         cm.setAlive(false);
     }
 
-    /**
-     * sends a list of available mages to client.
-     */
-    private void sendAvailableMages(){
-        if(currentGame.getMages() == null || currentGame.getMages().size() == 0){
-            cm.sendObject("ERR", "no available mages");
-            return;
-        }
-        cm.sendObject("available_mages",currentGame.getMages());
-    }
-    /**
-     * sends a list of tower's available colours to client.
-     */
-    private void sendAvailableTowers(){
-        if(currentGame.getTowerColors().size() == 0){
-            cm.sendObject("ERR", "no available towers");
-            return;
-        }
-        cm.sendObject("available_towers", currentGame.getTowerColors());
-    }
-
-    /**
-     * gives to each client the possibility to choose one of the tower's colours at the start of the game.
-     * @param towerJson
-     */
-    private void selectTower(String towerJson) {
-        TColor selectedTower = gson.fromJson(towerJson, new TypeToken<TColor>(){}.getType());
-        if(!currentGame.getTowerColors().contains(selectedTower)){
-            cm.sendObject("ERR", "tower color not available");
-            return;
-        }
-        currentGame.getTowerColors().remove(selectedTower);
-        cm.sendText("ACK");
-        cm.setSelectedTower(selectedTower);
-        cm.sendText("wait");
-    }
-
-    /**
-     * gives to each client the possibility to choose one of the 4 mages at the start of the game.
-     * @param mageJson
-     */
-    private void selectMage(String mageJson) {
-        Mage selectedMage = gson.fromJson(mageJson, new TypeToken<Mage>(){}.getType());
-        if(!currentGame.getMages().contains(selectedMage)){
-            cm.sendObject("ERR", "mage not available");
-            return;
-        }
-        currentGame.getMages().remove(selectedMage);
-        cm.sendText("ACK");
-    }
 
     /**
      * sets the AssistantCard chosen by client.
@@ -277,13 +213,16 @@ public class ControlHandler {
         in case we need to check if players send the right command
         if(currentGame.getGame().listPlayers.get(0).getPlayerId() != cm.getClientID())
             cm.sendObject("ERR", "command not possible");*/
+
+        Game game = currentGame.getGame();
         int selectedCloud = gson.fromJson(cloudJson, new TypeToken<Integer>(){}.getType());
-        if(!currentGame.getGame().clouds.containsKey(selectedCloud)){
+        if(!game.clouds.containsKey(selectedCloud)){
             cm.sendObject("ERR", "cloud not available");
             return;
         }
         cm.sendText("ACK");
-        currentGame.getGame().clouds.remove(selectedCloud);
+        game.getPlayerById(cm.getClientID()).getGameBoard().addStudentsEnter(game.clouds.get(selectedCloud));
+        game.clouds.remove(selectedCloud);
         cm.setTurnEnd(true);
         //currentGame.getGame().nextRound();
     }
@@ -293,112 +232,29 @@ public class ControlHandler {
      * @param personalityJson
      */
     private void usePersonality(String personalityJson){
-        //TODO
-        String PersonalityString =gson.fromJson(personalityJson, new TypeToken<String>(){}.getType());
-        //check that string isn't empty
+        JsonObject object =gson.fromJson(personalityJson, new TypeToken<JsonObject>(){}.getType());
+        String PersonalityString = gson.fromJson(object.get("card") .toString(), new TypeToken<String>(){}.getType());
         if(PersonalityString.isBlank()) {
             cm.sendObject("ERR", "chosenPersonality cannot be blank");
             return;
         }
         //check that chosen personality exists
         Personality chosenPersonality = currentGame.getGame().getPersonalityWithName(PersonalityString);
-        if(!currentGame.getGame().listPersonality.contains(chosenPersonality)) {
+        if(chosenPersonality == null) {
             cm.sendObject("ERR", "chosenPersonality doesn't exist");
             return;
         }
         //buy the chosen personality
         int playerID = cm.getClientID();
-        currentGame.getGame().buyPersonality(playerID,chosenPersonality);
+
         //use the chosen personality
-        currentGame.getGame().usePersonalityPower(chosenPersonality);
-        cm.sendText("ACK");
-    }
+        String out = currentGame.getGame().usePersonalityPower(chosenPersonality,playerID, object);
 
-    /**
-     * sets the connectionManager username or sends the client an error if the username.
-     * is already in use/isn't valid
-     * @param name
-     */
-    private void setUsername(String name) {
-        String username =gson.fromJson(name, new TypeToken<String>(){}.getType());
-        if(username.isBlank()) {
-            cm.sendObject("ERR", "username cannot be blank");
+        if(!out.equals("OK")){
+            cm.sendObject("ERR", out);
             return;
         }
-        if(nameInUse(username)) {
-            cm.sendObject("ERR", "username already in use");
-            return;
-        }
-        cm.setUsername(username);
         cm.sendText("ACK");
-    }
-
-
-    /**
-     * checks if the username in input already exists.
-     * @param username
-     */
-    private  boolean nameInUse(String username) {
-        for(ConnectionManager cm: currentGame.getClients())
-            if(cm.getUsername()!= null && cm.getUsername().equals(username))
-                return true;
-        return false;
-    }
-
-    /**
-     * Adds the connectionManager(the client) to a GameThread with the number of players and advanced mode option
-     * asked for by the corresponding client. If the game doesn't exist it creates a new one.
-     * @param input
-     * @param games
-     * @param connectionManager
-     */
-    public void joinGame(String input, List<GameThread> games, ConnectionManager connectionManager) {
-        this.cm = connectionManager;
-        String options = gson.fromJson(input, new TypeToken<String>(){}.getType());
-        String isAdvancedMode = cm.getParameter(options);
-        String numberOfPlayers = cm.getCommand(options);
-        System.out.println(numberOfPlayers);
-        if(numberOfPlayers.isEmpty() || !isValidPlayerNumber(numberOfPlayers) || isAdvancedMode.isEmpty()){
-            cm.sendText("ERR");
-        } else{
-            boolean advancedMode = Boolean.parseBoolean(isAdvancedMode);
-            int numPlayers = Integer.parseInt(numberOfPlayers);
-            for (GameThread gt: games) {
-                if(gt.getNumPlayers() == numPlayers && gt.getClients().size() < numPlayers
-                && gt.isAdvancedMode() == advancedMode) {
-                    gt.addClient(cm);
-                    this.currentGame = gt;
-                    cm.sendObject("ACK", gt.getClients().size());
-                    cm.setClientID(gt.getClients().size());
-                    return;
-                }
-
-            }
-            GameThread gt = new GameThread(games.size(), numPlayers);
-            //gt.start();
-            games.add(gt);
-            gt.addClient(cm);
-            this.currentGame = gt;
-            currentGame.setAdvancedMode(advancedMode);
-            cm.sendObject("ACK", gt.getClients().size());
-            cm.setClientID(gt.getClients().size());
-        }
-    }
-
-    /**
-     * parses the string to an int and returns true if this number
-     * is a valid number of player for a game.
-     * @param str
-     */
-    public static boolean isValidPlayerNumber(String str) {
-        if(str == null)
-            return false;
-        try {
-            int test = Integer.parseInt(str);
-            return (test <= 4 && test >= 2);
-        } catch(NumberFormatException e){
-            return false;
-        }
     }
 
     public void update(){
@@ -418,6 +274,14 @@ public class ControlHandler {
      */
     public GameThread getGameThread() {
         return currentGame;
+    }
+
+    public void setCurrentGame(GameThread currentGame) {
+        this.currentGame = currentGame;
+    }
+
+    public void setCm(ConnectionManager cm) {
+        this.cm = cm;
     }
 }
 

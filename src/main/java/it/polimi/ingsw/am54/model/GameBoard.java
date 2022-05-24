@@ -17,14 +17,7 @@ public class GameBoard implements Serializable {
     public List<Professor> profControlled;
     public int coins = 0;
     public List<Tower> towers;
-    /**
-     * Additional influence points given by Personality's power
-     */
-    public int extraInfluence = 0;
-    /**
-     * Additional Mother Nature moves given by Personality's power
-     */
-    public int extraMoves = 0;
+    public String username;
 
     /**
      * Constructs GameBoard, setting owner and initializing all other parameters (hall, entrance, towers, coins)
@@ -101,6 +94,23 @@ public class GameBoard implements Serializable {
     public int getStudentsHall(Color color)
     {
         return hall.get(color);
+    }
+
+    /**
+     * Returns list of all students present in the hall
+     * @return list of students
+     */
+    public List<Color> getAllStudentsHall(){
+        List<Color> out = new ArrayList<>();
+        for(Color c : Color.values())
+        {
+            int amount = hall.get(c);
+
+            for (int i = 0; i < amount; i++)
+                out.add(c);
+        }
+
+        return out;
     }
 
     /**
@@ -206,4 +216,14 @@ public class GameBoard implements Serializable {
 
         }
     }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

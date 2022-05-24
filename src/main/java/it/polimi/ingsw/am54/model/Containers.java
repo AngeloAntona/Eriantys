@@ -95,4 +95,15 @@ public class Containers extends Personality {
         return false;
     }
 
+    /**
+     * Returns number of NoEntry tiles. Used only by botanist
+     * @return amount of NoEntry tiles
+     */
+    public int getNoEntry() {
+        return noEntry;
+    }
+
+    public int getMaxStudents() {
+        return maxStudents;
+    }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
  * Used instead of Game because using Game can cause abstract class instancing exception.
  */
 public class updateMessage {
+    public final int mother;
     public List<Player> players;
     public List<Island> islands;
     public Map<Integer,List<Color>> clouds;
@@ -21,6 +22,7 @@ public class updateMessage {
         this.players = game.listPlayers;
         this.islands = game.islands;
         this.clouds = game.clouds;
+        this.mother = game.MotherNature;
 
         this.modifiers = new ArrayList<>();
         this.containers = new ArrayList<>();

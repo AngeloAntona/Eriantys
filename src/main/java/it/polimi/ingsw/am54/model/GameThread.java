@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am54.model;
 
+import it.polimi.ingsw.am54.model.controllers.GameMessageHandler;
 import it.polimi.ingsw.am54.network.ConnectionManager;
 import it.polimi.ingsw.am54.network.Mage;
 
@@ -51,7 +52,7 @@ public class GameThread extends Thread {
      * if all users are ready calls the start() method. This method is invoked by
      * the commandHandler every time a player finished his initial phase and sends
      * a player_ready message
-     * @see ControlHandler#commandHandler(String, String)
+     * @see GameMessageHandler#commandHandler(String, String)
      */
     public synchronized void checkAndStart(){
         if(clients.size() == numPlayers) {
@@ -67,6 +68,10 @@ public class GameThread extends Thread {
     public void run() {
         game = new Game(gameId, numPlayers,getColorMap());
         System.out.println("Game with id:" + game.getGameID() + " started");
+
+        for (ConnectionManager cm: clients) {
+            game.getPlayerById(cm.getClientID()).getGameBoard().setUsername(cm.getUsername());
+        }
         while (game.winner == 0 && !disconnected) {
             game.nextRound();
             game.clouds = game.getClouds();

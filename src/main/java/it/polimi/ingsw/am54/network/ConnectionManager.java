@@ -3,8 +3,9 @@ package it.polimi.ingsw.am54.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.am54.model.GameThread;
-import it.polimi.ingsw.am54.model.ControlHandler;
+import it.polimi.ingsw.am54.model.*;
 import it.polimi.ingsw.am54.model.TColor;
+import it.polimi.ingsw.am54.model.controllers.MessageHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,7 +24,7 @@ public class ConnectionManager extends Thread{
     private int clientID;
     private String username = null;
     private TColor selectedTower = null;
-    private ControlHandler controlHandler;
+    private MessageHandler controlHandler;
     private boolean turnEnd;
 
     private final Socket socket;
@@ -49,7 +50,7 @@ public class ConnectionManager extends Thread{
 
     @Override
     public void run() {
-        controlHandler = new ControlHandler();
+        controlHandler = new MessageHandler();
         while (alive)
         {
             try{
@@ -57,7 +58,7 @@ public class ConnectionManager extends Thread{
                 if(input.contains("join_game"))
                     controlHandler.joinGame(getParameter(input), games, this);// solo se si fa join_game si devono inviare anche le partite e riferimento a connectionManager
                 else
-                    controlHandler.commandHandler(getCommand(input), getParameter(input)); // gestisce i commandi
+                    controlHandler.Handle(getCommand(input), getParameter(input)); // gestisce i commandi
             } catch (SocketException e){ //this handles client disconnection
                 controlHandler.getGameThread().playerDisconnected(this);
             }
@@ -76,6 +77,8 @@ public class ConnectionManager extends Thread{
         try {
             this.objectToClient.writeObject(out);
             this.objectToClient.flush();
+        } catch (SocketException e){
+            controlHandler.getGameThread().playerDisconnected(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

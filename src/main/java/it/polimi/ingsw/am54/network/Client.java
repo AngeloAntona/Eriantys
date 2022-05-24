@@ -22,6 +22,7 @@ public class Client {
     private static Mage mage;
     private static TColor towerColor;
 
+    static Socket socket = new Socket();
     static ObjectInputStream objectFromServer;
     protected static ObjectOutputStream objectToServer;
     private static final Gson gson = new GsonBuilder().create();
@@ -35,7 +36,7 @@ public class Client {
 
         try{//tries to connect to given server if it exists and has open port
             Socket socket = view.connectToServer();
-           // view.printFile("src/main/resources/CLI_images/banner.txt");
+            //view.printFile("src/main/resources/CLI_images/banner.txt");
             //creates input and output streams for objects
             //NOTE: Order of streams is important in both server and client, can cause error invalid stream header
             objectToServer = new ObjectOutputStream(socket.getOutputStream());
@@ -65,7 +66,8 @@ public class Client {
     protected static boolean joinGame() throws IOException {
 
         String selection = view.joinGame();
-        boolean advanced = getParameter(selection).equals("yes");
+        System.out.println(selection);
+        boolean advanced = getParameter(selection).equals("true");
         sendObject("join_game", selection);
         String response = receiveCommand();
 
@@ -152,7 +154,8 @@ public class Client {
     }
 
     protected static void waitState() {
-        view.displayMessage("\rPlease wait for your turn");
+        view.displayWait();
+        //view.displayString("\rPlease wait for your turn");
 
         String response = receiveCommand();
         switch (getCommand(response)) {
@@ -187,7 +190,7 @@ public class Client {
         view.setCardPlayed(selectedCard);
         view.removeFromHand(selectedCard);
         view.displayMessage("OK");
-         waitState();
+        waitState();
     }
 
     protected static void moveStudents() {
@@ -213,6 +216,7 @@ public class Client {
             sendObject("move_students", out);
             response = receiveCommand();
         }while (!getCommand(response).equals("ACK"));
+        view.removeStudents(out);
         view.setMovedInTurn(movedInTurn + moved);
         if(view.getMovedInTurn() == 3)
             view.removeCommand("move_students");
@@ -270,17 +274,35 @@ public class Client {
 
     private static void gameplay() {
         boolean done = false;
+        view.setMovedInTurn(0);
         view.nextRound();
-        String command, response;
+        String command;
         while (!done){
             command = view.commandSelection();
             switch (command) {
                 case "move_students" -> moveStudents();
                 case "move_mn" -> moveMN();
                 case "select_cloud" -> {cloudSelection(); done = true;}
+                case "use_personality" -> usePersonality();
             }
         }
         waitState();
+    }
+
+    private static void usePersonality() {
+        String response = null;
+        JsonObject object;
+        do{
+            if(response != null && getCommand(response).equals("ERR"))
+            {
+                view.displayMessage("Error: "+ getParameter(response));
+            }
+            object = view.usePersonality();
+            if(object == null)
+                return;
+            sendObject("use_personality", object);
+            response = receiveCommand();
+        }while (!getCommand(response).equals("ACK"));
     }
 
     private static void cloudSelection() {
@@ -321,8 +343,6 @@ public class Client {
         }
 
     }
-
-
 
     /**
      * waits a response from the server and returns the received response.

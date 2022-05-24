@@ -1,7 +1,13 @@
 package it.polimi.ingsw.am54.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am54.model.Constants.CONTAINERS_PERSONALITIES;
@@ -81,7 +87,6 @@ public class Game implements Serializable {
             Player player = new Player(i);
             listPlayers.add(player);
         }
-
         /*for each player adds Towers*/
         int numTower = (numPlayers == 3) ? 6 : 8;
 
@@ -116,11 +121,27 @@ public class Game implements Serializable {
 
             }
         }
+        /*places mother nature to random island and finds it's opposite*/
+        MotherNature = ThreadLocalRandom.current().nextInt(1, 12 + 1);
+        int opposite = (MotherNature > 6) ? MotherNature - 6 : MotherNature + 6;
+
+        /* creates list of available students to be placed on islands*/
+        List<Color> studentsForIslands = new ArrayList<>();
+        for(Color c : Color.values()){
+            studentsForIslands.addAll(List.of(c,c));
+        }
 
         /* it creates the empty islands */
         for (int i = 1; i <= ISLANDS_AT_START_OF_GAME; i++) {
             Island island = new Island(i, 0);
             islands.add(island);
+        }
+
+        for (Island is: islands) {
+            if(is.getID() != opposite && is.getID() != MotherNature) {
+                Collections.shuffle(studentsForIslands);
+                is.addStudents(List.of(studentsForIslands.remove(0)));
+            }
         }
 
         /* it creates the list of prof*/
@@ -137,6 +158,8 @@ public class Game implements Serializable {
 
         bag = new Bag(); //creates instance of Bag
 
+        addStudentsToPersonalities();
+
         /*sets initial students to the Entrance of every player*/
         int initialStudents = (numPlayers == 3) ? 9 : 7;
         for(Player p : listPlayers) {
@@ -148,6 +171,18 @@ public class Game implements Serializable {
             p.getGameBoard().addStudentsEnter(studentsEntering);
         }
 
+    }
+
+    private void addStudentsToPersonalities() {
+        for(Personality p : listPersonality)
+            if(p.getClass() == Containers.class && !p.name.equals("botanist")){
+                List<Color> students = new ArrayList<>();
+
+                for (int i = 0; i < ((Containers) p).getMaxStudents(); i++)
+                    students.add(bag.getNextStudent());
+
+                ((Containers) p).addNewStudents(students);
+            }
     }
 
     /**
@@ -287,7 +322,8 @@ public class Game implements Serializable {
             if (prof.getOwner() != p.getPlayerId() && p.getGameBoard().getStudentsHall(c) > 0) {// ensures that professor are not added more the once to player
                 if (p.getGameBoard().getStudentsHall(prof.getColor()) == tmpList.get(1).getGameBoard().getStudentsHall(prof.getColor())) {
                     // these conditions ensure that if two players have same number of students of selected color, professor is assigned to one of them only if there is active personality card Baker
-                    if (getPersonalityWithName("baker") != null && getPersonalityWithName("baker").isActive() && getPersonalityWithName("baker").getOwner() == p.getPlayerId())
+                    Personality baker = getPersonalityWithName("baker");
+                    if (baker != null && baker.isActive() && baker.getOwner() == p.getPlayerId())
                         p.getGameBoard().addProf(prof);
                 }
                 else {
@@ -295,7 +331,12 @@ public class Game implements Serializable {
                 }
             }
 
+
+
         }
+        Personality tmp = getActivePersonality();
+        if( tmp != null && tmp.getName().equals("baker"))
+            tmp.setActive(false);
     }
 
     /**
@@ -328,7 +369,7 @@ public class Game implements Serializable {
      * Handles movement of Mother Nature
      * @param playerID player whose turn is to play
      */
-    protected void moveMN(int playerID, int playerSelection) {
+    public void moveMN(int playerID, int playerSelection) {
 
         int maxMoves = getPlayerById(playerID).getHand().getCardPlayed().getMaxMoves();
 
@@ -337,8 +378,6 @@ public class Game implements Serializable {
             getPersonalityWithName("archer").setActive(false);
         }
 
-         //playerSelection this value will arrive from player and should be between 1 and maxMoves (for now is used as parameter)
-        //TODO playerSelection
 
         if (maxMoves < playerSelection || playerSelection <= 0) {
             throw new RuntimeException("Invalid selection");
@@ -369,7 +408,7 @@ public class Game implements Serializable {
      * @param student  Color of student to be moved
      * @throws RuntimeException if selected student is not in player's entrance
      */
-    protected void moveStudents(int playerId, int where, Color student) {
+    public void moveStudents(int playerId, int where, Color student) {
         Player p = getPlayerById(playerId);
 
         if (!p.getGameBoard().getStudentsEnter().contains(student)) {
@@ -457,25 +496,6 @@ public class Game implements Serializable {
      * @throws RuntimeException if player doesn't exist
      * @throws RuntimeException if player doesn't have enough money to buy personality
      */
-    protected void buyPersonality(int playerID, Personality personality) {
-        Player player = getPlayerById(playerID);
-
-        if (getPersonalityWithName(personality.getName()) == null)
-            throw new RuntimeException("Non existing personality");
-
-        if (player == null)
-            throw new RuntimeException("Non existing player");
-
-        if (listPlayers.get(playerID - 1).getGameBoard().getCoins() < personality.getCost())
-            throw new RuntimeException("Not enough money");
-
-        player.getGameBoard().spendCoins(personality.getCost()); //decreases amount of coins that player has
-
-        personality.setOwner(playerID);//changes card owner
-        personality.increaseCost();//increases cost for future uses of Personality card
-        //personality.setActive(ture);
-        //usePersonalityPower(personality); in case that personality is used immediately after being bought
-    }
 
     /**
      * Generates clouds accordingly with number of players.<br>
@@ -583,56 +603,79 @@ public class Game implements Serializable {
         return List.copyOf(listProfessors);
     }
 
-    /**
+    /*
      * Handles effects of activated card. <br>
      * Effects are determined based on card name
      *
      * @param card selected personality card
      */
-    protected void usePersonalityPower(Personality card) {
-        if(getActivePersonality() == null || !getActivePersonality().equals(card))
-            throw new RuntimeException("Selected person is not active");
+    public String usePersonalityPower(Personality card, int playerID, JsonObject object) {
+        Player player = getPlayerById(playerID);
 
-        Player player = getPlayerById(card.getOwner());
+        if (getPersonalityWithName(card.getName()) == null || !listPersonality.contains(card))
+            return  "Non existing personality";
 
+        if (player == null)
+            return ("Non existing player");
+
+        if (getPlayerById(playerID).getGameBoard().getCoins() < card.getCost())
+            return ("Not enough money");
+
+        player.getGameBoard().spendCoins(card.getCost()); //decreases amount of coins that player has
+
+        card.setOwner(playerID);//changes card owner
+        card.increaseCost();//increases cost for future uses of Personality card
+        card.setActive(true);
+
+        String error = null;
         if(CONTAINERS_PERSONALITIES.containsKey(card.getName()))
-            useContainersPower((Containers) card,player);
+            error = useContainersPower((Containers) card,player, object);
         else
-            useModifierPower((Modifier) card,player);
+            error = useModifierPower((Modifier) card,player, object);
 
-        card.setActive(false);
+        if(error != null)
+            return error;
+
+        return "OK"; // id everything went according to plane;
     }
 
 
-    private void useContainersPower(Containers card, Player player)
+    private String useContainersPower(Containers card, Player player, JsonObject object)
     {
+        Gson gson = new GsonBuilder().create();
         GameBoard gb = player.getGameBoard();
         switch (card.getName()){
             case "botanist" -> {
-                int is = getIslandPosition(card.chooseIsland());
+                int is = Integer.parseInt(object.get("island").toString());
+                if(getIslandPosition(is) == -1)
+                    return ("Island with id " + is + "doesn't exist");
                 if (!card.useTile()) {
-                    throw new RuntimeException("No more tiles available"); // will be replaced in the future
+                    return ("No more tiles available");
                 }
-                else {
-                    islands.get(is).setNoEntry(true);
-                }
+
+                islands.get(getIslandPosition(is)).setNoEntry(true);
+
             }
             case "winemaker" -> {
-                int selectedIsland = 1;
-                Color student = Color.GREEN;
-                //TODO add player selection (to change also usePersonalityPower)
-                selectedIsland = getIslandPosition(selectedIsland);
+                Color student = Color.valueOf(gson.fromJson(object.get("color") .toString(), new TypeToken<String>(){}.getType()));
+                int selectedIsland = Integer.parseInt(object.get("island").toString());
+
+                if(getIslandPosition(selectedIsland) == -1)
+                    return ("Island with id " + selectedIsland + "doesn't exist");
 
                 card.removeStudents(List.of(student));
-                islands.get(selectedIsland).addStudents(List.of(student));
+                islands.get(getIslandPosition(selectedIsland)).addStudents(List.of(student));
                 card.addNewStudents(List.of(bag.getNextStudent()));
             }
             case "jester" -> {
-                // the color values are random, we need to change that when
-                // player selection is implemented
-                List<Color> studentsFromCard = List.of(Color.BLUE, Color.RED);
-                List<Color> studentsFromEntrance = List.of(Color.GREEN, Color.YELLOW);
-                //TODO add player selection
+
+                String fromCard = object.get("studentsFromCard").toString();
+                String fromEntrance = object.get("studentsFromEntrance").toString();
+                List<Color> studentsFromCard = gson.fromJson(fromCard, new TypeToken<List<Color>>(){}.getType());
+                List<Color> studentsFromEntrance = gson.fromJson(fromEntrance, new TypeToken<List<Color>>(){}.getType());
+
+                if(gb.getStudentsEnter().containsAll(studentsFromEntrance) || card.getStudents().containsAll(studentsFromCard))
+                    return "Not all selected students present";
 
                 card.removeStudents(studentsFromCard);
                 card.addNewStudents(studentsFromEntrance);
@@ -640,38 +683,53 @@ public class Game implements Serializable {
                 gb.addStudentsEnter(studentsFromCard);
             }
             case "courtesan" -> {
-                Color selectedStudent = Color.RED;
-                //TODO add player selection
+                Color selectedStudent = Color.valueOf(gson.fromJson(object.get("color") .toString(), new TypeToken<String>(){}.getType()));
+
+                if(!card.getStudents().contains(selectedStudent))
+                    return "Select student is not on the card";
+
                 card.removeStudents(List.of(selectedStudent));
                 gb.addStudentHall(selectedStudent);
                 card.addNewStudents(List.of(bag.getNextStudent()));
             }
         }
+        card.setActive(false);
+        return null;
     }
 
 
-    private void useModifierPower(Modifier card, Player player){
+    private String useModifierPower(Modifier card, Player player, JsonObject object){
         GameBoard gb = player.getGameBoard();
+        Gson gson = new GsonBuilder().create();
         switch (card.getName()) {
 
             case "pirate" -> {
-                int selectedIsland = 1;
-                //TODO add player selection
+                int selectedIsland = Integer.parseInt(object.get("island").toString());
+
+                if(getIslandPosition(selectedIsland) == -1)
+                    return ("Island with id " + selectedIsland + "doesn't exist");
+
                 selectedIsland = getIslandPosition(selectedIsland);
                 islandDomination(islands.get(selectedIsland));
             }
 
             case "glutton" -> {
-                Color selectedColor = null;
-                //TODO player selection
+                Color selectedColor = Color.valueOf(gson.fromJson(object.get("color") .toString(), new TypeToken<String>(){}.getType()));
                 card.setNoColor(selectedColor);
+                return null;
             }
 
             case "cantor" -> {
-                List<Color> studentsFromHall = new ArrayList<>();
-                List<Color> studentsFromEntrance = new ArrayList<>();
-                //TODO player selection
-                             gb.removeStudentsEnter(studentsFromEntrance);
+
+                String fromHall = object.get("studentsFromHall").toString();
+                String fromEntrance = object.get("studentsFromEntrance").toString();
+                List<Color> studentsFromHall = gson.fromJson(fromHall, new TypeToken<List<Color>>(){}.getType());
+                List<Color> studentsFromEntrance = gson.fromJson(fromEntrance, new TypeToken<List<Color>>(){}.getType());
+
+                if(gb.getStudentsEnter().containsAll(studentsFromEntrance) || gb.getAllStudentsHall().containsAll(studentsFromHall))
+                    return "Not all selected students present";
+
+                gb.removeStudentsEnter(studentsFromEntrance);
                 gb.addStudentsEnter(studentsFromHall);
 
                 for (Color c : studentsFromHall) {
@@ -683,10 +741,8 @@ public class Game implements Serializable {
             }
 
             case "witch" -> {
-                Color selectColor = null;
+                Color selectColor = Color.valueOf(gson.fromJson(object.get("color") .toString(), new TypeToken<String>(){}.getType()));
                 int totRemoved = 0, studentCount;
-
-                //TODO player Selection
 
                 for (Player ply : listPlayers) {
                     studentCount = ply.getGameBoard().getStudentsHall(selectColor);
@@ -700,8 +756,12 @@ public class Game implements Serializable {
                 for (int i = 0; i < totRemoved; i++)
                     bag.addStudents(List.of(selectColor));
             }
+            default -> {  //knight, faun, baker and archer are used in other method (islandDomination *2 , controlsProf, moveMN)
+                return null;}
         }
-        //knight, faun, baker and archer are used in other method (islandDomination *2 , controlsProf, moveMN)
+        card.setActive(false);
+        return null;
+
     }
 
     /**
@@ -724,7 +784,7 @@ public class Game implements Serializable {
      * @param name Name of personality
      * @return personality with selected name (null if not present in list)
      */
-    protected Personality getPersonalityWithName(String name) {
+    public Personality getPersonalityWithName(String name) {
         for (Personality person : listPersonality) {
             if (person.getName().equals(name))
                 return person;
@@ -733,7 +793,7 @@ public class Game implements Serializable {
         return null;
     }
 
-    protected int getIslandPosition(int id) {
+    public int getIslandPosition(int id) {
         Island island = islands.stream()
                 .filter(isl -> id == (isl.getID()))
                 .findAny()
@@ -744,7 +804,7 @@ public class Game implements Serializable {
         return islands.indexOf(island);
     }
 
-    protected Player getPlayerById(int pid){
+    public Player getPlayerById(int pid){
         return listPlayers.stream() //finds player who is owner of card
                 .filter(ply -> pid == (ply.getPlayerId()))
                 .findAny()
