@@ -14,18 +14,34 @@ UML diagramm:
 | Functionality         | State           |
 | --------------------- |:---------------:|
 | Basic Rules           | :green_circle:  | 
-| Complete Rules        | :yellow_circle: |
-| CLI                   | :yellow_circle: |
-| GUI                   | :red_circle:    |
-| Socket                | :yellow_circle: |
-| All Personality Cards | :yellow_circle: |
-| Game for 4 players    | :yellow_circle: |
-| Multiple games        | :yellow_circle: |
+| Complete Rules        | :green_circle:  |
+| CLI                   | :green_circle:  |
+| GUI                   | :green_circle:  |
+| Socket                | :green_circle:  |
+| All Personality Cards | :green_circle:  |
+| Game for 4 players    | :green_circle:  |
+| Multiple games        | :green_circle:  |
 
 ### Legend
 - :green_circle: Implemented
 - :yellow_circle: Implementing
 - :red_circle: Not Implemented
+
+
+## Running
+Both Serer and Client sides are implemented in singl jar file called EriantysAM54.jar
+### Server
+To run Server enter next line in terminal/cmd:
+
+`java -jar EriantysAM54.jar --server [portnumber]`
+### Client
+To run Client:
+  * with graphical interface: 
+   `java -jar EriantysAM54.jar --client`
+ 
+  * without graphical interface: 
+  `java -jar EriantysAM54.jar --client cli`
+
 
 ## Members of group
 | Name                                                  | Email                         |
