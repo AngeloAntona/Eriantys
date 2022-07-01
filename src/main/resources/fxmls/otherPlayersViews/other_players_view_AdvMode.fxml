@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="1044.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.otherPlayersController">
+   <children>
+      <Text layoutX="31.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prof:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="32.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Islands:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="32.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Magic Card:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <AnchorPane fx:id="professors" layoutX="74.0" layoutY="82.0">
+         <children>
+            <ImageView fx:id="blueProf" fitHeight="43.0" fitWidth="43.0">
+               <image>
+                  <Image url="@../../GUI_images/wooden_pieces/teacher_blue.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="greenProf" fitHeight="43.0" fitWidth="43.0" layoutX="50.0">
+               <image>
+                  <Image url="@../../GUI_images/wooden_pieces/teacher_green.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkProf" fitHeight="43.0" fitWidth="43.0" layoutX="100.0">
+               <image>
+                  <Image url="@../../GUI_images/wooden_pieces/teacher_pink.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redProf" fitHeight="43.0" fitWidth="43.0" layoutX="150.0">
+               <image>
+                  <Image url="@../../GUI_images/wooden_pieces/teacher_red.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowProf" fitHeight="43.0" fitWidth="43.0" layoutX="200.0">
+               <image>
+                  <Image url="@../../GUI_images/wooden_pieces/teacher_yellow.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Text layoutX="32.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tower Color:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="towerColor" fitHeight="43.0" fitWidth="43.0" layoutX="145.0" layoutY="212.0">
+         <image>
+            <Image url="@../../GUI_images/wooden_pieces/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="92.0" layoutY="126.0">
+         <image>
+            <Image url="@../../GUI_images/cerchio%20nero%20pieno.png" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+      </ImageView>
+      <Text fx:id="numIslands" layoutX="111.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="magicCard" layoutX="142.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="none">
+         <font>
+            <Font name="System Italic" size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="userName" layoutX="87.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName1" wrappingWidth="139.58410234493306">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <effect>
+            <Bloom />
+         </effect>
+      </Text>
+      <ImageView fx:id="YourTurnImage" fitHeight="58.0" fitWidth="65.0" layoutX="22.0" layoutY="20.0">
+         <image>
+            <Image url="@../../GUI_images/its_his_turn.png" />
+         </image>
+      </ImageView>
+      <AnchorPane disable="true" layoutX="291.0" layoutY="11.0" mouseTransparent="true" prefHeight="249.0" prefWidth="432.0">
+         <children>
+            <fx:include fx:id="gameboard" scaleX="0.87" scaleY="0.87" source="../gameboard.fxml" />
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="assistantCard" fitHeight="200.0" fitWidth="136.0" layoutX="883.0" layoutY="58.0">
+         <image>
+            <Image url="@../../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(3).png" />
+         </image>
+      </ImageView>
+      <Text layoutX="883.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Played:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="156.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coins:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="209.0" layoutY="126.0">
+         <image>
+            <Image url="@../../GUI_images/cerchio%20nero%20pieno.png" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+      </ImageView>
+      <Text fx:id="Coins" layoutX="228.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

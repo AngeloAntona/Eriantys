@@ -6,328 +6,173 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.am54.model.*;
-import it.polimi.ingsw.am54.view.CLI;
+import it.polimi.ingsw.am54.network.exceptions.ServerErrorException;
+import it.polimi.ingsw.am54.network.exceptions.NetworkHandler;
+import it.polimi.ingsw.am54.view.CLIController;
+import it.polimi.ingsw.am54.view.GUIController;
+import it.polimi.ingsw.am54.view.View;
+import it.polimi.ingsw.am54.view.ViewController;
+import it.polimi.ingsw.am54.view.cli.CLI;
+import it.polimi.ingsw.am54.view.gui.GUI;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
+/**
+ * This class represents a client.
+ */
 public class Client {
     private static int id;
-    private static Mage mage;
-    private static TColor towerColor;
-
-    static Socket socket = new Socket();
-    static ObjectInputStream objectFromServer;
+    private static Socket socket;
+    protected static ArrayList<Card> cardsInHand;
+    protected static Card cardPlayed = null;
+    protected static ObjectInputStream objectFromServer;
     protected static ObjectOutputStream objectToServer;
     private static final Gson gson = new GsonBuilder().create();
-    protected static CLI view;
+    public static ViewController viewController;
+    private static View view;
+    private static int movedInTurn = 0;
+    private static GameBoard myGameBoard = null;
 
+    public static void startGame(){
+        sendText("player_ready");
+    }
 
     public static void main(String[] args) {
-        view = new CLI();
-        String add = "localhost";
-        int port = 1800;
+        if (args.length == 1 && args[0].equals("cli")){
+            view = new CLI();
+        } else{
+            view = new GUI();
+        }
+        view.initialize();
+    }
 
-        try{//tries to connect to given server if it exists and has open port
-            Socket socket = view.connectToServer();
-            //view.printFile("src/main/resources/CLI_images/banner.txt");
+    /**
+     * This method tries to establish a connection to the server with the address and the port specified.
+     * If successful creates an ObjectOutputStream and an ObjectInputStream from the socket.
+     * @param address address of the server to connect to
+     * @param port port of the server to connect to
+     * @throws UnknownHostException if the address specified isn't a valid address
+     * @throws IOException if the connection fails
+     */
+    public static void connectToServer(String address, int port) throws IOException {
+        try{
+            //tries to connect to given server if it exists and has open port
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(address,port), 500);
             //creates input and output streams for objects
             //NOTE: Order of streams is important in both server and client, can cause error invalid stream header
             objectToServer = new ObjectOutputStream(socket.getOutputStream());
             objectFromServer = new ObjectInputStream(socket.getInputStream());
+        } catch (UnknownHostException e) {
+            throw new UnknownHostException();
+        } catch (IOException e){
+            throw new IOException(e);
+        }
+    }
 
-
-           if(!joinGame())
-                System.exit(404);
-            setUsername();
-            selectMage();
-            selectTowerColor();
-            sendText("player_ready");
-
-            if(getCommand(receiveCommand()).equals("wait"))
-                waitState();
-
-            sendText("end");
+    /**
+     * Sends and "end" message to the server which tells the server to close the current game.
+     * This method also closes the socket and the Application.
+     */
+    public static void end(){
+        sendText("end");
+        try {
+            objectFromServer.close();
+            objectToServer.close();
             socket.close(); //closes connection
+            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
-
-    protected static boolean joinGame() throws IOException {
-
-        String selection = view.joinGame();
-        System.out.println(selection);
-        boolean advanced = getParameter(selection).equals("true");
-        sendObject("join_game", selection);
+    /**
+     * Sends a "join_game" message to the server. If the server responds with an ACK
+     * this method returns the id of the player in the game otherwise throws an exception.
+     * @param options game options in a Json format. These options specify which type of
+     *                game the player wants to join.
+     * @return the id that identifies the player inside a single game.
+     * @throws ServerErrorException if the server doesn't respond with an ack
+     */
+    public static int joinGame(String options) throws ServerErrorException{
+        sendObject("join_game", options);
         String response = receiveCommand();
-
-        if(getCommand(response).equals("ERR")) {
-            view.displayMessage("FATAL ERROR CANNOT CONNECT \n CLOSING APP");
-            sendText("end");
-            return false;
-        }
+        if(!getCommand(response).equals("ACK"))
+            throw new ServerErrorException(getParameter(response));
         id = gson.fromJson(getParameter(response), new TypeToken<Integer>() {}.getType());
-        view.displayMessage("Welcome to the game, your id is " + id);
-        view.setId(id);
-        view.setAdvanced(advanced);
-        return true;
-
+        return id;
     }
 
-    protected static void setUsername() throws IOException {
-
-        String response, username;
-        do{
-            username = view.getUsername();
-            sendObject("set_username", username);
-            response = receiveCommand();
-        }while (!getCommand(response).equals("ACK"));
-
-        view.displayMessage("OK");
-    }
-
-    protected static void selectMage() throws IOException, ClassNotFoundException {
-        List<Mage> available;
-        String response, response2 = null;
-        int selection;
-
-        do {
-            if(response2 != null && getCommand(response2).equals("ERR")){
-                view.displayMessage(getParameter(response2));
-                view.displayMessage("Please select valid mage!");
-            }
-
-            sendText("get_available_mages");
-            response = receiveCommand();
-            if(getCommand(response).equals("ERR")){
-                view.displayMessage("Unexpected server error: " + getParameter(response)); // veramente non aspettiamo che ci da errore qua
-                System.exit(201);
-            }
-            available = gson.fromJson(getParameter(response), new TypeToken<List<Mage>>(){}.getType());
-            selection = view.selectMage(available);
-
-            sendObject("select_mage", available.get(selection));
-
-            response2 = receiveCommand();
-        }while(!getCommand(response2).equals("ACK"));
-        view.displayMessage("OK");
-        mage = available.get(selection);
-    }
-
-    protected static void selectTowerColor() throws IOException, ClassNotFoundException {
-
-        List<TColor> available;
-        String response, response2 = null;
-        int selection;
-
-        do {
-            if(response2 != null && getCommand(response2).equals("ERR")){
-                view.displayMessage(getParameter(response2));
-                view.displayMessage("Please select valid tower color!");
-            }
-
-            sendText("get_available_towers");
-            response = receiveCommand();
-            if(getCommand(response).equals("ERR")){
-                view.displayMessage("Unexpected server error: " + getParameter(response)); // non aspettiamo neanche qua un errore
-                System.exit(201);
-            }
-            available = gson.fromJson(getParameter(response), new TypeToken<List<TColor>>(){}.getType());
-            selection = view.selectTower(available);
-
-            sendObject("select_tower", available.get(selection));
-
-            response2 = receiveCommand();
-        }while(!getCommand(response2).equals("ACK"));
-        view.displayMessage("OK");
-        towerColor = available.get(selection);
-    }
-
-    protected static void waitState() {
-        view.displayWait();
-        //view.displayString("\rPlease wait for your turn");
-
+    /**
+     * this method is used to send command to the server
+     * @param command string command that we need
+     * @param obj object parameter to send to the server
+     * @throws ServerErrorException if the server responds with "ERR"
+     */
+    public static void command(String command, Object obj) throws ServerErrorException{
+        sendObject(command, obj);
         String response = receiveCommand();
-        switch (getCommand(response)) {
-            case "planning_turn" -> selectAssistantCard();
-            case "next_turn" -> gameplay();
-            case "ping" -> pong();
-            case "player_disconnected" -> playerDisconnected(getParameter(response));
-            case "end" -> end();
-            case "wait" -> waitState();
-            case "update" -> update(getParameter(response));
-            default -> view.displayMessage(response);
+        System.out.println("comand: "+command+" response>"+response);
+        if(!getCommand(response).equals("ACK"))
+            throw new ServerErrorException(getParameter(response));
+    }
+
+
+    /**
+     * this method returns the list of the available mages for the initial phase of the game.
+     * The list could be not synchronized with the server. To be sure if a mage is available or not
+     * you have to use selectMage method
+     * @return list of available mages
+     */
+    public static List<Mage> getAvailableMages(){
+        List<Mage> available;
+        sendText("get_available_mages");
+        String response = receiveCommand();
+        if(!getCommand(response).equals("available_mages")){
+            NetworkHandler.unexpectedException(new ServerErrorException(getParameter(response)));
+            return null;
         }
+        available = gson.fromJson(getParameter(response), new TypeToken<List<Mage>>(){}.getType());
+        return available;
     }
 
-
-
-
-    protected static void selectAssistantCard() {
-
-        String response = null;
-        Card selectedCard;
-        do{
-            if(response != null && getCommand(response).equals("ERR")) {
-                view.displayMessage("Error "+ getParameter(response));
-                view.displayMessage("Please select another card");
-            }
-             selectedCard = view.selectAssistantCard();
-            sendObject("select_assistant_card", selectedCard);
-            response = receiveCommand();
-        }while(!getCommand(response).equals("ACK"));
-
-        view.setCardPlayed(selectedCard);
-        view.removeFromHand(selectedCard);
-        view.displayMessage("OK");
-        waitState();
-    }
-
-    protected static void moveStudents() {
-        int movedInTurn = view.getMovedInTurn();
-
-        if(movedInTurn == 3){
-            view.displayMessage("Max number of students already moved");
-            return;
+    /**
+     * this method returns the list of the available color for the initial phase of the game.
+     * @return list of available TowersColors.
+     */
+    public static List<TColor> getAvailableTowerColors(){
+        List<TColor> available;
+        sendText("get_available_towers");
+        String response = receiveCommand();
+        if(!getCommand(response).equals("available_towers")){
+            NetworkHandler.unexpectedException(new ServerErrorException(getParameter(response)));
+            return null;
         }
-
-        JsonObject out;
-        String response = null;
-        int moved;
-        do {
-
-            if (response != null && getCommand(response).equals("ERR")) {
-                view.displayMessage("Error: " + getParameter(response));
-                view.displayMessage("Please try again");
-            }
-
-            out = view.moveStudents();
-            moved = Integer.parseInt(out.get("num_stud").toString());
-            sendObject("move_students", out);
-            response = receiveCommand();
-        }while (!getCommand(response).equals("ACK"));
-        view.removeStudents(out);
-        view.setMovedInTurn(movedInTurn + moved);
-        if(view.getMovedInTurn() == 3)
-            view.removeCommand("move_students");
-        view.displayMessage("OK");
+        available = gson.fromJson(getParameter(response), new TypeToken<List<TColor>>(){}.getType());
+        return available;
     }
 
-
-    protected static void moveMN() {
-
-        if(view.getCardPlayed() == null){
-            view.displayMessage("You need to select assistant card before moving Mother Nature");
-            return;
-        }
-
-        String response = null;
-        int selectedMoves;
-
-        do {
-            if (response != null && getCommand(response).equals("ERR")) {
-                view.displayMessage("Error: " + getParameter(response));
-                view.displayMessage("Please try again");
-            }
-            selectedMoves = view.moveMN();
-            sendObject("move_mn", selectedMoves);
-            response = receiveCommand();
-        } while(!getCommand(response).equals("ACK"));
-        view.removeCommand("move_mn");
-        view.displayMessage("OK");
-
-    }
-
-    public static void update(String json){
-        updateMessage update = gson.fromJson(json, new TypeToken<updateMessage>(){}.getType());
-        view.update(update);
-        waitState();
-    }
-
-
-
-    private static void end() {
-        //TODO
-    }
-
-    private static void playerDisconnected(String nameJson){
-        view.displayMessage("player " + nameJson + " has disconnected");
-        end();
-    }
-
-
-    private static void pong() {
-        sendText("pong");
-        waitState();
-    }
-
-
-    private static void gameplay() {
-        boolean done = false;
-        view.setMovedInTurn(0);
-        view.nextRound();
-        String command;
-        while (!done){
-            command = view.commandSelection();
-            switch (command) {
-                case "move_students" -> moveStudents();
-                case "move_mn" -> moveMN();
-                case "select_cloud" -> {cloudSelection(); done = true;}
-                case "use_personality" -> usePersonality();
-            }
-        }
-        waitState();
-    }
-
-    private static void usePersonality() {
-        String response = null;
-        JsonObject object;
-        do{
-            if(response != null && getCommand(response).equals("ERR"))
-            {
-                view.displayMessage("Error: "+ getParameter(response));
-            }
-            object = view.usePersonality();
-            if(object == null)
-                return;
-            sendObject("use_personality", object);
-            response = receiveCommand();
-        }while (!getCommand(response).equals("ACK"));
-    }
-
-    private static void cloudSelection() {
-        String response = null;
-        int cloud;
-
-        do{
-            if(response != null && getCommand(response).equals("ERR"))
-            {
-                view.displayMessage("Error: " + getParameter(response));
-                view.displayMessage("Please repete selection");
-            }
-            cloud = view.selectCloud();
-            sendObject("select_cloud", cloud);
-            response = receiveCommand();
-        }while (!getCommand(response).equals("ACK"));
-
-
-        view.removeCommand("select_cloud");
-    }
-
-
+    /**
+     * Allows you to send a textMessage.
+     * @param message
+     */
     public static void sendText(String message)  {
        sendObject(message, null);
     }
+
+    /**
+     * Allows you to send an objectMessage.
+     * @param command
+     * @param o
+     */
     public  static  void sendObject(String command, Object o)  {
         String out;
         if(o != null) {
@@ -338,28 +183,91 @@ public class Client {
         try {
             objectToServer.writeObject(out);
             objectToServer.flush();
+        } catch (SocketException e){
+            System.exit(1);
+            //throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.exit(1);
+            //throw new RuntimeException(e);
         }
 
     }
 
     /**
-     * waits a response from the server and returns the received response.
+     * @return viewController
+     */
+    public static ViewController getViewController() {
+        return viewController;
+    }
+
+    /**
+     * waits for a response from the server and returns the received response.
      * @return response from server
      */
     public static String receiveCommand(){
         try {
-            return (String) objectFromServer.readObject();
+            String resp = (String) objectFromServer.readObject();
+
+            if(resp.contains("player_disconnected")) {
+                NetworkHandler.handleDisconnect(getParameter(resp));
+                return null;
+            }
+            if(resp.contains("ping")) {
+                NetworkHandler.ping();
+                return receiveCommand();
+            }
+            if(resp.contains("update")){
+                Gson gson = new Gson();
+                String json = getParameter(resp);
+                updateMessage update = gson.fromJson(json, new TypeToken<updateMessage>(){}.getType());
+                viewController.update(update);
+                return receiveCommand();
+            }
+            return resp;
+        } catch (SocketException e){
+            end();
+            throw new RuntimeException(e);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * It is used after a move, when it expects an update of moves made by the same client who receives the update.
+     */
+    public static void receiveSelfUpdate(){
+        String resp;
+        try {
+            resp = (String) objectFromServer.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(resp.contains("update")){
+            Gson gson = new Gson();
+            String json = getParameter(resp);
+            updateMessage update = gson.fromJson(json, new TypeToken<updateMessage>(){}.getType());
+            viewController.update(update);
+        }else{
+            viewController.displayMessage("Error while updating data, some data may not been updated");
+        }
+    }
+
+    /**
+     *it is used to extract the command from the message received from the server.
+     * @param input
+     * @return
+     */
     public static String getCommand(String input){
         if(input == null || input.isEmpty() || input.split(" ", 2)[0].isEmpty())
             return null;
         return input.split(" ", 2)[0];
     }
+
+    /**
+     *it is used to extract the parameter from the message received from the server.
+     * @param input
+     * @return
+     */
     public static String getParameter(String input){
         if(input == null || input.isEmpty() || input.split(" ", 2)[1].isEmpty())
             return null;

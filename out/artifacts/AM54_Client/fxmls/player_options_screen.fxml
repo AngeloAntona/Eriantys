@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgb(100, 149, 237);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.InitialPhaseController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isola grande.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="109.0" fitWidth="112.0" layoutX="419.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="216.0" AnchorPane.rightAnchor="69.20513153076172">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isoletta1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="109.0" fitWidth="138.0" layoutX="279.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="203.65816497802734">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isoletta 3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="56.0" fitWidth="276.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/titolo_eriantis_bianco.png" />
+         </image>
+      </ImageView>
+      <Line endX="465.0" endY="-3.814697265625E-6" layoutX="115.0" layoutY="56.0" startX="-100.0" style="-fx-stroke: white;" />
+      <TextField fx:id="nameTextField" depthTest="ENABLE" layoutX="92.0" layoutY="125.0" />
+      <Text fill="WHITE" layoutX="91.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name" wrappingWidth="61.33331298828125" />
+      <Text fill="WHITE" layoutX="278.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tower color " />
+      <ChoiceBox fx:id="towerColorChoice" layoutX="278.0" layoutY="124.0" onMouseClicked="#checkTower" prefWidth="150.0" />
+      <AnchorPane layoutX="516.0" layoutY="38.0" prefHeight="56.0" prefWidth="65.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="28.0">
+         <children>
+            <Polygon fx:id="continueButton" layoutX="52.0" layoutY="38.0" onMouseEntered="#exagonalButtonGraphics" onMouseExited="#exagonalButtonGraphics" onMouseClicked="#checkPlayerOptions" points="-37.00001525878906, 18.0, -2.0000152587890625, 18.0, 12.0, -10.0, -2.0000152587890625, -38.0, -37.00001525878906, -38.0, -51.66667175292969, -10.0" stroke="WHITE" strokeType="INSIDE" AnchorPane.rightAnchor="1.3333333333333286" AnchorPane.topAnchor="0.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.43698829412460327" blue="0.5350877046585083" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.23625731468200684" blue="0.8859649300575256" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Polygon>
+            <Text fill="WHITE" layoutX="9.0" layoutY="32.0" mouseTransparent="true" strokeType="OUTSIDE" strokeWidth="0.0" text="continue">
+               <font>
+                  <Font name="Segoe UI Semilight" size="12.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="magePane" layoutX="90.0" layoutY="193.0" prefHeight="134.0" prefWidth="301.0">
+         <children>
+            <Text fill="WHITE" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mage" />
+            <ImageView fx:id="VioletWitch" accessibleRole="BUTTON" fitHeight="109.0" fitWidth="92.0" layoutY="16.0" onMouseClicked="#choicePurpleMage" preserveRatio="true">
+               <image>
+                  <Image url="@../GUI_images/graphical_assets/Assistenti/retro/VioletWitch@3x.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="SkyMagician" accessibleRole="BUTTON" fitHeight="109.0" fitWidth="75.0" layoutX="237.0" layoutY="16.0" onMouseClicked="#choiceBlueMage" preserveRatio="true">
+               <image>
+                  <Image url="@../GUI_images/graphical_assets/Assistenti/retro/SkyMagician@3x.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="HerbMagician" accessibleRole="BUTTON" fitHeight="109.0" fitWidth="90.0" layoutX="158.0" layoutY="16.0" onMouseClicked="#choiceGreenMage" preserveRatio="true">
+               <image>
+                  <Image url="@../GUI_images/graphical_assets/Assistenti/retro/HerbMagician@3x.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="YellowKing" accessibleRole="BUTTON" fitHeight="109.0" fitWidth="78.0" layoutX="79.0" layoutY="16.0" onMouseClicked="#choiceYellowMage" preserveRatio="true">
+               <image>
+                  <Image url="@../GUI_images/graphical_assets/Assistenti/retro/YellowKing@3x.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

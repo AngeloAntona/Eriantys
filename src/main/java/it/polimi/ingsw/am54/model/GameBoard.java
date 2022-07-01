@@ -16,11 +16,20 @@ public class GameBoard implements Serializable {
     public Map<Color, Integer> nextCoin;
     public List<Professor> profControlled;
     public int coins = 0;
+    public TColor towerColor;
     public List<Tower> towers;
+    /**
+     * Additional influence points given by Personality's power.
+     */
+    public int extraInfluence = 0;
+    /**
+     * Additional Mother Nature moves given by Personality's power.
+     */
+    public int extraMoves = 0;
     public String username;
 
     /**
-     * Constructs GameBoard, setting owner and initializing all other parameters (hall, entrance, towers, coins)
+     * Constructs GameBoard, setting owner and initializing all other parameters (hall, entrance, towers, coins).
      * @param owner - playerID of player who is owner of GameBoard
      */
     public GameBoard(int owner) {
@@ -38,7 +47,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Returns owner of GameBoard
+     * Returns owner of GameBoard.
      * @return playerID of player who is owner of GameBoard
      */
     public int getOwner() {
@@ -46,20 +55,20 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Returns number of available coins
+     * Returns number of available coins.
      * @return number of coins
      */
     public int getCoins() {
         return coins;
     }
     /**
-     * Decreases number of available coins
+     * Decreases number of available coins.
      * @param spent number of coins
      */
     public void spendCoins(int spent) {coins -= spent;}
 
     /**
-     * Returns list of students currently present at entrance
+     * Returns list of students currently present at entrance.
      * @return list of students (colors)
      */
     public List<Color> getStudentsEnter() {
@@ -67,7 +76,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Allows adding new students to entrance
+     * Allows adding new students to entrance.
      * @param students list of students (colors)
      */
     public void addStudentsEnter(List<Color> students)
@@ -76,7 +85,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Removes students from entrance
+     * Removes students from entrance.
      * @param students list of students (colors)
      */
     public void removeStudentsEnter(List<Color> students)
@@ -87,7 +96,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Returns number of students of certain color currently present in the hall
+     * Returns number of students of certain color currently present in the hall.
      * @param color color of students
      * @return number of students
      */
@@ -97,7 +106,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Returns list of all students present in the hall
+     * Returns list of all students present in the hall.
      * @return list of students
      */
     public List<Color> getAllStudentsHall(){
@@ -114,7 +123,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Allows adding new student to hall
+     * Allows adding new student to hall.
      * @param student student (color)
      */
     public void addStudentHall(Color student)
@@ -131,7 +140,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Remove students of certain color from the hall
+     * Remove students of certain color from the hall.
      * @param color color of students
      * @param num number of students to be removed
      */
@@ -146,7 +155,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Returns list of professors currently controlled by player
+     * Returns list of professors currently controlled by player.
      * @return list of professors
      */
     public List<Professor> getProf() {
@@ -155,7 +164,7 @@ public class GameBoard implements Serializable {
 
     /**
      * Adds professor to list of controlled professors. <br>
-     * Also changes owner of professor
+     * Also changes owner of professor.
      * @param prof Professor
      */
     public void addProf(Professor prof) {
@@ -166,7 +175,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Removes professor from list of controlled professors
+     * Removes professor from list of controlled professors.
      * @param prof Professor
      */
     public void  removeProf(Professor prof) {
@@ -176,7 +185,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Reruns the list of towers currently available to player
+     * Reruns the list of towers currently available to player.
      * @return list of towers
      */
     public List<Tower> getTowers() {
@@ -185,7 +194,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Adds towers to the list of available towers
+     * Adds towers to the list of available towers.
      * @param newTowers list of towers
      */
     public void addTower(List<Tower> newTowers)
@@ -194,7 +203,7 @@ public class GameBoard implements Serializable {
     }
 
     /**
-     * Removes towers from the list of available towers
+     * Removes towers from the list of available towers.
      * @param twl list of towers
      */
     public void removeTower(List<Tower> twl)
@@ -204,7 +213,11 @@ public class GameBoard implements Serializable {
         }
     }
 
-
+    /**
+     * Checks if a player has filled the "colorX" section of his hall up to the coin box, and if so he gives him a coin.
+     * The threshold for receiving a coin will now be increased to the next coin box.
+     * @param color
+     */
     private void checkCoinIncrease(Color color)
     {
         if(hall.get(color).equals(nextCoin.get(color)))
@@ -217,13 +230,29 @@ public class GameBoard implements Serializable {
         }
     }
 
-
+    /**
+     * returns the username of the gameboard owner.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * set the username of the gameboard owner.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * setter for the color of player's towers
+     * @param color color of player's towers
+     */
+    public void setTowColor(TColor color){ towerColor = color; }
+
+    /**
+     * getter for the color of player's towers
+     * @return color of player's towers
+     */
+    public TColor getTowColor() { return  towerColor; }
 }

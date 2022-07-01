@@ -2,27 +2,6 @@ package it.polimi.ingsw.am54.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.am54.model.Card;
-import it.polimi.ingsw.am54.model.Color;
-import it.polimi.ingsw.am54.model.TColor;
-import it.polimi.ingsw.am54.view.CLI;
-import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import static it.polimi.ingsw.am54.model.Constants.CARD_FOR_EACH_HAND;
-import static java.lang.Thread.interrupted;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ClientTest {
     private final Gson gson = new GsonBuilder().create();

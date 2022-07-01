@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="311.0" minWidth="554.0" prefHeight="311.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.topSplitController">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="300.0" prefWidth="544.0">
+         <children>
+            <ImageView fitHeight="336.0" fitWidth="565.0" layoutX="-11.0" layoutY="-24.0">
+               <image>
+                  <Image url="@../../GUI_images/immagini_sfondo/sfondo mare.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="islandsPane" prefHeight="311.0" prefWidth="554.0">
+               <children>
+                  <AnchorPane fx:id="island1" layoutX="-19.0" layoutY="47.0" onMouseClicked="#selectIsland" prefHeight="46.0" prefWidth="17.0">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island2.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island2" layoutX="172.0" layoutY="-14.0" onMouseClicked="#selectIsland" prefWidth="121.0">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island3.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island3" layoutX="71.0" layoutY="-13.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island1.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island4" layoutX="273.0" layoutY="-14.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island2.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island5" layoutX="368.0" layoutY="-13.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island1.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island6" layoutX="443.0" layoutY="48.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island3.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island7" layoutX="443.0" layoutY="146.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0" layoutY="-1.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island2.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island8" layoutX="357.0" layoutY="186.0" onMouseClicked="#selectIsland" prefHeight="121.0" prefWidth="82.0">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island1.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island9" layoutX="263.0" layoutY="184.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island3.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island10" layoutX="165.0" layoutY="184.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island2.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island11" layoutX="71.0" layoutY="185.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island1.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-16.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="island12" layoutX="-19.0" layoutY="145.0" onMouseClicked="#selectIsland">
+                     <children>
+                        <ImageView fx:id="image" fitHeight="120.0" fitWidth="120.0">
+                           <image>
+                              <Image url="@../../GUI_images/wooden_pieces/island3.png" />
+                           </image>
+                        </ImageView>
+                        <fx:include scaleX="0.8" scaleY="0.8" source="../island.fxml" translateX="-12.0" translateY="-12.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

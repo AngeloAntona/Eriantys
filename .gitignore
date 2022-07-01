@@ -1,5 +1,7 @@
 # Project exclude paths
 /target/
 *.xml
+!pom.xml
 *.iml
 AM54.iml
+out/artifacts/AM54_Client/AM54.jar

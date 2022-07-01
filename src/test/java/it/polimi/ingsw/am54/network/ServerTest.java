@@ -25,14 +25,14 @@ class ServerTest {
         int old = server.games.size();
         assertEquals(0, old);
         Thread t = new Thread(() -> {
-            server.main(new String[]{""});
+            server.main(new String[]{"",""});
         });
         t.start();
 
 
         try {
             Thread.sleep(500);
-            Socket socket = new Socket("localhost", 1800);
+            Socket socket = new Socket("localhost", 1802);
             ObjectOutputStream objectToServer = new ObjectOutputStream(socket.getOutputStream());
 
             String join = "join_game " + gson.toJson("2 true");

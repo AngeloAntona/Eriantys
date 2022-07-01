@@ -18,11 +18,14 @@ public class updateMessage {
     public ArrayList<Modifier> modifiers;
     public ArrayList<Containers> containers;
 
+    public String currentPlayer;
+    public String description;
+
     public updateMessage(Game game){
         this.players = game.listPlayers;
         this.islands = game.islands;
         this.clouds = game.clouds;
-        this.mother = game.MotherNature;
+        this.mother = game.islands.get(game.MotherNature).islandID;
 
         this.modifiers = new ArrayList<>();
         this.containers = new ArrayList<>();

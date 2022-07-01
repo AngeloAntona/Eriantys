@@ -117,11 +117,11 @@ class ConnectionManagerTest {
 
     @Test
     public void setTColor(){
-        int port = 1800;
+        int port = 1802;
         try(ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is listening on port "+ port);
             int id = 0;
-            Thread client = new Thread(() ->{
+            new Thread(() ->{
 
                 try {
                     Thread.sleep(1000);
@@ -129,7 +129,7 @@ class ConnectionManagerTest {
                     throw new RuntimeException(e);
                 }
                 try {
-                    Socket socket = new Socket("localhost", 1800);
+                    Socket socket = new Socket("localhost", 1802);
 
                     ObjectOutputStream objectToServer = new ObjectOutputStream(socket.getOutputStream());
                     ObjectInputStream objectFromServer = new ObjectInputStream(socket.getInputStream());
@@ -157,8 +157,7 @@ class ConnectionManagerTest {
                 }
 
 
-            });
-            client.start();
+            }).start();
 
             Socket socket = serverSocket.accept();
             System.out.println("New client connected: "+ socket.getLocalSocketAddress());
@@ -180,44 +179,50 @@ class ConnectionManagerTest {
 
     @Test
     public void readyToPlayTest(){
-        int port = 1800;
+        int port = 1802;
         try(ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is listening on port "+ port);
             int id = 0;
-            Thread client = new Thread(() ->{
-
+             new Thread(() ->{
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    Socket socket = new Socket("localhost", 1800);
+                    Socket socket = new Socket("localhost", 1802);
 
                     ObjectOutputStream objectToServer = new ObjectOutputStream(socket.getOutputStream());
                     ObjectInputStream objectFromServer = new ObjectInputStream(socket.getInputStream());
-
                     String join = "join_game " + gson.toJson("2 true");
                     objectToServer.writeObject(join);
+                    String username = "set_username " + gson.toJson("test");
+                    objectToServer.writeObject(username);
+                    String mage = "select_mage " + gson.toJson(Mage.valueOf("VioletWitch"));
+                    objectToServer.writeObject(mage);
+                    String tower = "select_tower " + gson.toJson(TColor.valueOf("WHITE"));
+                    objectToServer.writeObject(tower);
+
                     String test = "player_ready";
                     objectToServer.writeObject(test);
+                    String cards = "get_cards";
+                    objectToServer.writeObject(cards);
                     objectToServer.flush();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
-            });
-            client.start();
+            }).start();
+
 
             Socket socket = serverSocket.accept();
             System.out.println("New client connected: "+ socket.getLocalSocketAddress());
             ConnectionManager cm = new ConnectionManager(socket, new ArrayList<>());
             cm.setAlive(true);
             cm.start();
-            while (!cm.isReadyToStart())
+
+            while (!cm.isReadyToStart()) {
                 Thread.sleep(500);
+            }
 
             assertTrue(cm.isReadyToStart());
+
+
             cm.interrupt();
 
         } catch (IOException e) {

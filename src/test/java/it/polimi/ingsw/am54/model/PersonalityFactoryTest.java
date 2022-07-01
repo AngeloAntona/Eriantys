@@ -23,4 +23,22 @@ class PersonalityFactoryTest {
         });
     }
 
+    @Test
+    public void samePersonalityTest(){
+        Personality personality = PersonalityFactory.generate("knight");
+        Personality same = PersonalityFactory.generate("knight");
+        Personality diverse = PersonalityFactory.generate("witch");
+
+        assertTrue(personality.equals(same));
+        assertFalse(personality.equals(diverse));
+    }
+
+    @Test
+    public void personalityHash(){
+        Personality personality = PersonalityFactory.generate("knight");
+        Personality other  = PersonalityFactory.generate("witch");
+
+        assertNotEquals(personality.hashCode(), other.hashCode());
+    }
+
 }

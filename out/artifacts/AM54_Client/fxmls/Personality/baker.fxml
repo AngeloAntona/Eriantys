@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.personalityController">
+   <children>
+      <AnchorPane layoutX="32.0" layoutY="20.0" prefHeight="363.0" prefWidth="541.0">
+         <children>
+            <ImageView fitHeight="327.0" fitWidth="214.0" layoutX="2.0" layoutY="8.0">
+               <image>
+                  <Image url="@../../GUI_images/graphical_assets/Personaggi/baker.jpg" />
+               </image>
+            </ImageView>
+            <Button layoutX="470.0" layoutY="309.0" mnemonicParsing="false" onAction="#bakerBuy" style="-fx-background-color: white;" text="compra" />
+            <AnchorPane layoutX="248.0" layoutY="116.0" prefHeight="89.0" prefWidth="279.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Text layoutX="6.0" layoutY="23.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="Potere della carta:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Durante il turno in cui viene invocata la carta, il giocatore che ne ha attivato l’effetto prende il controllo dei professori anche se nella sua sala ha lo stesso numero di studenti del giocatore che li controlla in quel momento." wrappingWidth="226.0124626159668" />
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="-10.0" layoutY="-2.0">
+               <image>
+                  <Image url="@../../GUI_images/cerchio%20nero%20pieno.png" />
+               </image>
+               <effect>
+                  <ColorAdjust brightness="1.0" />
+               </effect>
+            </ImageView>
+            <Text fx:id="Cost" layoutX="20.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgb(100, 149, 237);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.InitialPhaseController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isola grande.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="109.0" fitWidth="112.0" layoutX="419.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="216.0" AnchorPane.rightAnchor="69.20513153076172">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isoletta1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="109.0" fitWidth="138.0" layoutX="279.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="203.65816497802734">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/isoletta 3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="56.0" fitWidth="276.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0">
+         <image>
+            <Image url="@../GUI_images/immagini_sfondo/titolo_eriantis_bianco.png" />
+         </image>
+      </ImageView>
+      <Line endX="465.0" endY="-3.814697265625E-6" layoutX="115.0" layoutY="56.0" startX="-100.0" style="-fx-stroke: white;" />
+      <Text fill="WHITE" layoutX="61.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="waiting for players..." wrappingWidth="294.66668701171875">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <Polyline fill="#80ff0000" layoutX="79.0" layoutY="247.0" points="176.33331298828125, -24.333328247070312, 176.33331298828125, -36.99998474121094, 199.34185791015625, -16.333328247070312, -37.0, -16.333328247070312" stroke="WHITE" strokeType="INSIDE" />
+   </children>
+   <cursor>
+      <Cursor fx:constant="WAIT" />
+   </cursor>
+</AnchorPane>

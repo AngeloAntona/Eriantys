@@ -18,7 +18,7 @@ public class TColorTest {
     public void stringTest()
     {
         assertEquals("BLACK", TColor.BLACK.toString());
-        assertEquals("GRAY", TColor.GRAY.toString());
+        assertEquals("GREY", TColor.GREY.toString());
         assertEquals("WHITE", TColor.WHITE.toString());
     }
 }

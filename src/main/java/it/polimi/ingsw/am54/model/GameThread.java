@@ -4,13 +4,10 @@ import it.polimi.ingsw.am54.model.controllers.GameMessageHandler;
 import it.polimi.ingsw.am54.network.ConnectionManager;
 import it.polimi.ingsw.am54.network.Mage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * This class controls game and asks players for input that is directly connected to gameplay
+ * This class controls game and asks players for input that is directly connected to gameplay.
  */
 public class GameThread extends Thread {
     private boolean advancedMode;
@@ -22,9 +19,11 @@ public class GameThread extends Thread {
     private final ArrayList<TColor> towerColors; //colour of towers available for client's choice
     private ArrayList<Card> playedCards; //list of already played cards in current turn
     private  Game game;
+    private String currentPlayer;
+    private String moveDescription;
 
     /**
-     * Constructor that sets gameID and number of players, also it initialises data necessary for the game
+     * Constructor that sets gameID and number of players, also it initialises data necessary for the game.
      * @param id game identification
      * @param numPlayers total number of players
      */
@@ -40,7 +39,7 @@ public class GameThread extends Thread {
         if(numPlayers == 2 || numPlayers == 4)
         {
             for(TColor t : TColor.values())
-                if(!t.equals(TColor.GRAY))
+                if(!t.equals(TColor.GREY))
                     towerColors.add(t);
         }
         else if(numPlayers == 3)
@@ -48,10 +47,10 @@ public class GameThread extends Thread {
     }
 
     /**
-     * this method checks if all users are ready (have finished the setup phase)
+     * this method checks if all users are ready (have finished the setup phase).
      * if all users are ready calls the start() method. This method is invoked by
      * the commandHandler every time a player finished his initial phase and sends
-     * a player_ready message
+     * a player_ready message.
      * @see GameMessageHandler#commandHandler(String, String)
      */
     public synchronized void checkAndStart(){
@@ -63,9 +62,12 @@ public class GameThread extends Thread {
         }
     }
 
-    // the game does not have to start until the lobby is full:
+    /**
+     * manages the start and the lifetime of the game.
+     */
     @Override
     public void run() {
+        messageBroadcast("wait");
         game = new Game(gameId, numPlayers,getColorMap());
         System.out.println("Game with id:" + game.getGameID() + " started");
 
@@ -73,73 +75,27 @@ public class GameThread extends Thread {
             game.getPlayerById(cm.getClientID()).getGameBoard().setUsername(cm.getUsername());
         }
         while (game.winner == 0 && !disconnected) {
-            game.nextRound();
             game.clouds = game.getClouds();
             updateAll();
             planningPhase(game.listPlayers);
+            game.nextRound();
             actionPhase(game.listPlayers);
         }
-        messageBroadcast("Winner is " + getClientById(game.winner).getUsername());
-
-
-        /*
-        while (countUsernames() != numPlayers) {
-            try {
-                Thread.sleep(1000); // waits  a second before next check
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-        int cnt;
-        do //controls if all players have finished initial phase (tower color is lest element to be selected)
-        {
-            cnt = 0;
-            for (ConnectionManager cm : clients)
-                if (cm.getSelectedTower() != null)
-                    cnt++;
-            try {
-                Thread.sleep(1000); // waits  a second before next check
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        } while (cnt != numPlayers);
-
-        while (game.winner == 0) {
-            game.nextRound();
-            planningPhase(game.listPlayers);
-        }
-
-        */
-
-        /*Game game = new Game(gameId, numPlayers);
-        ArrayList<Player> gameOrder = new ArrayList<>(game.listPlayers);
-
-        for(CommunicationThread ct: communication)
-            ct.setActive(false);
-
-       /while (game.winner == 0)
-        {
-            game.nextRound();
-            for (Player player : gameOrder) {
-                try {
-                    play(getConnectionWithID(player.getPlayerId()));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                game.checkWinner();
-            }
-
-        }*/
+        messageBroadcast("Winner " + getClientById(game.winner).getUsername());
     }
 
-
-    private void updateAll() {
+    /**
+     * Sends an update to all clients.
+     */
+    public void updateAll() {
         for(ConnectionManager cm : clients)
             cm.update();
     }
 
+    /**
+     * manages the planning phase of the players.
+     * @param listPlayers
+     */
     private void planningPhase(List<Player> listPlayers) {
         playedCards.clear(); // list of played cards should be emptied every turn
         for (Player p: listPlayers) {
@@ -158,9 +114,14 @@ public class GameThread extends Thread {
         }
     }
 
+    /**
+     * manages the action phase of the players.
+     * @param listPlayers
+     */
     private void actionPhase(List<Player> listPlayers){
         for (Player p: listPlayers) {
             ConnectionManager cm = getClientById(p.getPlayerId());
+            currentPlayer = cm.getUsername();
             cm.sendText("next_turn");
             cm.setTurnEnd(false);
             while (!cm.isTurnEnd())
@@ -172,11 +133,16 @@ public class GameThread extends Thread {
                 }
             }
             cm.sendText("wait");
-            updateAll();
+            game.checkWinner();
+            if(game.winner != 0)
+                break;
         }
 
     }
 
+    /**
+     * Create a map for the association between the client ID and the chosen tower color.
+     */
     private Map<Integer, TColor> getColorMap() {
         Map<Integer, TColor> res = new HashMap<>();
         for (ConnectionManager cm: clients) {
@@ -184,41 +150,19 @@ public class GameThread extends Thread {
         }
         return res;
     }
-    /*
-    private void play(ConnectionManager currentPlayer) throws IOException {
-        ArrayList<String> availableCommands = new ArrayList<>(List.of("move_students", "end_turn", "use_personality"));
-        currentPlayer.setActive(true);
-
-        while (!availableCommands.isEmpty())
-        {
-           String input = currentPlayer.receiveText();
-           if(!availableCommands.contains(input))
-               currentPlayer.sendText("ERR");
-
-        }
-        currentPlayer.setActive(false);
-
-    }
-    */
-   /* private CommunicationThread getConnectionWithID(int id){
-        return communication.stream() //finds player who is owner of card
-                .filter(ct -> id == (ct.getClientID()))
-                .findAny()
-                .orElse(null);
-    }*/
 
     /**
-     * this method sends a copy of the model to all clients. This copy of the model
-     * has to be readable from the view
+     * returns the list of available wizards.
+     * @return mage
      */
-    public void sendUpdates(){
-        //TODO
-    }
-
     public ArrayList<Mage> getMages() {
         return mages;
     }
 
+    /**
+     * returns the list of available towers.
+     * @return towerColors
+     */
     public ArrayList<TColor> getTowerColors() {
         return towerColors;
     }
@@ -229,8 +173,11 @@ public class GameThread extends Thread {
      * @param disconnectedCli client that has disconnected
      */
     public void playerDisconnected(ConnectionManager disconnectedCli){
-        for (ConnectionManager cm: clients){
-            if(!cm.equals(disconnectedCli))
+        disconnectedCli.interrupt();
+
+
+        for (ConnectionManager cm : clients) {
+            if (cm.isAlive() && !cm.equals(disconnectedCli))
                 cm.sendObject("player_disconnected", disconnectedCli.getUsername());
         }
     }
@@ -267,26 +214,49 @@ public class GameThread extends Thread {
         return gameId;
     }
 
+    /**
+     * indicates whether the game is in advanced mode or not.
+     */
     public boolean isAdvancedMode() {
         return advancedMode;
     }
 
+    /**
+     * sets the game in advanced mode.
+     * @param advancedMode
+     */
     public void setAdvancedMode(boolean advancedMode) {
         this.advancedMode = advancedMode;
     }
 
+    /**
+     * returns the game.
+     * @return game
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * returns the list of playedCard.
+     * @return playedCards
+     */
     public ArrayList<Card> getPlayedCards() {
         return playedCards;
     }
 
+    /**
+     * Adds a card to the list of playedCard.
+     * @param newCard
+     */
     public void addPlayedCards(Card newCard) {
         this.playedCards.add(newCard);
     }
 
+    /**
+     * returns the client that matches with the ID in input.
+     * @param cid
+     */
     protected ConnectionManager getClientById(int cid){
         return clients.stream() //finds player who is owner of card
                 .filter(cl -> cid == (cl.getClientID()))
@@ -294,8 +264,37 @@ public class GameThread extends Thread {
                 .orElse(null);
     }
 
+    /**
+     * sends a broadcast message.
+     * @param s
+     */
     private void messageBroadcast(String s){
         for(ConnectionManager cm : clients)
             cm.sendText(s);
     }
+
+    /**
+     * returns current player of the turn.
+     * @return currentPlayer
+     */
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * returns the move contained in the moveDescription variable.
+     * @return moveDescription
+     */
+    public String getMoveDescription() {
+        return moveDescription;
+    }
+
+    /**
+     * save the move received as a message in the moveDescription variable.
+     * @param moveDescription
+     */
+    public void setMoveDescription(String moveDescription) {
+        this.moveDescription = moveDescription;
+    }
+
 }

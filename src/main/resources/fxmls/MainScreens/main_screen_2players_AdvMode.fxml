@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1700.0" prefWidth="1720.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.mainController">
+   <children>
+      <SplitPane fx:id="rightSplit" dividerPositions="0.7001862197392924" layoutX="216.0" layoutY="198.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <AnchorPane maxWidth="1200.0" minHeight="0.0" minWidth="485.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane fx:id="bottomSplit" dividerPositions="0.5772017837235227" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#onTopClick" prefHeight="100.0" prefWidth="965.0">
+                           <children>
+                              <fx:include fx:id="topAnchor" source="../TopSplits/top_split_2players.fxml" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="bottom" maxHeight="700.0" minHeight="300.0" minWidth="0.0" onMouseClicked="#onBottomClick" prefHeight="451.0" prefWidth="965.0">
+                           <children>
+                              <fx:include fx:id="bottomAnchor" source="../BottomSplits/bottom_split.fxml" />
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#onRightClick" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <fx:include fx:id="rightAnchor" source="../RightSplits/right_split_2players_AdvMode.fxml" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

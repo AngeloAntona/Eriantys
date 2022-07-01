@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1700.0" prefWidth="1720.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.GameplayController">
+   <children>
+      <SplitPane fx:id="horizSplit" dividerPositions="0.7001862197392924" layoutX="216.0" layoutY="198.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane maxWidth="1180.0" minHeight="0.0" minWidth="1180.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ImageView layoutX="-13.0" layoutY="-9.0">
+                     <image>
+                        <Image url="@../GUI_images/immagini_sfondo/cielo_azzurro.jpg" />
+                     </image>
+                  </ImageView>
+                  <SplitPane fx:id="vertSplit" dividerPositions="0.5772017837235227" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="965.0">
+                           <children>
+                              <ImageView layoutX="-11.0" layoutY="-4.0">
+                                 <image>
+                                    <Image url="@../GUI_images/immagini_sfondo/sfondo%20mare.jpg" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane layoutX="26.0" layoutY="27.0" prefHeight="359.0" prefWidth="870.0">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="67.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="295.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="145.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="445.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="595.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="706.0" layoutY="67.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="706.0" layoutY="180.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="595.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="445.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="295.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="145.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="180.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="900.0" layoutY="120.0" prefHeight="250.0" prefWidth="318.0">
+                                 <children>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="140.0" layoutY="-16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="100.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_2.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane maxHeight="700.0" minHeight="300.0" minWidth="0.0" prefHeight="451.0" prefWidth="965.0">
+                           <children>
+                              <ImageView layoutX="-18.0" layoutY="-32.0">
+                                 <image>
+                                    <Image url="@../GUI_images/immagini_sfondo/sfondo_rosa.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="276.0" fitWidth="641.0" layoutX="20.0" layoutY="14.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/Plancia/Plancia_DEF3.png" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane layoutX="678.0" layoutY="13.0" prefHeight="274.0" prefWidth="282.0">
+                                 <children>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="20.0" layoutY="108.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/retro/CarteTOT_back_1@3x.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Button layoutX="153.0" layoutY="114.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" style="-fx-background-color: pink;" text="Buy Card" />
+                                    <Button layoutX="153.0" layoutY="144.0" mnemonicParsing="false" style="-fx-background-color: pink;" text="Move to Island" />
+                                    <Button layoutX="153.0" layoutY="174.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" style="-fx-background-color: pink;" text="Move to Hall" />
+                                    <Button layoutX="153.0" layoutY="204.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" style="-fx-background-color: pink;" text="End Turn" />
+                                    <Text fill="WHITE" layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Towers">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></Text>
+                                    <Text fill="WHITE" layoutX="100.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NumTurn">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="WHITE" layoutX="193.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Turn">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                 </children></AnchorPane>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="685.0" layoutY="38.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/cerchi.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="777.0" layoutY="38.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/cerchi.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="870.0" layoutY="38.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/cerchi.png" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane layoutX="-30.0" layoutY="316.0" prefHeight="374.0" prefWidth="763.0">
+                                 <children>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="51.0" layoutY="16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(1).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="196.0" layoutY="16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(2).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="338.0" layoutY="16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(3).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="480.0" layoutY="16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(4).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="620.0" layoutY="16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(5).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="51.0" layoutY="204.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(6).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="196.0" layoutY="204.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(7).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="338.0" layoutY="204.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(8).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="480.0" layoutY="204.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(9).png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="620.0" layoutY="204.0">
+                                       <image>
+                                          <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(10).png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <ImageView fitHeight="65.0" fitWidth="71.0" layoutX="687.0" layoutY="43.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/black_tower.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="58.0" fitWidth="56.0" layoutX="880.0" layoutY="47.0">
+                                 <image>
+                                    <Image url="@../GUI_images/redX.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="1012.0" layoutY="112.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/Personaggi/CarteTOT_front4.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutX="995.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Magic Card Played">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Line endX="1095.9998779296875" endY="-3.0517578125E-5" layoutX="108.0" layoutY="316.0" startX="-100.0" stroke="WHITE" />
+                              <Line endX="-147.19989013671875" endY="307.199951171875" layoutX="880.0" layoutY="380.0" startX="-147.1998291015625" startY="-48.800079345703125" stroke="WHITE" />
+                              <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="767.0" layoutY="476.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/Personaggi/CarteTOT_front5.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="905.0" layoutY="416.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/Personaggi/CarteTOT_front4.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="169.0" fitWidth="115.0" layoutX="1044.0" layoutY="476.0">
+                                 <image>
+                                    <Image url="@../GUI_images/graphical_assets/Personaggi/CarteTOT_front12.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="WHITE" layoutX="859.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Magic Cards">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ImageView layoutX="-134.0" layoutY="-7.0">
+                     <image>
+                        <Image url="@../GUI_images/immagini_sfondo/cielo_azzurro.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane layoutX="-5.0" layoutY="253.0" prefHeight="858.0" prefWidth="320.0">
+                     <children>
+                        <ImageView fitHeight="217.0" fitWidth="493.0" layoutX="-126.0" layoutY="160.0" rotate="90.0">
+                           <image>
+                              <Image url="@../GUI_images/graphical_assets/Plancia/Plancia_DEF3.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="158.0" fitWidth="109.0" layoutX="235.0" layoutY="23.0">
+                           <image>
+                              <Image url="@../GUI_images/graphical_assets/Assistenti/2x/Assistente%20(3).png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="12.0" layoutY="16.0" prefHeight="756.0" prefWidth="312.0">
+                     <children>
+                        <Text layoutX="10.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName1" wrappingWidth="139.58410234493306">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                           <effect>
+                              <Bloom />
+                           </effect>
+                        </Text>
+                        <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="128.0" layoutY="10.0">
+                           <image>
+                              <Image url="@../GUI_images/cerchio_nero.png" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane layoutX="6.0" layoutY="53.0" prefHeight="200.0" prefWidth="290.0">
+                           <children>
+                              <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prof:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="14.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Islands:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="14.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Magic Card:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="57.0" layoutY="17.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/teacher_blue.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="107.0" layoutY="17.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/teacher_green.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="157.0" layoutY="17.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/teacher_pink.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="207.0" layoutY="17.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/teacher_red.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="257.0" layoutY="17.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/teacher_yellow.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="14.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tower Color:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="127.0" layoutY="150.0">
+                                 <image>
+                                    <Image url="@../GUI_images/wooden_pieces/black_tower.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="74.0" layoutY="64.0">
+                                 <image>
+                                    <Image url="@../GUI_images/cerchio%20nero%20pieno.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0">
+                                       <input>
+                                          <ColorAdjust />
+                                       </input>
+                                    </ColorAdjust>
+                                 </effect>
+                              </ImageView>
+                              <Text layoutX="93.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="121.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Knight">
+                                 <font>
+                                    <Font name="System Italic" size="25.0" />
+                                 </font></Text>
+                           </children>
+                        </AnchorPane>
+                        <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="124.0">
+                           <image>
+                              <Image url="@../GUI_images/its%20his%20turn.png" />
+                           </image>
+                        </ImageView>
+                        <Line endX="292.40008544921875" layoutX="38.0" layoutY="253.0" startX="-37.99992752075195" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="862.0" layoutY="19.0" prefHeight="272.0" prefWidth="175.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

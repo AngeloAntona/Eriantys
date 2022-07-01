@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="646.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.personalityController">
+   <children>
+      <AnchorPane fx:id="firstscreen" layoutX="49.0" layoutY="15.0" prefHeight="363.0" prefWidth="541.0">
+         <children>
+            <ImageView fitHeight="327.0" fitWidth="214.0" layoutX="2.0" layoutY="8.0">
+               <image>
+                  <Image url="@../../GUI_images/graphical_assets/Personaggi/witch.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="248.0" layoutY="26.0" prefHeight="89.0" prefWidth="279.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Text layoutX="4.0" stroke="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Potere della carta:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Il giocatore che compra la carta sceglie un colore studente: a questo punto ogni giocatore (incluso il proprietario della carta) deve rimettere nel sacchetto 3 studenti di quel colore presenti nella sua sala. Chi avesse meno di 3 studenti di quel colore, rimetterà nel sacchetto quelli che possiede." wrappingWidth="226.0124626159668" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="248.0" layoutY="209.0" prefHeight="128.0" prefWidth="279.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Text layoutX="4.0" stroke="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Colori:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="22.0" layoutY="14.0" onMouseClicked="#witchSelect" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/teacher_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="115.0" layoutY="14.0" onMouseClicked="#witchSelect" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/teacher_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="215.0" layoutY="14.0" onMouseClicked="#witchSelect" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/teacher_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="69.0" onMouseClicked="#witchSelect" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/teacher_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="165.0" layoutY="69.0" onMouseClicked="#witchSelect" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/teacher_pink.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="-10.0">
+               <image>
+                  <Image url="@../../GUI_images/cerchio%20nero%20pieno.png" />
+               </image>
+               <effect>
+                  <ColorAdjust brightness="1.0" />
+               </effect>
+            </ImageView>
+            <Text fx:id="Cost" layoutX="20.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+            <Button layoutX="447.0" layoutY="344.0" mnemonicParsing="false" onAction="#witchConfirm" style="-fx-background-color: white;" text="Conferma scelta" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

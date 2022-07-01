@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.rightSplitController">
+   <children>
+      <ImageView layoutX="-134.0" layoutY="-7.0">
+         <image>
+            <Image url="@../../GUI_images/immagini_sfondo/cielo_azzurro.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="12.0" layoutY="16.0" prefHeight="756.0" prefWidth="312.0" >
+         <fx:include fx:id="player1" source="../otherPlayersViews/other_players_view_vertical.fxml"/>
+      </AnchorPane>
+   </children>
+</AnchorPane>

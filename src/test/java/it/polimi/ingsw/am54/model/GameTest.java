@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am54.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -210,17 +212,19 @@ class GameTest {
         int[] expected = {1, 2, 3};
         List<Player> listPlayers = game.listPlayers;
         for (int i = 0; i < 5; i++) {
-            listPlayers.get(0).getGameBoard().addStudentHall(Color.BLUE); // we have value - 1 because indexes of list start at 0 while player's id start at 1
+            listPlayers.get(0).getGameBoard().addStudentHall(Color.PINK); // we have value - 1 because indexes of list start at 0 while player's id start at 1
             listPlayers.get(expected[1] - 1).getGameBoard().addStudentHall(Color.RED);
             listPlayers.get(expected[2] - 1).getGameBoard().addStudentHall(Color.YELLOW);
         }
+        game.controlsProf();
         for (int i = 0; i < 3; i++) {
-            listPlayers.get(expected[1] - 1).getGameBoard().addStudentHall(Color.BLUE);
+            listPlayers.get(expected[1] - 1).getGameBoard().addStudentHall(Color.PINK);
             listPlayers.get(expected[2] - 1).getGameBoard().addStudentHall(Color.RED);
             listPlayers.get(0).getGameBoard().addStudentHall(Color.YELLOW);
         }
+        game.controlsProf();
         for (int i = 0; i < 2; i++) {
-            listPlayers.get(expected[2] - 1).getGameBoard().addStudentHall(Color.BLUE);
+            listPlayers.get(expected[2] - 1).getGameBoard().addStudentHall(Color.PINK);
             listPlayers.get(0).getGameBoard().addStudentHall(Color.RED);
             listPlayers.get(expected[1] - 1).getGameBoard().addStudentHall(Color.YELLOW);
         }
@@ -228,7 +232,7 @@ class GameTest {
         game.controlsProf();
         for (Professor p : game.listProfessors) {
             //expected values are increased
-            if (p.getColor().equals(Color.BLUE))
+            if (p.getColor().equals(Color.PINK))
                 assertEquals(expected[0], p.getOwner());
             if (p.getColor().equals(Color.RED))
                 assertEquals(expected[1], p.getOwner());
@@ -712,7 +716,7 @@ class GameTest {
         islands.get(11).setOwner(1);
         islands.get(1).setOwner(1);
         islands.get(0).setOwner(1);
-        game.uniteIslands(1);
+        game.uniteIslands(0);
         assertEquals(10, islands.size());
         assertEquals(9, islands.get(0).getStudents().size());
 
@@ -737,7 +741,7 @@ class GameTest {
         islands.get(0).setOwner(1);
         islands.get(11).setOwner(1);
 
-        game.uniteIslands(islands.get(11).getID());
+        game.uniteIslands(11);
 
         assertEquals(10, islands.size());
     }
@@ -759,7 +763,7 @@ class GameTest {
         islands.get(4).setOwner(1);
         islands.get(6).setOwner(1);
 
-        game.uniteIslands(islands.get(5).getID());
+        game.uniteIslands(5);
 
         assertEquals(10, islands.size());
 
@@ -781,41 +785,19 @@ class GameTest {
         islands.get(5).setOwner(1);
         islands.get(4).setOwner(1);
         islands.get(6).setOwner(1);
-        game.uniteIslands(islands.get(5).getID());
+        game.uniteIslands(5);
 
         islands.get(7).setOwner(2);
         islands.get(8).setOwner(2);
         islands.get(6).setOwner(2);
-        game.uniteIslands(islands.get(7).getID());
+        game.uniteIslands(7);
 
         assertEquals(8, islands.size());
 
     }
 
-    /**
-     * checks that uniteIslands() correctly trows if the island we ask to unite is not on the
-     * list of available islands
-     * @see Game#uniteIslands(int)
-     */
-    @Test
-    public void uniteIslandsExceptionTest() {
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Game game = new Game(1,2);
-            List<Island> islands = game.islands;
-            islands.get(5).setOwner(1);
-            islands.get(4).setOwner(1);
-            islands.get(6).setOwner(1);
-            int removedId = islands.get(6).getID();
-            game.uniteIslands(islands.get(5).getID());
-            game.uniteIslands(removedId);
 
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("Island with id ="));
-        assertTrue(actualMessage.contains(" is not in the list"));
-
-    }
 
     /**
      * checks that the method nextRound() correctly orders listPlayers for the next round to start
@@ -836,19 +818,18 @@ class GameTest {
         assertEquals(expected,game.listPlayers);
     }
 
-    /*
+    /**
      * checks that the method buyPersonality correctly throws an exception if
      * the selected personality is not among the available personalities
      * NOTE: Sometimes test may fail due to random selection of personalities done by startGame(), rerun may resolve error
-     * @see Game#usePersonalityPower(Personality, int)
      * @see Constants#PERSONALITIES_STARTING_PRICE
-     *
+     */
     @Test
-    public void buyPersonalityExceptionTest1(){
+    public void usePersonalityExceptionTest1(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers botanist = new Containers("botanist");
-        String out = game.usePersonalityPower(botanist,1);
+        String out = game.usePersonalityPower(botanist,1,new JsonObject());
 
 
         assertEquals("Non existing personality", out);
@@ -857,41 +838,39 @@ class GameTest {
     /**
      * checks that the method buyPersonality() correctly trows an exception when
      * the player doesn't exist
-     * @see Game#usePersonalityPower(Personality, int)
-     *
+     */
     @Test
     public void buyPersonalityExceptionTest2(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers botanist = new Containers("botanist");
         game.listPersonality.add(botanist);
-        String out =  game.usePersonalityPower(botanist,5);
+        String out =  game.usePersonalityPower(botanist,5, new JsonObject());
         assertEquals("Non existing player", out);
     }
 
     /**
      * checks that the method buyPersonality correctly throws an exception when
      * the player doesn't have enough money to buy personality
-     * @see Game#usePersonalityPower(Personality, int)
-     *
+     */
     @Test
     public void buyPersonalityExceptionTest3(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers botanist = new Containers("botanist");
         game.listPersonality.add(botanist);
-        String actualMessage  = game.usePersonalityPower(botanist,2);
+        String actualMessage  = game.usePersonalityPower(botanist,2, new JsonObject());
 
         assertEquals("Not enough money", actualMessage);
-    }*/
+    }
 
-    /*
+    /**
      * checks that the method buyPersonality() correctly sets the owner and increases the cost of the card
      * while decreasing the available coins for the player selected
-     * @see Game#usePersonalityPower(Personality, int)
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
      * @see GameBoard#getCoins()
      * @see Personality#getCost()
-     *
+     */
     @Test
     public void buyPersonalityTest(){
         Game game = new Game(1,2);
@@ -908,70 +887,68 @@ class GameTest {
         int expectedCoin = 3;
         assertEquals(expectedCoin, player.getGameBoard().getCoins());
 
+        JsonObject test = new JsonObject();
+        test.addProperty("island", 1);
         expectedCoin -= oldCost;
-        game.usePersonalityPower(botanist,player.getPlayerId());
+        game.usePersonalityPower(botanist,player.getPlayerId(), test);
 
         assertEquals(expectedCoin, player.getGameBoard().getCoins());//checks that player has decreased amount of coins
         assertEquals(oldCost+1, botanist.getCost());//checks increase in botanist's price for future usese
         assertEquals(player.getPlayerId(), botanist.getOwner());//checks botanist's owner
 
     }
-*/
 
 
-    /*
+    /**
      * Tests that usePersonalityPower works when used with correct parameters
-     * @see Game#usePersonalityPower(Personality, int)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerBotanist1(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers bot = new Containers("botanist");
-        bot.setOwner(game.listPlayers.get(0).getPlayerId());
+        game.listPlayers.get(0).getGameBoard().coins = 10;
         game.listPersonality.add(bot);
         game.listPersonality.add(new Modifier("witch"));
         game.listPersonality.add(new Containers("jester"));
         bot.setActive(true);
 
         int island = 5;
-        //TODO change after player selection is implemented
-        System.setIn(new ByteArrayInputStream(((island+1)+"\n").getBytes()));//sends value as console input (+1 is added to get islandId)
-        game.usePersonalityPower(bot,1);
-        assertTrue(game.islands.get(island).getNoEntry());
-        assertFalse(bot.isActive());
-    }*/
+        JsonObject test = new JsonObject();
+        test.addProperty("island", island);
 
-    /*
+        game.usePersonalityPower(bot,1, test);
+        assertTrue(game.islands.get(game.getIslandPosition(island)).getNoEntry());
+        assertFalse(bot.isActive());
+    }
+
+    /**
      * Tests that usePersonalityPower throws an exception in case that botanist is the active personality
      * and there are no more NoEntry tiles available
-     * @see Game#usePersonalityPower(Personality)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerBotanistExceptionTest3(){
 
-
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
             Game game = new Game(1,2);
             game.listPersonality = new ArrayList<>(); //puts empty list
             Containers bot = new Containers("botanist");
             game.listPersonality.add(bot);
-            bot.setOwner(game.listPlayers.get(0).getPlayerId());
+            game.listPlayers.get(0).getGameBoard().coins = 10;
             for (int i = 0; i < 4; i++)
                 bot.useTile();
             game.listPersonality.add(new Modifier("witch"));
             game.listPersonality.add(new Containers("jester"));
             bot.setActive(true);
+            int island = 5;
+            JsonObject test = new JsonObject();
+            test.addProperty("island", island);
 
-            int  island = 3;
-            //TODO change after player selection is implemented
-            System.setIn(new ByteArrayInputStream((island+"\n").getBytes()));
-            game.usePersonalityPower(bot);
-        });
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains("No more tiles available"));
-    }*/
+            String error = game.usePersonalityPower(bot,1,test);
+            assertEquals("No more tiles available",error);
+
+    }
 
     /**
      * Assures that GameID is correctly set
@@ -1013,57 +990,66 @@ class GameTest {
                     assertNotEquals(p.getColor(), p2.getColor());
         }
     }
-/*  These test will be reimplemented when method change is completed
+
     /**
      * Tests that usePersonalityPower works when used with winemaker active
-     * @see Game#usePersonalityPower(Personality)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerWinemaker(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers wine = new Containers("winemaker");
-        wine.setOwner(game.listPlayers.get(0).getPlayerId());
+        game.listPlayers.get(0).getGameBoard().coins = 10;
         game.listPersonality.add(wine);
         game.listPersonality.add(new Modifier("witch"));
         game.listPersonality.add(new Containers("jester"));
-        wine.setActive(true);
+        wine.students = new ArrayList<>();
 
-        int island = 0;
+        int island = 5;
+        JsonObject test = new JsonObject();
+        test.addProperty("island", island);
+        test.addProperty("color", "GREEN");
         wine.addNewStudents(List.of(Color.GREEN));
         int oldWineStudentsSize = wine.getStudents().size();
-        //TODO change after player selection is implemented
-        System.setIn(new ByteArrayInputStream(((island+1)+"\n").getBytes()));
-        //this replaces the player selection
 
-        game.usePersonalityPower(wine);
 
-        //TODO change after player selection is implemented (not Color.Green but selection)
-        assertTrue(game.islands.get(island).getStudents().contains(Color.GREEN));
-        // this actually works only if the bag is not empty
+        game.usePersonalityPower(wine,1,test);
+
+
+        assertTrue(game.islands.get(game.getIslandPosition(island)).getStudents().contains(Color.GREEN));
         assertEquals(wine.getStudents().size(), oldWineStudentsSize);
     }
 
     /**
      * Tests that usePersonalityPower works when used with Jester active
-     * @see Game#usePersonalityPower(Personality)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerJester(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers jest = new Containers("jester");
-        jest.setOwner(game.listPlayers.get(0).getPlayerId());
+        game.listPlayers.get(0).getGameBoard().coins = 10;
         game.listPersonality.add(jest);
         jest.setActive(true);
 
         //these two lists are a substitute for the selected color by the player
         List<Color> studentsFromCard = List.of(Color.BLUE, Color.RED);
         List<Color> studentsFromEntrance = List.of(Color.GREEN, Color.YELLOW);
+        JsonArray card = new JsonArray();
+        card.add("BLUE");
+        card.add("RED");
+        JsonArray ent = new JsonArray();
+        ent.add("GREEN");
+        ent.add("YELLOW");
+        JsonObject object = new JsonObject();
+        object.add("studentsFromCard", card);
+        object.add("studentsFromEntrance", ent);
+        jest.students = new ArrayList<>();
         jest.addNewStudents(studentsFromCard);
         game.listPlayers.get(0).getGameBoard().addStudentsEnter(studentsFromEntrance);
-        //TODO change after player selection is implemented
-        game.usePersonalityPower(jest);
+        game.usePersonalityPower(jest,1,object);
 
         assertTrue(game.listPlayers.get(0).getGameBoard().getStudentsEnter().containsAll(studentsFromCard));
         assertTrue(jest.getStudents().containsAll(studentsFromEntrance));
@@ -1071,24 +1057,24 @@ class GameTest {
 
     /**
      * Tests that usePersonalityPower works when used with Courtesan active
-     * @see Game#usePersonalityPower(Personality)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerCourtesan(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Containers court = new Containers("courtesan");
-        court.setOwner(game.listPlayers.get(0).getPlayerId());
+        game.listPlayers.get(0).getGameBoard().coins = 10;
         game.listPersonality.add(court);
-        court.setActive(true);
 
         //this list is a substitute for the selected color by the player
         List<Color> studentFromCard = List.of(Color.RED);
+        JsonObject object = new JsonObject();
+        object.addProperty("color", "RED");
         court.addNewStudents(studentFromCard);
         int oldCourtesanStudentsSize = court.getStudents().size();
 
-        //TODO change after player selection is implemented
-        game.usePersonalityPower(court);
+        game.usePersonalityPower(court,1,object);
 
         assertEquals(court.getStudents().size(), oldCourtesanStudentsSize);
         assertTrue(game.listPlayers.get(0).getGameBoard().getStudentsHall(Color.RED) >= 1);
@@ -1096,28 +1082,121 @@ class GameTest {
 
     /**
      * Tests that usePersonalityPower works when used with Pirate active
-     * @see Game#usePersonalityPower(Personality)
-     *
+     * @see Game#usePersonalityPower(Personality, int, JsonObject)
+     */
     @Test
     public void usePersonalityPowerPirate(){
         Game game = new Game(1,2);
         game.listPersonality = new ArrayList<>(); //puts empty list
         Modifier pir = new Modifier("pirate");
-        pir.setOwner(game.listPlayers.get(0).getPlayerId());
-        game.listPersonality.add(pir);
-        pir.setActive(true);
-
-        //TODO change after player selection is implemented
-        Island selectedIsland = game.islands.get(game.getIslandPosition(1));
-        game.usePersonalityPower(pir);
-
-        //if there is no towers or students nothing has to change
-        if(selectedIsland.getStudents().size() == 0 &&
-            selectedIsland.getTowers().size() == 0){
-            assertEquals(0, selectedIsland.getOwner());
+        int position = game.getIslandPosition(1);
+        Player player = game.listPlayers.get(0);
+        player.getGameBoard().coins = 10;
+        game.islands.get(position).addStudents(Collections.singletonList(Color.valueOf("RED")));
+        Professor prof = null;
+        for (Professor p: game.listProfessors) {
+            if(p.getColor().equals(Color.RED)) {
+                prof = p;
+                break;
+            }
         }
-        //TODO see if island domination worked correctly
+        player.getGameBoard().profControlled.add(prof);
+        assertEquals(0,game.islands.get(position).getOwner());
+        game.listPersonality.add(pir);
+
+
+        JsonObject object = new JsonObject();
+        object.addProperty("island", 1);
+
+        game.usePersonalityPower(pir,player.getPlayerId(), object);
+        assertEquals(player.getPlayerId(),game.islands.get(position).getOwner());
+
     }
-    */
+
+    @Test
+    public void usePersonalityPowerGlutton(){
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Modifier glutton = new Modifier("glutton");
+        Player player = game.listPlayers.get(0);
+        player.getGameBoard().coins = 10;
+
+
+        game.listPersonality.add(glutton);
+        assertNull(glutton.getNoColor());
+        JsonObject object = new JsonObject();
+        object.addProperty("color", "RED");
+
+       game.usePersonalityPower(glutton,player.getPlayerId(), object);
+
+        assertEquals(Color.RED, glutton.getNoColor());
+    }
+
+    @Test
+    public void usePersonalityPowerCantor(){
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Modifier cantor = new Modifier("cantor");
+        game.listPersonality.add(cantor);
+        Player player = game.listPlayers.get(0);
+        GameBoard gb = player.getGameBoard();
+        gb.coins = 10;
+        List<Color> studentsFromHall = List.of(Color.BLUE, Color.RED);
+        List<Color> studentsFromEntrance = List.of(Color.GREEN, Color.YELLOW);
+        gb.studentsEnter = new ArrayList<>();
+        gb.addStudentsEnter(studentsFromEntrance);
+        for(Color s : studentsFromHall)
+            gb.addStudentHall(s);
+
+        JsonArray card = new JsonArray();
+        card.add("BLUE");
+        card.add("RED");
+        JsonArray ent = new JsonArray();
+        ent.add("GREEN");
+        ent.add("YELLOW");
+        JsonObject object = new JsonObject();
+        object.add("studentsFromHall", card);
+        object.add("studentsFromEntrance", ent);
+
+
+        game.usePersonalityPower(cantor,1,object);
+        assertTrue(studentsFromEntrance.containsAll(gb.getAllStudentsHall()));
+        assertTrue(studentsFromHall.containsAll(gb.getStudentsEnter()));
+
+    }
+
+    @Test
+    public void usePersonalityPowerWitch(){
+        Game game = new Game(1,2);
+        game.listPersonality = new ArrayList<>(); //puts empty list
+        Modifier witch = new Modifier("witch");
+        Player player1 = game.listPlayers.get(0);
+        GameBoard gb1 = player1.getGameBoard();
+        gb1.coins = 10;
+        Player player2 = game.listPlayers.get(1);
+        GameBoard gb2 = player2.getGameBoard();
+
+        for(int i = 0; i < 5; i++) {
+            gb1.addStudentHall(Color.RED);
+            gb2.addStudentHall(Color.BLUE);
+        }
+        for(int i = 0; i < 2; i++) {
+            gb2.addStudentHall(Color.RED);
+            gb1.addStudentHall(Color.GREEN);
+        }
+
+        game.listPersonality.add(witch);
+        assertNull(witch.getNoColor());
+        JsonObject object = new JsonObject();
+        object.addProperty("color", "RED");
+
+        game.usePersonalityPower(witch,player1.getPlayerId(), object);
+
+        assertEquals(2, gb1.getStudentsHall(Color.RED));
+        assertEquals(0, gb2.getStudentsHall(Color.RED));
+        assertEquals(2, gb1.getStudentsHall(Color.GREEN));
+        assertEquals(5, gb2.getStudentsHall(Color.BLUE));
+    }
+
 
 }

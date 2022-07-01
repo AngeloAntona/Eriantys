@@ -1,0 +1,757 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "it.polimi.ingsw.am54.Eriantys",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_982669736 { 
+   	label=polimi
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_230139568 { 
+   	label=ingsw
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   CLI1177295103[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CLI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   additionalMN: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   advanced: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   availableCommands: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   cardPlayed: Card [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   cardsInHand: ArrayList&lt;Card&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   clouds: Map&lt;Integer, List&lt;Color&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   islands: List&lt;Island&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   motherNature: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   myGameBoard: GameBoard [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   othersGameBoards: ArrayList&lt;GameBoard&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   othersPlayedCards: ArrayList&lt;Card&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   out: PrintStream [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   personalities: List&lt;Personality&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   userInput: Scanner [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- checkWindows()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clearScreen()</TD></TR>
+<TR><TD ALIGN="LEFT" >- colorSelection(available: List&lt;Color&gt;): Color</TD></TR>
+<TR><TD ALIGN="LEFT" >- colorSelection(): Color</TD></TR>
+<TR><TD ALIGN="LEFT" >- colorString(c: Color): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ commandSelection(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ containsProf(gb: GameBoard, c: Color): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataUpdate(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayAssistantCards(cards: List&lt;Card&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayErrorMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayString(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayWait()</TD></TR>
+<TR><TD ALIGN="LEFT" >- entranceString(entranceStudents: Iterator&lt;Color&gt;, i: int): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- existingIslandId(id: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getInt(lowerBound: Integer, upperBound: Integer): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- getPersonalityWithName(name: String): Personality</TD></TR>
+<TR><TD ALIGN="LEFT" >- getStudentString(students: List&lt;Color&gt;, num: int): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- hallString(gb: GameBoard, i: int): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ joinGame(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ moveMN(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ moveStudents(): JsonObject</TD></TR>
+<TR><TD ALIGN="LEFT" >+ nextRound()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ otherBoards()</TD></TR>
+<TR><TD ALIGN="LEFT" >- personalityHandler(personality: Personality, object: JsonObject)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ playerDisconnected(playerName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- possibleTurnEnd()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ printFile(fileName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- profString(gb: GameBoard, i: int): Object</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeCommand(s: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeFromHand(played: Card)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStudents(jobject: JsonObject)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectAssistantCard(): Card</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectCloud(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectMage(available: List&lt;Mage&gt;): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- selectStudents(in: List&lt;Color&gt;, numSt: int): JsonArray</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectTower(available: List&lt;TColor&gt;): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- showChange(currentPlayer: String, description: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- showGameBoard(gb: GameBoard)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showIslands()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showMyBoard()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ showUpdate()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ usePersonality(): JsonObject</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CLIController1733354163[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CLIController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cli: CLI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   phaseManager: PhaseManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >- cloudSelection()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayWin(winner: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initializeView()</TD></TR>
+<TR><TD ALIGN="LEFT" ># joinGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >- moveMN()</TD></TR>
+<TR><TD ALIGN="LEFT" >- moveStudents()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ planningPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ playerDisconnected(playerName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" ># selectMage()</TD></TR>
+<TR><TD ALIGN="LEFT" ># selectTowerColor()</TD></TR>
+<TR><TD ALIGN="LEFT" >- tryConnection()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >- usePersonality()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ waitPhase()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Card2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Card</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   MNMaxMoves: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   value: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Client1427281542[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Client</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ command(command: String, obj: Object)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ connectToServer(address: String, port: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getCommand(input: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getParameter(input: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ joinGame(options: String): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiveCommand(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ receiveSelfUpdate()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendObject(command: String, o: Object)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendText(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startGame()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Containers2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Containers</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   maxStudents: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   noEntry: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   students: List&lt;Color&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addNewStudents(newStudents: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ bringBackTile()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStudents(remove: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ useTile(): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Eriantys453586362[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Eriantys</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GUI1177299226[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GUI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   currentScenePath: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mage: Mage [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   popUPController: GUIInputHandler [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   towerColor: TColor [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   username: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ clearSceneCache()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ closePopUp()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayErrorMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadScene(fxmlPath: String): GUIInputHandler</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resetPosition()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(stage: Stage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ stop()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GUIController1733354163[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GUIController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   initialPhaseController: InitialPhaseController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isAdvancedMode: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   phaseManager: PhaseManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ checkNoMoreMoves()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayMessage(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ displayWin(input: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ motherMoved(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ moveMN(n: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ moveStudents(where: int, students: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ planningPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ playerDisconnected(playerName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ waitPhase()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GameBoard2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GameBoard</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   coins: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   extraInfluence: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   extraMoves: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   hall: Map&lt;Color, Integer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   nextCoin: Map&lt;Color, Integer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   owner: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   profControlled: List&lt;Professor&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   studentsEnter: List&lt;Color&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   towerColor: TColor [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   towers: List&lt;Tower&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   username: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addProf(prof: Professor)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addStudentHall(student: Color)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addStudentsEnter(students: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addTower(newTowers: List&lt;Tower&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkCoinIncrease(color: Color)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getStudentsHall(color: Color): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeProf(prof: Professor)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStudentHall(color: Color, num: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeStudentsEnter(students: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeTower(twl: List&lt;Tower&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ spendCoins(spent: int)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+InitialPhaseController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)InitialPhaseController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   advancedModeSelection: CheckBox [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   availableMages: List&lt;Mage&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   continueButton: Polygon [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   ipTextField: TextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isAdvancedMode: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   magePane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   nameTextField: TextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   numOfPlayersSelection: ToggleGroup [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   numPlayers: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   selectedMage: Mage [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   serverTextField: TextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   towerColorChoice: ChoiceBox&lt;TColor&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ checkPlayerOptions(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ checkTower(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ choiceBlueMage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ choiceGreenMage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ choicePurpleMage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ choiceYellowMage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exagonalButtonGraphics(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ joingame(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ nextScene()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tryconnect(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateSelectedMage()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateUnavailableMages()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Island2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Island</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   islandID: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   listTowers: List&lt;Tower&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   noEntry: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   owner: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   studentsPresent: List&lt;Color&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addStudents(students: List&lt;Color&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addTowers(towers: List&lt;Tower&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeTowers(towers: List&lt;Tower&gt;)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Modifier2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Modifier</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   noColor: Color [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ chooseMoves(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+NetworkHandler1135439252[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)NetworkHandler</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ handleDisconnect(username: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ping()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ unexpectedException(e: Exception)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Personality2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Personality</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   active: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   cost: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   owner: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ increaseCost()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PhaseManager1427281542[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PhaseManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   vc: ViewController [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ startGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >- truewaitState()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ waitState()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Professor2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Professor</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   color: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   owner: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Server1427281542[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Server</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Tower2092461441[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Tower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   color: TColor [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   owners: int[] [0..*]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+bottomSplitController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)bottomSplitController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   YouTurnImage: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   advancedModePane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   assistantCardsPane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   availableMagicCards: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   coinsText: Text [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   gameboardAnchorController: gameBoardController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   lineDivider: Line [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   magicCardPlayed: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   notAdvancedModePane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   personalityControllers: List&lt;personalityController&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   towerImage: ImageView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onAssistanceCardClicked(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMagicCardClicked(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updatePersonalityScreens(update: updateMessage, myPlayer: Player)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+endScreenController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)endScreenController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   winnerText: Text [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onExitButton(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onNewMatch(event: ActionEvent)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+mainController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)mainController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   bottom: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   bottomAnchor: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   bottomAnchorController: bottomSplitController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   bottomSplit: SplitPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isAdvancedMode: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   numPlayers: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   rightAnchor: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   rightAnchorController: rightSplitController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   rightSplit: SplitPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   topAnchor: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   topAnchorController: topSplitController [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ alert(message: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ allDisable()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ cloudSelectPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onBottomClick()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRightClick()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onTopClick()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ planningPhase()</TD></TR>
+<TR><TD ALIGN="LEFT" >- splitsAnimation(rightSplitEndPos: double, bottomSplitEndPos: double): Timeline</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ waitPhase()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+otherPlayersController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)otherPlayersController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   Coins: Text [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   assistantCard: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   gameboardController: gameBoardController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   magicCard: Text [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   numIslands: Text [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   professors: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   towerColor: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   userName: Text [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(player: Player, moveDescription: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+personalityController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)personalityController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   Cost: Text [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   botanistSelection: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   courtesanPanel: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   courtesanSelection: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   firstscreen: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   gameboard: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   gameboardController: gameBoardController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   gluttonPanel: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gluttonSelection: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   islandChosen: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   islandsController: topSplitController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   jesterSelection: List&lt;ImageView&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   secondscreen: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   winemakerSelection: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   witchSelection: ImageView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ archerBuy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ bakerBuy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ botanistConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ botanistSelect(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buyPersonality(personalityName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buyPersonality(personalityName: String, object: JsonObject)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ cantorConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ cantorNextScreen(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ courtesanConfirmSelection()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ courtesanSelect(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ faunBuy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ firstscreen()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ gluttonConfirmSelection()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ gluttonSelect(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ jesterConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ jesterSelectStudent(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ knightBuy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ nextScreen()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pirateConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateGameBoard(gameBoard: GameBoard)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateIslands(update: updateMessage)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ winemakerConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ winemakerSelect(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ witchConfirm(event: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ witchSelect(event: MouseEvent)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+topSplitController1791026813[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)topSplitController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   cloudsPane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gui: GUI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   guiController: GUIController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   islandsPane: AnchorPane [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   personalityController: personalityController [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selectedIsland: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addStudentToIsland(island: AnchorPane, student: Color)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onDragDropped(event: DragEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onDragExit(event: DragEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onDragOver(event: DragEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectCloud(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectIsland(event: MouseEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateClouds(clouds: Map&lt;Integer, List&lt;Color&gt;&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateIslands(islands: List&lt;Island&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateMother(motherPos: int)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+CLI1177295103 -> Card2092461441[label="cardPlayed
+[0..1]"];
+CLI1177295103 -> Card2092461441[label="cardsInHand
+[0..*]"];
+CLI1177295103 -> Card2092461441[label="othersPlayedCards
+[0..*]"];
+CLI1177295103 -> Client1427281542[label="playerDisconnected() -> end()"];
+CLI1177295103 -> GUI1177299226[arrowhead=none];
+CLI1177295103 -> GameBoard2092461441[label="myGameBoard
+[0..1]"];
+CLI1177295103 -> GameBoard2092461441[label="othersGameBoards
+[0..*]"];
+CLI1177295103 -> Island2092461441[label="islands
+[0..*]"];
+CLI1177295103 -> Personality2092461441[label="personalities
+[0..*]"];
+CLIController1733354163 -> CLI1177295103[label="cli
+[0..1]"];
+CLIController1733354163 -> PhaseManager1427281542[label="phaseManager
+[0..1]"];
+Eriantys453586362 -> Client1427281542[label="main() -> main()"];
+Eriantys453586362 -> Server1427281542[label="main() -> main()"];
+GUI1177299226 -> Client1427281542[label="stop() -> end()"];
+GUI1177299226 -> GUIController1733354163[label="stop() -> end()"];
+GUI1177299226 -> InitialPhaseController1791026813[arrowhead=none];
+GUI1177299226 -> bottomSplitController1791026813[arrowhead=none];
+GUI1177299226 -> endScreenController1791026813[arrowhead=none];
+GUI1177299226 -> mainController1791026813[arrowhead=none];
+GUI1177299226 -> otherPlayersController1791026813[arrowhead=none];
+GUI1177299226 -> personalityController1791026813[arrowhead=none];
+GUI1177299226 -> topSplitController1791026813[arrowhead=none];
+GameBoard2092461441 -> Professor2092461441[label="profControlled
+[0..*]"];
+GameBoard2092461441 -> Tower2092461441[label="towers
+[0..*]"];
+Island2092461441 -> Tower2092461441[label="listTowers
+[0..*]"];
+NetworkHandler1135439252 -> CLIController1733354163[arrowhead=none];
+NetworkHandler1135439252 -> Client1427281542[label="ping() -> sendText()"];
+NetworkHandler1135439252 -> GUIController1733354163[arrowhead=none];
+Personality2092461441 -> Containers2092461441[arrowhead=none, arrowtail=empty, dir=both];
+Personality2092461441 -> Modifier2092461441[arrowhead=none, arrowtail=empty, dir=both];
+    
+}
+@enduml

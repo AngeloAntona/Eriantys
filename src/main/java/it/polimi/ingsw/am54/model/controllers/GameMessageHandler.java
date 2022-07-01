@@ -154,7 +154,6 @@ public class GameMessageHandler {
         Game game = currentGame.getGame();
         GameBoard gb = game.getPlayerById(playerID).getGameBoard();
 
-
         JsonObject jobject = gson.fromJson(mvStdntJson, new TypeToken<JsonObject>(){}.getType());
         int where = Integer.parseInt(jobject.get("location").toString());
 
@@ -163,7 +162,7 @@ public class GameMessageHandler {
         ArrayList<Color> students = gson.fromJson(json, new TypeToken<List<Color>>(){}.getType());
 
         /* if one or more students aren't in the student's enter we send an error to the client*/
-        if(!gb.getStudentsEnter().containsAll(students)) {
+        if(!new HashSet<>(gb.getStudentsEnter()).containsAll(students)) {
             cm.sendObject("ERR", "students not available");
             return;
         }
@@ -178,12 +177,23 @@ public class GameMessageHandler {
         for (Color student: students) {
             game.moveStudents(playerID, where, student);
         }
+        if(where == 0) {
+            currentGame.getGame().controlsProf();
+            currentGame.setMoveDescription("Moved students " + students +" to the hall");
+        }
+        else{
+            currentGame.setMoveDescription("Moved students " + students +" to the island with id " + where);
+        }
         cm.sendText("ACK");
-
+        currentGame.updateAll();
     }
 
-
+    /**
+     * Moves motherNature between the islands.
+     * @param moves
+     */
     private void moveMotherNature(String moves) {
+        System.out.println("move mother nature");
         int selectedMoves = gson.fromJson(moves, new TypeToken<Integer>(){}.getType());
         Game game =  currentGame.getGame();
         Hand hand = game.getPlayerById(cm.getClientID()).getHand();
@@ -194,14 +204,14 @@ public class GameMessageHandler {
             return;
         }
 
-        if(selectedMoves <= 0 || selectedMoves > hand.getCardPlayed().getMaxMoves())
-        {
-            cm.sendObject("ERR", "Incorrect number of moves");
-            return;
+        try {
+            game.moveMN(cm.getClientID(), selectedMoves);
+        } catch (RuntimeException e){
+            cm.sendObject("ERR", e.getMessage());
         }
-
-        game.moveMN(cm.getClientID(), selectedMoves);
+        currentGame.setMoveDescription("Moved Mother nature by "+selectedMoves+" positions");
         cm.sendText("ACK");
+        currentGame.updateAll();
     }
 
     /**
@@ -220,10 +230,13 @@ public class GameMessageHandler {
             cm.sendObject("ERR", "cloud not available");
             return;
         }
-        cm.sendText("ACK");
         game.getPlayerById(cm.getClientID()).getGameBoard().addStudentsEnter(game.clouds.get(selectedCloud));
+        currentGame.setMoveDescription("Selected cloud with id "+ selectedCloud +" :" + game.clouds.get(selectedCloud));
         game.clouds.remove(selectedCloud);
+        cm.sendText("ACK");
         cm.setTurnEnd(true);
+        currentGame.updateAll();
+
         //currentGame.getGame().nextRound();
     }
 
@@ -232,7 +245,7 @@ public class GameMessageHandler {
      * @param personalityJson
      */
     private void usePersonality(String personalityJson){
-        JsonObject object =gson.fromJson(personalityJson, new TypeToken<JsonObject>(){}.getType());
+        JsonObject object = gson.fromJson(personalityJson, new TypeToken<JsonObject>(){}.getType());
         String PersonalityString = gson.fromJson(object.get("card") .toString(), new TypeToken<String>(){}.getType());
         if(PersonalityString.isBlank()) {
             cm.sendObject("ERR", "chosenPersonality cannot be blank");
@@ -254,18 +267,25 @@ public class GameMessageHandler {
             cm.sendObject("ERR", out);
             return;
         }
+        currentGame.setMoveDescription("Used personality "+ chosenPersonality.getName());
         cm.sendText("ACK");
+        currentGame.updateAll();
     }
 
+
+    /**
+     * game status update
+     */
     public void update(){
         Game game = currentGame.getGame();
-        if(currentGame == null || game == null)
+        if(currentGame == null || game == null) {
             return;
+        }
 
         updateMessage update = new updateMessage(game);
-
+        update.currentPlayer = currentGame.getCurrentPlayer();
+        update.description = currentGame.getMoveDescription();
         cm.sendObject("update", update);
-
     }
 
     /**

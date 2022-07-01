@@ -24,6 +24,7 @@ public class ConnectionManager extends Thread{
     private int clientID;
     private String username = null;
     private TColor selectedTower = null;
+    private Mage selectedMage = null;
     private MessageHandler controlHandler;
     private boolean turnEnd;
 
@@ -64,9 +65,20 @@ public class ConnectionManager extends Thread{
             }
         }
     }
+
+    /**
+     * Allows you to send a textMessage.
+     * @param message
+     */
     public void sendText(String message)  {
-       sendObject(message, null);
+        sendObject(message, null);
     }
+
+    /**
+     * Allows you to send an objectMessage.
+     * @param command
+     * @param o
+     */
     public void sendObject(String command, Object o)  {
         String out;
         if(o != null) {
@@ -85,6 +97,7 @@ public class ConnectionManager extends Thread{
 
     }
 
+
     public String receiveCommand() throws SocketException{
         try {
             return (String) this.objectFromClient.readObject();
@@ -95,11 +108,23 @@ public class ConnectionManager extends Thread{
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     *it is used to extract the command from the message received from the server.
+     * @param input
+     * @return
+     */
     public String getCommand(String input){
         if(input == null || input.isEmpty() || input.split(" ", 2)[0].isEmpty())
             return null;
         return input.split(" ", 2)[0];
     }
+
+    /**
+     *it is used to extract the parameter from the message received from the server.
+     * @param input
+     * @return
+     */
     public String getParameter(String input){
         System.out.println(input);
         if(input == null || input.isEmpty() || input.split(" ", 2).length != 2 ||input.split(" ", 2)[1].isEmpty())
@@ -107,29 +132,71 @@ public class ConnectionManager extends Thread{
         return input.split(" ", 2)[1];
     }
 
+    /**
+     * sets the boolean "alive" with the value given in input.
+     * @param b
+     */
     public void setAlive(boolean b) {
         alive = b;
     }
-    public void setReadyToStart(boolean b){
-        playerReadyToStart = b; }
-    public boolean isReadyToStart() {
-        return playerReadyToStart;
-    }
+
+    /**
+     * sets the boolean "playerReadyToStart" with the value given in input.
+     * @param b
+     */
+    public void setReadyToStart(boolean b){ playerReadyToStart = b; }
+
+    /**
+     * @return playerReadyToStart
+     */
+    public boolean isReadyToStart() { return playerReadyToStart; }
+
+    /**
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
+
+    /**
+     * Sets the username with the string given in input.
+     * @param username
+     */
+    public void setUsername(String username) { this.username = username; }
+
+    /**
+     * @return selectedTower
+     */
     public TColor getSelectedTower() {
         return selectedTower;
     }
+
+    /**
+     * sets the TowerColor selected by the player.
+     * @param selectedTower
+     */
     public void setSelectedTower(TColor selectedTower) {
         this.selectedTower = selectedTower;
     }
+
+    /**
+     * @return selectedMage
+     */
+    public Mage getSelectedMage() { return selectedMage; }
+
+    /**
+     * sets the mage selected by the player.
+     * @param selectedMage
+     */
+    public void setSelectedMage(Mage selectedMage) { this.selectedMage = selectedMage; }
     public int getClientID() {
         return clientID;
     }
+
+    /**
+     * sets the clientID.
+     * @param clientID
+     */
     public void setClientID(int clientID) {
         this.clientID = clientID;
     }
@@ -138,10 +205,18 @@ public class ConnectionManager extends Thread{
         controlHandler.update();
     }
 
+    /**
+     * returns the boolean turnEnd that indicates if the turn is over.
+     * @return turnEnd
+     */
     public boolean isTurnEnd() {
         return turnEnd;
     }
 
+    /**
+     * sets the boolean turnEnd with the value given in input.
+     * @param turnEnd
+     */
     public void setTurnEnd(boolean turnEnd) {
         this.turnEnd = turnEnd;
     }

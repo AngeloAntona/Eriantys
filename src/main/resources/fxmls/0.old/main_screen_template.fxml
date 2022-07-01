@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1700.0" prefWidth="1720.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.GameplayController">
+   <children>
+      <SplitPane dividerPositions="0.7001862197392924" layoutX="216.0" layoutY="198.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane maxWidth="1200.0" minHeight="0.0" minWidth="485.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ImageView layoutX="-13.0" layoutY="-9.0">
+                     <image>
+                        <Image url="@../GUI_images/immagini_sfondo/cielo_azzurro.jpg" />
+                     </image>
+                  </ImageView>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane fx:id="topSplitpPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="965.0">
+                           <children>
+                              <ImageView layoutX="-11.0" layoutY="-4.0">
+                                 <image>
+                                    <Image url="@../GUI_images/immagini_sfondo/sfondo%20mare.jpg" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane layoutX="26.0" layoutY="27.0" prefHeight="359.0" prefWidth="870.0">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="67.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="295.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="145.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="445.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="595.0" layoutY="14.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="706.0" layoutY="67.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="706.0" layoutY="180.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="595.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="445.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="295.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="145.0" layoutY="217.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="180.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/island3.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="900.0" layoutY="120.0" prefHeight="250.0" prefWidth="318.0">
+                                 <children>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="140.0" layoutY="-16.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="100.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutY="-10.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_1.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="144.0" layoutY="90.0">
+                                       <image>
+                                          <Image url="@../GUI_images/wooden_pieces/cloud_card_5_2_and_4_players_game.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <fx:include source="bottom_split_AdvMode.fxml" fx:id="bottomSplitPane" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="rightSplitPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

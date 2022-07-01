@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="233.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.gameBoardController">
+   <children>
+      <ImageView fitHeight="267.0" fitWidth="641.0" preserveRatio="true">
+         <image>
+            <Image url="@../GUI_images/graphical_assets/Plancia/Plancia_personalizzata.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="towersPane" layoutX="498.0" layoutY="45.0" prefHeight="167.0" prefWidth="86.0">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="3.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="50.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="3.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="50.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="3.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="50.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="3.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="50.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="hallPane" layoutX="145.0" layoutY="42.0" onDragDropped="#onDragHallDropped" onDragOver="#onDragOver">
+         <children>
+            <AnchorPane fx:id="greenStudents" layoutX="-30.0" layoutY="-13.0" prefHeight="32.0" prefWidth="252.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="57.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="86.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="115.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="144.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="173.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="203.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="232.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="261.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="redStudents" layoutX="-28.0" layoutY="30.0" prefHeight="32.0" prefWidth="252.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="54.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="83.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="113.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="142.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="171.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="230.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="258.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="yellowStudents" layoutX="-27.0" layoutY="71.0" prefHeight="32.0" prefWidth="252.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-5.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="24.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="82.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="111.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="141.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="170.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="200.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="229.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="258.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pinkStudents" layoutX="-35.0" layoutY="117.0" prefHeight="32.0" prefWidth="252.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="33.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="61.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="91.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="120.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="149.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="179.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="208.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="237.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="266.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="blueStudents" layoutX="-36.0" layoutY="157.0" prefHeight="32.0" prefWidth="252.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="4.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="33.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="62.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="91.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="120.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="179.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="208.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="237.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="266.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="entrance" layoutX="14.0" layoutY="30.0" prefHeight="210.0" prefWidth="75.0">
+         <children>
+            <ImageView fx:id="Student1" fitHeight="27.0" fitWidth="27.0" layoutX="42.0" layoutY="2.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student2" fitHeight="27.0" fitWidth="27.0" layoutX="5.0" layoutY="46.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student3" fitHeight="27.0" fitWidth="27.0" layoutX="41.0" layoutY="46.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student4" fitHeight="27.0" fitWidth="27.0" layoutX="5.0" layoutY="90.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student5" fitHeight="27.0" fitWidth="27.0" layoutX="41.0" layoutY="89.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student6" fitHeight="27.0" fitWidth="27.0" layoutX="5.0" layoutY="133.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student7" fitHeight="27.0" fitWidth="27.0" layoutX="41.0" layoutY="134.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student8" fitHeight="27.0" fitWidth="27.0" layoutX="5.0" layoutY="177.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Student9" fitHeight="27.0" fitWidth="27.0" layoutX="41.0" layoutY="177.0" onDragDetected="#onDragFromEntrance" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="professorsPane" layoutX="432.0" layoutY="35.0" prefHeight="186.0" prefWidth="31.0">
+         <children>
+            <ImageView fx:id="greenProf" fitHeight="32.0" fitWidth="32.0" layoutX="1.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../GUI_images/wooden_pieces/teacher_green.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redProf" fitHeight="32.0" fitWidth="32.0" layoutX="1.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../GUI_images/wooden_pieces/teacher_red.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="yellowProf" fitHeight="32.0" fitWidth="32.0" layoutX="1.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../GUI_images/wooden_pieces/teacher_yellow.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pinkProf" fitHeight="32.0" fitWidth="32.0" layoutX="1.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../GUI_images/wooden_pieces/teacher_pink.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="blueProf" fitHeight="32.0" fitWidth="32.0" layoutX="1.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../GUI_images/wooden_pieces/teacher_blue.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

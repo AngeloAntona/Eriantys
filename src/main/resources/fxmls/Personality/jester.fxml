@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am54.view.gui.controllers.personalityController">
+   <children>
+      <AnchorPane fx:id="firstscreen" layoutX="32.0" layoutY="20.0" prefHeight="363.0" prefWidth="541.0">
+         <children>
+            <Text layoutX="260.0" layoutY="165.0" stroke="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli 3 studenti:">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="327.0" fitWidth="214.0" layoutX="2.0" layoutY="8.0">
+               <image>
+                  <Image url="@../../GUI_images/graphical_assets/Personaggi/jester.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="studentsPane" layoutX="260.0" layoutY="170.0" prefHeight="166.0" prefWidth="279.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="113.0" layoutY="24.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="35.0" layoutY="24.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="35.0" layoutY="94.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="113.0" layoutY="94.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_blue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="193.0" layoutY="24.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="193.0" layoutY="94.0" onMouseClicked="#jesterSelectStudent" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../GUI_images/wooden_pieces/student_red.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="260.0" layoutY="29.0" prefHeight="89.0" prefWidth="279.0" style="-fx-background-color: WHITE;">
+               <children>
+                  <Text layoutX="4.0" stroke="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Potere della carta:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="La carta contiene 6 studenti. Il giocatore che ne invoca il potere può scegliere fino a 3 studenti presenti sulla carta e scambiarli con 3 studenti presenti nell'ingresso della sua Gameboard." wrappingWidth="226.0124626159668" />
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="-10.0">
+               <image>
+                  <Image url="@../../GUI_images/cerchio%20nero%20pieno.png" />
+               </image>
+               <effect>
+                  <ColorAdjust brightness="1.0" />
+               </effect>
+            </ImageView>
+            <Text fx:id="Cost" layoutX="20.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+            <Button layoutX="501.0" layoutY="340.0" mnemonicParsing="false" onAction="#nextScreen" style="-fx-background-color: white;" text="Avanti" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="secondscreen" disable="true" layoutX="-30.0" layoutY="5.0" mouseTransparent="true" prefHeight="400.0" prefWidth="667.0" scaleX="0.92" scaleY="0.92" visible="false">
+         <children>
+            <AnchorPane layoutX="21.0" layoutY="51.0" prefHeight="233.0" prefWidth="517.0">
+               <children>
+                  <fx:include fx:id="gameboard" source="../ChoicesScreens/gameboardChoice.fxml" />
+               </children>
+            </AnchorPane>
+            <Text layoutX="123.0" layoutY="24.0" stroke="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleziona i 3 studenti da scambiare">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Button layoutX="530.0" layoutY="359.0" mnemonicParsing="false" onAction="#jesterConfirm" style="-fx-background-color: white;" text="Conferma scelta" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
