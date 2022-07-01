@@ -48,7 +48,10 @@ To run Client:
   * without graphical interface: 
   `java -jar EriantysAM54.jar --client cli`
 
+## Download
+[JAR](https://polimi365-my.sharepoint.com/:f:/g/personal/10692719_polimi_it/EoW1IBvM7HxDoKL3YCAny-gBKLlXHj_VfuvMQQmV_JEOlQ?e=2HhAj4)
 
+NOTE: File too big for github
 ## Members of group
 | Name                                                  | Email                         |
 | ----------------------------------------------------- |:-----------------------------:|
