@@ -8,7 +8,13 @@ The game is implemented using the MVC (Model-View-Controller) patter and allows 
 
 ## Documentation 
 UML diagramm:
-* [Initial UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML%201.0.pdf)
+* [Initial UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML%201.0.pdf)
+* [Final UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML_final.pdf)
+* [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Communication_protocol/Communication%20protocol%25a%20AM54%25a.pdf)
+* Peer Reviews:
+  * [UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20UML.pdf)
+  * [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20Communication.PDF)
+
 
 ## Status
 | Functionality         | State           |
