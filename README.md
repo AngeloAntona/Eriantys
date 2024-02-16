@@ -1,60 +1,69 @@
-# Prova Finale di Ingegneria del Software - AA 2021-2022
-Implementation of the game [Eriantys](https://craniointernational.com/products/eriantys/).
-The project allows users to create a server which will host one or multiple games, and will be in charge of game logic. Besides that the project contains also client side (number of clients per game are from 2 to 4) which communicates with the server using sockets.
-The game is implemented using the MVC (Model-View-Controller) patter and allows players to use either command line (CLI) or graphical interface (GUI).
+# Software Engineering Final Project - Evaluation of 30 cum laude.
 
-![alt text](https://shop.asmodee.com/product/image/large/cc292-1.jpg "Game Cover")
+This repository hosts the implementation of the board game [Eriantys](https://craniointernational.com/products/eriantys/), developed as the final project for the Software Engineering course of Politecnico di Milano in the academic year 2021-2022. Our software allows for hosting and managing Eriantys games through a server that handles game logic and supports 2 to 4 clients per game. Clients can connect to the server via sockets and have the option to interact with the game using either a Command Line Interface (CLI) or a Graphical User Interface (GUI), implementing the Model-View-Controller (MVC) design pattern.
 
+![Eriantys Game Cover](https://shop.asmodee.com/product/image/large/cc292-1.jpg "Eriantys Game Cover")
 
-## Documentation 
-UML diagramm:
-* [Initial UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML%201.0.pdf)
-* [Final UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML_final.pdf)
-* [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Communication_protocol/Communication%20protocol%25a%20AM54%25a.pdf)
-* Peer Reviews:
-  * [UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20UML.pdf)
-  * [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20Communication.PDF)
+## Features
 
+- **Game Server**: Hosts and manages game sessions.
+- **Client Support**: Supports 2-4 players per game session.
+- **User Interfaces**: Offers both CLI and GUI for game interaction.
+- **Design Pattern**: Utilizes the MVC pattern for clear separation of concerns.
+- **Communication**: Uses sockets for efficient client-server communication.
 
-## Status
-| Functionality         | State           |
-| --------------------- |:---------------:|
-| Basic Rules           | :green_circle:  | 
-| Complete Rules        | :green_circle:  |
-| CLI                   | :green_circle:  |
-| GUI                   | :green_circle:  |
-| Socket                | :green_circle:  |
-| All Personality Cards | :green_circle:  |
-| Game for 4 players    | :green_circle:  |
-| Multiple games        | :green_circle:  |
+## Documentation
+
+Explore our project documentation to understand the architecture and communication protocols:
+
+- [Initial UML Diagram](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML%201.0.pdf)
+- [Final UML Diagram](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/UML/UML_final.pdf)
+- [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Communication_protocol/Communication%20protocol%25a%20AM54%25a.pdf)
+- Peer Reviews:
+  - [UML](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20UML.pdf)
+  - [Communication Protocol](https://github.com/AngeloAntona/ingsw2022-AM54/blob/main/Deliveries/Peer_Review/Peer%20Review%20Communication.PDF)
+
+## Project Status
+
+Our project implements all the core features necessary for a complete gaming experience:
+
+| Feature                | Status          |
+| ---------------------- |:---------------:|
+| Basic Rules            | ✔️ Implemented  | 
+| Complete Rules         | ✔️ Implemented  |
+| CLI                    | ✔️ Implemented  |
+| GUI                    | ✔️ Implemented  |
+| Socket Communication   | ✔️ Implemented  |
+| All Personality Cards  | ✔️ Implemented  |
+| Game for 4 Players     | ✔️ Implemented  |
+| Multiple Game Sessions | ✔️ Implemented  |
 
 ### Legend
-- :green_circle: Implemented
-- :yellow_circle: Implementing
-- :red_circle: Not Implemented
+- ✔️ Implemented
+- 🔶 In Progress
+- ❌ Not Implemented
 
+## Getting Started
 
-## Running
-Both Serer and Client sides are implemented in singl jar file called EriantysAM54.jar
-### Server
-To run Server enter next line in terminal/cmd:
+### Server Setup
 
-`java -jar EriantysAM54.jar --server [portnumber]`
-### Client
-To run Client:
-  * with graphical interface: 
-   `java -jar EriantysAM54.jar --client`
- 
-  * without graphical interface: 
-  `java -jar EriantysAM54.jar --client cli`
+Run the server using the following command in your terminal or command prompt:
 
-## Download
-[JAR](https://polimi365-my.sharepoint.com/:f:/g/personal/10692719_polimi_it/EoW1IBvM7HxDoKL3YCAny-gBKLlXHj_VfuvMQQmV_JEOlQ?e=2HhAj4)
+```bash
+java -jar EriantysAM54.jar --server [portnumber]
+```
+### Client Setup
+To start a client session, use:
+- For GUI:
+```bash
+java -jar EriantysAM54.jar --client
+```
 
-NOTE: File too big for github
-## Members of group
-| Name                                                  | Email                         |
-| ----------------------------------------------------- |:-----------------------------:|
-| [Angelo Antona](https://github.com/AngeloAntona)      | angelo.antona@mail.polimi.it  | 
-| [Rocco Brunelli](https://github.com/RoccoBrunelli)    | rocco.brunelli@mail.polimi.it |
-| [Vukašin Berić](https://github.com/vberic)            | vukasin.beric@mail.polimi.it  |
+- For CLI:
+```bash
+java -jar EriantysAM54.jar --client cli
+```
+### Download
+You can download the latest release of the game from [here](https://drive.google.com/file/d/1s4VOuXkdRfnDrYwXwimRt0yCjt4QD_9N/view?usp=drive_link).
+
+Note: The JAR file is too large to be hosted directly on GitHub.
