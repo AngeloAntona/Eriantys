@@ -1,6 +1,6 @@
 # Software Engineering Final Project - Evaluation of 30 cum laude.
 
-This repository hosts the implementation of the board game [Eriantys](https://craniointernational.com/products/eriantys/), developed as the final project for the Software Engineering course of Politecnico di Milano in the academic year 2021-2022. Our software allows for hosting and managing Eriantys games through a server that handles game logic and supports 2 to 4 clients per game. Clients can connect to the server via sockets and have the option to interact with the game using either a Command Line Interface (CLI) or a Graphical User Interface (GUI), implementing the Model-View-Controller (MVC) design pattern.
+This repository hosts the implementation of the board game [Eriantys](https://craniocreations.it/prodotto/eriantys), developed as the final project for the Software Engineering course of Politecnico di Milano in the academic year 2021-2022. Our software allows for hosting and managing Eriantys games through a server that handles game logic and supports 2 to 4 clients per game. Clients can connect to the server via sockets and have the option to interact with the game using either a Command Line Interface (CLI) or a Graphical User Interface (GUI), implementing the Model-View-Controller (MVC) design pattern.
 
 ![Eriantys Game Cover](https://shop.asmodee.com/product/image/large/cc292-1.jpg "Eriantys Game Cover")
 
